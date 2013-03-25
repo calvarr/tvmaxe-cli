@@ -1,0 +1,66 @@
+
+#Fisier de configurare tvmaxe-cli:
+#culori:
+negru='\E[1;30m' rosu='\e[1;31m' verde='\e[1;32m' verdef='\e[0;30;42m' galben='\e[1;33m' albastru='\e[1;34m' purpuriu='\e[1;35m' cyan='\e[1;36m' alb='\e[1;37m' esc='\e[0m'
+#configurare schema culori:
+meniu1=$purpuriu
+meniu2=$cyan
+atentie=$rosu
+posturi=$verde
+fundal=$verdef
+##################################################
+#depanare: anunta aparitia unei noi actualizari; deasemenea verifica daca sunt mapele si fisierele necesare pentru buna functionare tvmaxe-cli (~/.tvmaxe-cli ~/.tvmaxe-cli/playlist ~/.tvmaxe-cli/.commit ~/.tvmaxe-cli/subscrieri ~/.tvmaxe-cli/config) si daca acestea nu sunt prezente le descarca automat de pe git cu setarile implicite. Insa aceasta verificare/depanare consuma din resurse... Este activata implicit; pentru cei care vor dori dezactivarea acestei functii sunt disponibile in continuare tastele active:
+#"a" - actualizare script "tvmaxe-cli"; 
+#"as" - actualizare "~/.tvmaxe-cli/subscrieri" (suprascrierea continutului!) si a scriptului "tvmaxe-cli";
+#"conf" - actualizarea fisierului de configurare (suprascrierea continutului)
+dep=depanare
+################################################
+#afisare fereastra mplayer in tty:
+marime=720
+coordonate=10:20
+aspect=16:9
+################################################
+#calitatea prestabilita pentru filmele VK
+rez=.240
+#################################################
+#player:
+player="mplayer -nojoystick -nolirc -cache 500 -cache-min 20 -prefer-ipv4 -ao pulse -vo xv,fbdev2, -xy $marime -zoom -geometry 
+$coordonate -aspect $aspect -osdlevel 3"
+#player=vlc
+#postplay=vlc://quit #postplay este situat: player fisier postplay, in cazul de fata are rol in inchiderea vlc dupa ce a fost redat fisierul;
+#playlist este necesar pentru redarea stream m3u,pls; vlc nu necesita aceasta variabila.
+playlist=-playlist
+#novideo este necesar pentru redarea doar audio in youtube
+novideo=-novideo
+################################################
+#Calea pentru salvare fisiere:
+salvare=$HOME
+################################################
+#Conversie youtube flv>mp3;implicit prin functia conversie este folosit lame (mplayer); mai jos puteti adauga module de conversie si editarea lor dupa bunul vostru plac.
+conversie () {
+echo -e $fundal"Descarc fisierul flv"$esc$atentie
+wget -O /tmp/$nume.flv --progress=dot $piesa 2>&1 |grep --line-buffered "%" | sed -u -e "s,\.,,g" | awk '{printf("\b\b\b\b%4s", $2)}' 
+echo -ne "\b\b\b\b"
+echo -e $fundal"Conversie in wav"$esc
+mplayer -novideo -nocorrect-pts -ao pcm:waveheader /tmp/$nume.flv &>/dev/null
+echo -e $fundal"Conversie in mp3"$esc$posturi
+lame -h -b 128k audiodump.wav $salvare/$nume.mp3
+read -p "Doriti pastrarea formatului wav, y/n?" conv
+if [[ "$conv" = "y" ]];then 
+mv $HOME/audiodump.wav $salvare/$nume.wav
+elif [[ "$conv" = "n" ]];then
+rm /tmp/$nume.flv $HOME/audiodump.wav
+else echo -e $atentie"Ati ales gresit"$esc
+fi;
+}
+#############
+conversie2 (){
+$(ffmpeg -i $piesa $salvare/$nume.mp3)
+}
+#ffmpeg -i - -f mp3 -vn -acodec libmp3lame - > "$audio.mp3"
+#########VVVVSelectati modulul folosit pentru conversie
+conv1=conversie #foloseste lame, din mplayer
+#conv1=conversie2 #foloseste ffmpeg
+
+
+
