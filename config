@@ -24,7 +24,7 @@ aspect=16:9
 rez=.240
 #################################################
 #player:
-player="mplayer -nojoystick -nolirc -cache 500 -cache-min 20 -prefer-ipv4 -ao pulse -vo xv,fbdev2, -xy $marime -zoom -geometry 
+player="mplayer -nojoystick -nolirc -cache 1000 -cache-min 20 -prefer-ipv4 -ao pulse -vo xv,fbdev2, -xy $marime -zoom -geometry 
 $coordonate -aspect $aspect -osdlevel 3"
 #player=vlc
 #postplay=vlc://quit #postplay este situat: player fisier postplay, in cazul de fata are rol in inchiderea vlc dupa ce a fost redat fisierul;
