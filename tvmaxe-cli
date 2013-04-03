@@ -12,17 +12,16 @@ testconnection=`wget --tries=3 --timeout=15 www.google.com -qO - &>/dev/null 2>&
 if [ $? != 0 ]; then for i in `seq 1 2`;do 
 echo -e $atentie "! Verificati conexiunea la internet !"$esc;
 sleep 1;clear;done; exit 1;fi;
-if [ ! -f $HOME/.tvmaxe-cli/config ];then wget -qO - https://raw.github.com/$master/tvmaxe-cli/master/config > $HOME/.tvmaxe-cli/config 
-fi;
 clear
 echo -e $meniu1 "_____  _   _  _   _    _    _   _  ___ ";echo  ")__ __(\ ( ) /) \_/ (  )_\  ) ( ) () __("
 echo  "  | |   )\_/( |  _  | /( )\  ) | ( | _) ";echo  "  )_(    \_/  )_( )_()_/ \_()_( )_()___(";echo;echo "              ___  __    ____ ";echo "             / __)(  )  (_  _)";echo "            ( (__  )(__  _)(_ ";echo "             \___)(____)(____)";echo
 #########################################################################################################################################
 if [ ! -f $HOME/.tvmaxe-cli/.commit_tv ];then  
 wget -qO - https://github.com/$master/tvmaxe-cli/commits/master|grep sha|sed -n '1p'|sed 's/ /_/g;s/[><]/ /g'|awk '{print $3}' > $HOME/.tvmaxe-cli/.commit_tv
-echo -e $meniu2"Configurati tvmaxe-cli";sleep 3 $esc
+echo -e $meniu2"Configurati tvmaxe-cli" $esc
+sleep 3 
 nano $HOME/.tvmaxe-cli/config||vi $HOME/.tvmaxe-cli/config||vim $HOME/.tvmaxe-cli/config||pico $HOME/.tvmaxe-cli/config
-echo -e $meniu2"Doriti sa faceti un symlik in /usr/bin/ y/n"$esc
+echo -e $meniu2"Doriti sa faceti un symlik in /usr/bin/ $fundal y/n"$esc
 read symlink
 if [[ "$symlink" = "y" ]];then
 su -c 'ln -s $HOME/.tvmaxe-cli/tvmaxe-cli /usr/bin/tvmaxe-cli'
