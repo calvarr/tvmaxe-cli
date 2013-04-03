@@ -18,7 +18,7 @@ echo  "  | |   )\_/( |  _  | /( )\  ) | ( | _) ";echo  "  )_(    \_/  )_( )_()_/
 #########################################################################################################################################
 if [ ! -f $HOME/.tvmaxe-cli/.commit_tv ];then  
 wget -qO - https://github.com/$master/tvmaxe-cli/commits/master|grep sha|sed -n '1p'|sed 's/ /_/g;s/[><]/ /g'|awk '{print $3}' > $HOME/.tvmaxe-cli/.commit_tv
-echo -e $meniu2"Configurati tvmaxe-cli" $esc
+echo -e $meniu2"Configurati tvmaxe-cli"$esc
 sleep 3 
 nano $HOME/.tvmaxe-cli/config||vi $HOME/.tvmaxe-cli/config||vim $HOME/.tvmaxe-cli/config||pico $HOME/.tvmaxe-cli/config
 echo -e $meniu2"Doriti sa faceti un symlik in /usr/bin/ $fundal y/n"$esc
@@ -27,7 +27,7 @@ if [[ "$symlink" = "y" ]];then
 su -c 'ln -s $HOME/.tvmaxe-cli/tvmaxe-cli /usr/bin/tvmaxe-cli'
 else
 echo -e "Veti rula tvmaxe-cli din $HOME/.tvmaxe-cli cu comanda ./tvmaxe-cli"
-fi;fi
+fi;break;fi
 actualizare () {
 commit1=` wget -qO - https://github.com/$master/tvmaxe-cli/commits/master|grep sha|sed -n '1p'|sed 's/ /_/g;s/[><]/ /g'|awk '{print $3}'`
 commit2=`cat $HOME/.tvmaxe-cli/.commit_tv|sed -n '$p'`
@@ -635,12 +635,12 @@ echo -e "Difuzare in retea: http://localhost:9901"
 $($player http://localhost:9901 &>/dev/null); killall sp-sc
 fi;
 elif [[ "$m3u8test" = "m3u8" ]]; then 
-$(ffmpeg -y -i "$adr" -acodec libmp3lame -ar 44100 -vcodec copy -f flv - 2>/dev/null|$player - 2>/dev/null);stty sane
+$(ffmpeg -y -i "$adr" -acodec libmp3lame -ar 44100 -vcodec copy -f flv - 2>/dev/null|$player - &>/dev/null);stty sane
 elif [[ "$rtsptest" = "rtsp" ]]; then 
 if [[ "$player" = "vlc" ]]; then $player $adr ;break
 else
-$(ffmpeg -y -i "$adr" -acodec copy -vcodec copy -r 20 -f flv - 2>/dev/null|$player - 2>/dev/null);stty sane
-#ffmpeg -y -i "$adr" -acodec libmp3lame -ar 22050 -vcodec libx264 -f flv -|$player -; killall ffmpeg;break ;
+$(ffmpeg -y -i "$adr" -acodec copy -vcodec copy -r 20 -f flv - 2>/dev/null|$player - &>/dev/null);stty sane
+#ffmpeg -y -i "$adr" -acodec libmp3lame -ar 22050 -vcodec libx264 -f flv -|$player - ;stty sane
 fi;
 else
 $player $list $adr #&>/dev/null
