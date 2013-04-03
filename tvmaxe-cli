@@ -41,7 +41,7 @@ read act
 if [[ "$act" = "y" ]];then
 echo -e $atentie"Actualizez..."
 cd $HOME/.tvmaxe-cli
-git merge master
+git reset --hard origin/master
 exit
 else
 echo -e $atentie"Veti putea actualiza altadata, alegand in meniul principal $meniu2"a"$esc"
@@ -61,7 +61,7 @@ exit 0
 elif [[ "$sursa1" = "a" ]];then
 echo -e $atentie"Actualizez..."
 cd $HOME/.tvmaxe-cli
-git merge master
+git reset --hard origin/master
 exit
 elif [[ "$sursa1" = "q" ]];then
 exit
