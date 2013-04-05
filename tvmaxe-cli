@@ -49,8 +49,10 @@ nano $HOME/.tvmaxe-cli/config||vim $HOME/.tvmaxe-cli/config||vi $HOME/.tvmaxe-cl
 exit 0
 elif [[ "$sursa1" = "a" ]];then
 echo -e $atentie"Actualizez..."
-cd $HOME/.tvmaxe-cli
-git reset --hard origin/master
+wget -qO - https://raw.github.com/$master/tvmaxe-cli/master/tvmaxe-cli > $HOME/.tvmaxe-cli/tvmaxe-cli
+wget -qO - https://raw.github.com/$master/tvmaxe-cli/master/config > $HOME/.tvmaxe-cli/config
+wget -qO - https://raw.github.com/calvarr/tvmaxe-cli/master/subscrieri > $HOME/.tvmaxe-cli/subscrieri
+wget -qO - https://raw.github.com/calvarr/tvmaxe-cli/master/README.md > $HOME/.tvmaxe-cli/README.md
 exit
 elif [[ "$sursa1" = "q" ]];then
 exit
