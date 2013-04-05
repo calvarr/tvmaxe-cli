@@ -39,24 +39,40 @@ wget -qO - https://github.com/$master/tvmaxe-cli/commits/master|grep '"message">
 fi
 }
 $actualizarev
-echo v.0.4.0 commit: `cat $HOME/.tvmaxe-cli/.commit_tv|sed -n '$p'`;echo
-cat $HOME/.tvmaxe-cli/subscrieri|sed -n '$p'|sed 's/||/\n /g'|awk '{print $1}'|nl|column -c 30|column -t|more -d
-echo -e $cyan"Alegeti numarul subscrierii dorite, "$atentie"c"$meniu2"onfigurare, $atentie"a"$meniu2"ctualizati, ""$atentie"q"$meniu2"uit;"
-read sursa1
-sur=`cat $HOME/.tvmaxe-cli/subscrieri|sed -n '$p'|sed 's/||/\n /g'|awk '{print $2}'|sed -n "${sursa1}p"`
-if [[ "$sursa1" = "c" ]]; then
-nano $HOME/.tvmaxe-cli/config||vim $HOME/.tvmaxe-cli/config||vi $HOME/.tvmaxe-cli/config||pico $HOME/.tvmaxe-cli/config
-exit 0
-elif [[ "$sursa1" = "a" ]];then
+echo -e $meniu2"v.0.4.1 commit: `cat $HOME/.tvmaxe-cli/.commit_tv|sed -n '$p'`"
+echo -e $meniu1
+#######################################################################
+OPTIUNE="RomaniaTv RadioRo MoldovaTv RadioMd International RadioClasic RadioMix Shoutcast Podcast Filme Youtube Divertisment Actualizati Configurati Parasiti"
+select opt in $OPTIUNE;do
+if [[ "$opt" = "RomaniaTv" ]];then sur=romania ;break
+elif [[ "$opt" = "RadioRo" ]];then sur=http://pastebin.com/raw.php?i=E9Sy1Lux ;break
+elif [[ "$opt" = "MoldovaTv" ]];then sur=basarabia ;break
+elif [[ "$opt" = "RadioMd" ]];then sur=http://pastebin.com/raw.php?i=dLCT0dN1 ;break
+elif [[ "$opt" = "International" ]];then sur=international ;break
+elif [[ "$opt" = "RadioClasic" ]];then sur=http://pastebin.com/raw.php?i=sGuVrhCy ;break
+elif [[ "$opt" = "RadioMix" ]];then sur=http://pastebin.com/raw.php?i=MTrXrhsu ;break
+elif [[ "$opt" = "Shoutcast" ]];then sur=shoutcast ;break
+elif [[ "$opt" = "Podcast" ]];then sur=http://pastebin.com/raw.php?i=eJ3P1xJB ;break
+elif [[ "$opt" = "Filme" ]];then sur=filme ;break
+elif [[ "$opt" = "Youtube" ]]; then sur=youtube ;break
+elif [[ "$opt" = "Divertisment" ]];then sur=divertisment ;break
+elif [[ "$opt" = "Actualizati" ]]; then
 echo -e $atentie"Actualizez..."
 wget -qO - https://raw.github.com/$master/tvmaxe-cli/master/tvmaxe-cli > $HOME/.tvmaxe-cli/tvmaxe-cli
 wget -qO - https://raw.github.com/$master/tvmaxe-cli/master/config > $HOME/.tvmaxe-cli/config
-wget -qO - https://raw.github.com/calvarr/tvmaxe-cli/master/subscrieri > $HOME/.tvmaxe-cli/subscrieri
+#wget -qO - https://raw.github.com/calvarr/tvmaxe-cli/master/subscrieri > $HOME/.tvmaxe-cli/subscrieri
 wget -qO - https://raw.github.com/calvarr/tvmaxe-cli/master/README.md > $HOME/.tvmaxe-cli/README.md
 exit
-elif [[ "$sursa1" = "q" ]];then
+elif [[ "$opt" = "Configurati" ]]; then
+nano $HOME/.tvmaxe-cli/config||vim $HOME/.tvmaxe-cli/config||vi $HOME/.tvmaxe-cli/config||pico $HOME/.tvmaxe-cli/config
 exit
-fi; 
+elif [[ "$opt" = "Parasiti" ]]; then
+exit
+else
+echo Ati gresit alegerea, mai incercati
+fi
+done
+#######################################################################
 if [[ "$sur" = "filme" ]];then
 while :;do
 gol=`ls /tmp/tvmaxe-cli`
@@ -553,14 +569,10 @@ cat /tmp/tvmaxe-cli/tmp3|awk '{print $1}'|nl|sed 's/_/ /g;s/\&amp;/\&/g'|more -d
 break
 fi;done
 else
-wget -qO - $sur | sed 's/||/\n /g;s/ /_/g;s/|/ /g'|sed '1d'|awk '{print $2}'|nl|sed 's/_/ /g'|more -d
+echo -e $posturi
+wget -qO - $sur | sed 's/||/\n /g;s/ /_/g;s/|/ /g'|sed '1d'|awk '{print $2}'|nl|column -c 30|column -t|sed 's/_/ /g'|more -d
 fi
 filtrutv () {
-echo Alegeti postul dorit
-read canal
-if [[ "$canal" = "r" ]]; then break
-elif [[ "$canal" = "q" ]]; then clear ;echo -e $esc; exit 0; 
-elif [[ "$canal" = *[[:digit:]]* ]];then
 if [[ "$sur" = "romania" ]]||[[ "$sur" = "basarabia" ]]||[[ "$sur" = "international" ]]||[[ "$sur" = "shoutcast" ]];then
 adr=`cat /tmp/tvmaxe-cli/tmp3|awk '{print $2}'|sed -n "${canal}p"`
 soptest=`cat /tmp/tvmaxe-cli/tmp3|awk '{print $2}'|sed -n "${canal}p"|sed 's/:/ /g'|awk '{print $1}'`
@@ -574,13 +586,16 @@ adr=`wget -qO - $sur | sed 's/||/\n /g;s/ /_/g;s/|/ /g'|sed '1d'|awk '{print $4}
 pls=`wget -qO - $sur | sed 's/||/\n /g;s/ /_/g;s/|/ /g'|sed '1d'|awk '{print $4}'|sed -n "${canal}p"|sed 's/\./ /g'|awk '{ print $NF }'`
 fi;
 if [[ "$pls" = "pls" ]]||[[ "$pls" = "m3u" ]]||[[ "$pls3" = "shoutcast" ]]; then list=$playlist;else list=" ";fi
-fi
 }
-filtrutv
+echo -e $meniu2"Alegeti postul dorit: "
+read canal
+if [[ "$canal" = "r" ]]; then break
+elif [[ "$canal" = "q" ]]; then clear ;echo -e $esc; exit 0; fi
 ########################################
 OPTIUNE="Redati Inregistrati Add_Faforite Reveniti Parasiti"
 select opt in $OPTIUNE;do
 if [[ "$opt" = "Redati" ]];then
+filtrutv
 if [ `builtin type -p ip` ]; then ipaddr1=ok; else ipaddr1=no; fi
 if [ `builtin type -p ifconfig` ]; then ipaddr2=ok; else ipaddr2=no; fi
 if [[ "$ipaddr1" = "ok" ]] && [[ "$ipaddr2" = "no" ]]; then ipaddr=`ip addr|grep global|sed 's/\// /'|awk '{print $2}'`
@@ -616,6 +631,7 @@ break
 fi
 #######
 elif [[ "$opt" = "Inregistrati" ]];then
+filtrutv
 clear
 echo inregistrez...
 if [[ "$soptest" = "sop" ]]; then 
@@ -633,6 +649,15 @@ else
 $(mplayer $list $adr -dumpstream -dumpfile $salvare/$numetv$data.ts &>/dev/null & ); sleep 10 ; wait $($player $salvare/$numetv$data.ts); killall mplayer; break
 fi
 elif [[ "$opt" = "Add_Faforite" ]];then
+for p in $canal ; do
+if [[ "$sur" = "romania" ]]||[[ "$sur" = "basarabia" ]]||[[ "$sur" = "international" ]]||[[ "$sur" = "shoutcast" ]];then
+adr=`cat /tmp/tvmaxe-cli/tmp3|awk '{print $2}'|sed -n "${p}p"`
+numetv=`cat /tmp/tvmaxe-cli/tmp3|awk '{print $1}'|sed -n "${p}p"`
+else 
+adr=`wget -qO - $sur | sed 's/||/\n /g;s/ /_/g;s/|/ /g'|sed '1d'|awk '{print $4}'|sed -n "${p}p"`
+fi
+echo "$numetv|$adr" >> $HOME/'.'tvmaxe-cli/playlist/fav.tv
+done
 echo nu este gata...
 break
 elif [[ "$opt" = "Reveniti" ]];then
