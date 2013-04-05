@@ -1,7 +1,0 @@
-Aici se vor adauga subscriiele dorite in format tvmaxe vechi; este citit doar ultimul rand; subscrierea va fi adaugata sau stearsa dupa exemplul:
-||nume_subscriere adresa_subscriere||nume_subscriere_2 adresa_subscriere_2||
-aceastea vor fi numerotate automat in ordinea adaugarii.
-Subscrieri disponibile gasiti aici: http://code.google.com/p/tv-maxe/wiki/ChannelLists magoritatea sunt in format nou sqlite inca incompatibil cu tvmaxe-cli, pentru a le transforma in formatul vechi folositi http://code.google.com/p/tv-maxe/downloads/detail?name=channel-editor.tar.gz&can=2&q=
-Pentru a crea liste proprii folositi exemplul unei subscrieri de mai jos, editand-o manual sau cu ajutorul channel-editor salvand-o in formatul vechi, adaugarea iconitilor nu este necesara; incarcand-o pe net de unde va fi disponibila in format raw.
-
-RomaniaTv romania||RadioRo http://pastebin.com/raw.php?i=E9Sy1Lux||MoldovaTv basarabia||RadioMd http://pastebin.com/raw.php?i=dLCT0dN1||International international||RadioClasic http://pastebin.com/raw.php?i=sGuVrhCy||RadioMix http://pastebin.com/raw.php?i=MTrXrhsu||Shoutcast shoutcast||Podcast http://pastebin.com/raw.php?i=eJ3P1xJB||Filme filme||Youtube youtube||Divertisment divertisment||
