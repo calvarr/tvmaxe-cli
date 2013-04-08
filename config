@@ -1,13 +1,20 @@
 
 #Fisier de configurare tvmaxe-cli:
+#Optiunea master va ofera posibilitaea de a incerca intre ele versiunea stabila si cea in dezvoltare, pentru a reveni la versiunea dorita, schimbati "master" si actualizati.
+#master=nknwn #depozit git stabil
+master=calvarr #depozit git experimental
 #culori:
-negru='\E[1;30m' rosu='\e[1;31m' verde='\e[1;32m' verdef='\e[0;30;42m' galben='\e[1;33m' albastru='\e[1;34m' purpuriu='\e[1;35m' cyan='\e[1;36m' alb='\e[1;37m' esc='\e[0m'
+negru='\E[1;30m' rosu='\e[1;31m' verde='\e[1;32m' verdes='\e[0;32m' verdef='\e[0;30;42m' galben='\e[1;33m' albastru='\e[1;34m' purpuriu='\e[1;35m' cyan='\e[1;36m' alb='\e[1;37m' esc='\e[0m'
 #configurare schema culori:
 meniu1=$purpuriu
 meniu2=$cyan
 atentie=$rosu
 posturi=$verde
+posturi1=$verdes
 fundal=$verdef
+##################################################
+#Decomentati continutul adult daca sunteti interasati de relatiile interumane sexuale ...
+#adult=xxx
 ##################################################
 #actualizare - aceasta functie urmareste schimbarea commitului git, cand aceastea nu sunt identice cu commitul prezent in PC va anunta aparitia unei noi actualizari, apare o singura data, pentru ca noul commit este trecut la coada ~/.tvmaxe-cli/commit_tv, si va ramine inactiva pana la aparitia unei noi actualizari.
 actualizarev=actualizare
