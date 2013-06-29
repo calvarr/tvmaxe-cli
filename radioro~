@@ -1,0 +1,25 @@
+#!/bin/bash -x
+
+DIALOG=dialog
+listaradioro=`cat $HOME/.tvmaxe-cli/playlist/.radioro.tvro|awk '{print $1,"|"}'|sed '1d'`
+##########################################
+mkdir -p /tmp/tvmaxe-cli
+if [ ! -f $HOME/.tvmaxe-cli/playlist/.radioro.tvro ];
+then
+	wget -qO - http://pastebin.com/raw.php?i=E9Sy1Lux|sed 's/||/\n/g;s/ /_/g;s/|/ /g'|awk '{print $2"|"$4}'|sort -d|sed 's/|/ /g'|sed '1,2d'  > $HOME/.tvmaxe-cli/playlist/.radioro.tvro
+fi
+radioro (){
+	$DIALOG --backtitle "tvmaxe-cli" \
+	  --title "RadioRo" --clear \
+          --menu ":::" 30 35 30 $listaradioro 2> $tempfile
+      	selectie0=$?
+	if [ "$selectie0" == "255" ]||[ "$selectie0" == "1" ]; then
+   		exit 0
+ 	fi
+nume_post_tv=`cat $tempfile`
+nr_post_tv=`cat $HOME/.tvmaxe-cli/playlist/.radioro.tvro|sed -n "/$nume_post_tv/="`
+cat $HOME/.tvmaxe-cli/playlist/.radioro.tvro|sed -n "${nr_post_tv}p" > /tmp/tvmaxe-cli/adr
+	    }
+#########################################
+radioro
+./filtrutv

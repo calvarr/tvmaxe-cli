@@ -1,0 +1,86 @@
+#! /bin/bash
+#Romania
+	wget -qO - http://tv-maxe.org/subscriptions/cli.php?db=Romania|sed 's/|||/\n/g'>/tmp/tvmaxe-cli/tmp2
+	cat /tmp/tvmaxe-cli/tmp2|sed 's/*/\n/g'|sort -d|sed "s/||/ /g;s/spice:/rtmp:/g;s/%key%/${keyspice}/g;s/\%//g;s/key/\&/g">$HOME/.tvmaxe-cli/playlist/.romaniatv.tvro
+
+#International
+wget -qO - http://tv-maxe.org/subscriptions/cli.php?db=International|sed 's/|||/\n/g'>/tmp/tvmaxe-cli/tmp2
+cat /tmp/tvmaxe-cli/tmp2|sed 's/*/\n/g'|sort -d|sed 's/||/ /g'$HOME/.tvmaxe-cli/playlist/.International.tvro
+
+#basarabia
+wget -qO - http://pastebin.com/raw.php?i=cik78zCd|sed 's/|||/\n/g;'|sort -d|sed 's/||/ /g' > $HOME/.tvmaxe-cli/playlist/.basarabiatv.tvro
+
+#brazil
+wget -qO - http://tv-maxe.org/subscriptions/cli.php?db=brazil|sed 's/|||/\n/g'>/tmp/tvmaxe-cli/tmp2
+cat /tmp/tvmaxe-cli/tmp2|sed 's/*/\n/g'|sort -d|sed 's/||/ /g'$HOME/.tvmaxe-cli/playlist/.Brazil.tvro
+
+#bulgaria
+wget -qO - http://tv-maxe.org/subscriptions/cli.php?db=bulgaria|sed 's/|||/\n/g'>/tmp/tvmaxe-cli/tmp2
+cat /tmp/tvmaxe-cli/tmp2|sed 's/*/\n/g'|sort -d|sed 's/||/ /g'$HOME/.tvmaxe-cli/playlist/.Bulgaria.tvro
+
+#china
+wget -qO - http://tv-maxe.org/subscriptions/cli.php?db=china|sed 's/|||/\n/g'>/tmp/tvmaxe-cli/tmp2
+cat /tmp/tvmaxe-cli/tmp2|sed 's/*/\n/g'|sort -d|sed 's/||/ /g'$HOME/.tvmaxe-cli/playlist/.China.tvro
+
+#denmark
+wget -qO - http://tv-maxe.org/subscriptions/cli.php?db=denmark|sed 's/|||/\n/g'>/tmp/tvmaxe-cli/tmp2
+cat /tmp/tvmaxe-cli/tmp2|sed 's/*/\n/g'|sort -d|sed 's/||/ /g'$HOME/.tvmaxe-cli/playlist/.Denmark.tvro
+#finland
+wget -qO - http://tv-maxe.org/subscriptions/cli.php?db=finland|sed 's/|||/\n/g'>/tmp/tvmaxe-cli/tmp2
+cat /tmp/tvmaxe-cli/tmp2|sed 's/*/\n/g'|sort -d|sed 's/||/ /g'$HOME/.tvmaxe-cli/playlist/.Finland.tvro
+
+#france
+wget -qO - http://tv-maxe.org/subscriptions/cli.php?db=france|sed 's/|||/\n/g'>/tmp/tvmaxe-cli/tmp2
+cat /tmp/tvmaxe-cli/tmp2|sed 's/*/\n/g'|sort -d|sed 's/||/ /g'$HOME/.tvmaxe-cli/playlist/.France.tvro
+
+#germany
+wget -qO - http://tv-maxe.org/subscriptions/cli.php?db=germany|sed 's/|||/\n/g'>/tmp/tvmaxe-cli/tmp2
+cat /tmp/tvmaxe-cli/tmp2|sed 's/*/\n/g'|sort -d|sed 's/||/ /g'$HOME/.tvmaxe-cli/playlist/.Germany.tvro
+#greece
+wget -qO - http://tv-maxe.org/subscriptions/cli.php?db=greece|sed 's/|||/\n/g'>/tmp/tvmaxe-cli/tmp2
+cat /tmp/tvmaxe-cli/tmp2|sed 's/*/\n/g'|sort -d|sed 's/||/ /g'$HOME/.tvmaxe-cli/playlist/.Greece.tvro
+
+#hungary
+wget -qO - http://tv-maxe.org/subscriptions/cli.php?db=hungary|sed 's/|||/\n/g'>/tmp/tvmaxe-cli/tmp2
+cat /tmp/tvmaxe-cli/tmp2|sed 's/*/\n/g'|sort -d|sed 's/||/ /g'$HOME/.tvmaxe-cli/playlist/.Hungary.tvro
+
+#italy
+wget -qO - http://tv-maxe.org/subscriptions/cli.php?db=italy|sed 's/|||/\n/g'>/tmp/tvmaxe-cli/tmp2
+cat /tmp/tvmaxe-cli/tmp2|sed 's/*/\n/g'|sort -d|sed 's/||/ /g'$HOME/.tvmaxe-cli/playlist/.Italy.tvro
+
+#moldova
+wget -qO - http://tv-maxe.org/subscriptions/cli.php?db=moldova|sed 's/|||/\n/g'>/tmp/tvmaxe-cli/tmp2
+cat /tmp/tvmaxe-cli/tmp2|sed 's/*/\n/g'|sort -d|sed 's/||/ /g'$HOME/.tvmaxe-cli/playlist/.Moldova.tvro
+
+#music
+wget -qO - http://tv-maxe.org/subscriptions/cli.php?db=music|sed 's/|||/\n/g'>/tmp/tvmaxe-cli/tmp2
+cat /tmp/tvmaxe-cli/tmp2|sed 's/*/\n/g'|sort -d|sed 's/||/ /g'$HOME/.tvmaxe-cli/playlist/.Music.tvro
+
+#norway
+wget -qO - http://tv-maxe.org/subscriptions/cli.php?db=norway|sed 's/|||/\n/g'>/tmp/tvmaxe-cli/tmp2
+cat /tmp/tvmaxe-cli/tmp2|sed 's/*/\n/g'|sort -d|sed 's/||/ /g'$HOME/.tvmaxe-cli/playlist/.Norway.tvro
+
+#russia
+wget -qO - http://tv-maxe.org/subscriptions/cli.php?db=russia|sed 's/|||/\n/g'>/tmp/tvmaxe-cli/tmp2
+cat /tmp/tvmaxe-cli/tmp2|sed 's/*/\n/g'|sort -d|sed 's/||/ /g'$HOME/.tvmaxe-cli/playlist/.Russia.tvro
+
+#spain
+wget -qO - http://tv-maxe.org/subscriptions/cli.php?db=spain|sed 's/|||/\n/g'>/tmp/tvmaxe-cli/tmp2
+cat /tmp/tvmaxe-cli/tmp2|sed 's/*/\n/g'|sort -d|sed 's/||/ /g'$HOME/.tvmaxe-cli/playlist/.Spain.tvro
+
+#sport
+wget -qO - http://tv-maxe.org/subscriptions/cli.php?db=sport|sed 's/|||/\n/g'>/tmp/tvmaxe-cli/tmp2
+cat /tmp/tvmaxe-cli/tmp2|sed 's/*/\n/g'|sort -d|sed 's/||/ /g'$HOME/.tvmaxe-cli/playlist/.Sport.tvro
+
+#uk
+wget -qO - http://tv-maxe.org/subscriptions/cli.php?db=uk|sed 's/|||/\n/g'>/tmp/tvmaxe-cli/tmp2
+cat /tmp/tvmaxe-cli/tmp2|sed 's/*/\n/g'|sort -d|sed 's/||/ /g'$HOME/.tvmaxe-cli/playlist/.UK.tvro
+
+#usa
+wget -qO - http://tv-maxe.org/subscriptions/cli.php?db=usa|sed 's/|||/\n/g'>/tmp/tvmaxe-cli/tmp2
+cat /tmp/tvmaxe-cli/tmp2|sed 's/*/\n/g'|sort -d|sed 's/||/ /g'$HOME/.tvmaxe-cli/playlist/.USA.tvro
+
+#xxx
+wget -qO - http://tv-maxe.org/subscriptions/cli.php?db=xxx|sed 's/|||/\n/g'>/tmp/tvmaxe-cli/tmp2
+cat /tmp/tvmaxe-cli/tmp2|sed 's/*/\n/g'|sort -d|sed 's/||/ /g'$HOME/.tvmaxe-cli/playlist/.XxX.tvro
+

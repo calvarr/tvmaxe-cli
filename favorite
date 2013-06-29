@@ -1,0 +1,22 @@
+#! /bin/bash -x
+favorite=`ls $HOME/.tvmaxe-cli/playlist/*.tv|sed 's/[\/\.]/ /g'|awk '{print $5,"|"}'`
+$DIALOG --backtitle "tvmaxe-cli" \
+	  --title "| Favorite |" --clear \
+          --menu ":::" 30 35 30 $favorite 2> $tempfile
+      	selectie0=$?
+	if [ "$selectie0" == "255" ]||[ "$selectie0" == "1" ]; then
+   		exit 0
+ 	fi
+
+nume_lista=`cat $tempfile`
+lista_favorita=`cat $HOME/.tvmaxe-cli/playlist/$nume_lista.tv|awk '{print $1,"|"}'`
+$DIALOG --backtitle "tvmaxe-cli" \
+	  --title "| $nume_lista |" --clear \
+          --menu ":::" 30 35 30 $lista_favorita 2> $tempfile
+      	selectie0=$?
+nume_favorit=`cat $tempfile`
+nr_favorit=`cat $HOME/.tvmaxe-cli/playlist/$nume_lista.tv|sed -n "/$nume_favorit/="`
+cat $HOME/.tvmaxe-cli/playlist/$nume_lista.tv|sed -n "${nr_favorit}p" > /tmp/tvmaxe-cli/adr
+echo $format_video tv > /tmp/tvmaxe-cli/format
+./filtrutv
+t

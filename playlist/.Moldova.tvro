@@ -1,0 +1,14 @@
+2_plus_moldova rtsp://83.218.202.202:1935/live/wt_2plus.stream
+alt_tv rtsp://83.218.202.202:1935/live/wt_alt_tv.stream
+balti_tv_moldova rtmp://194.165.39.17/live/btv.stream
+busuioc_tv_moldova rtmp://46.55.25.186/live/direct
+euro_tv rtsp://83.218.202.202:1935/live/wt_euro_tv.stream
+jurnal_tv rtsp://83.218.202.202:1935/live/wt_jurnal_tv.stream
+moldova_1 rtmp://212.0.211.109/live|-a|live|-f|lnx|11,2,202,236|-w|http://www.cool-itv.net/ch/player.swf|-p|http://www.cool-itv.net/ch/moldova.html|-y|livestream
+moldova_1 rtsp://83.218.202.202:1935/live/wt_m1.stream
+n4_tv rtsp://83.218.202.202:1935/live/wt_n4.stream
+prime rtsp://83.218.202.202:1935/live/wt_prime.stream
+pro_tv_chişinău rtsp://83.218.202.202:1935/live/wt_protv.stream
+publika_tv rtmp://91.230.214.52/livepkgr/livestream
+publika_tv rtsp://83.218.202.202:1935/live/wt_publika.stream
+ren_tv rtsp://83.218.202.202:1935/live/wt_rentv.stream

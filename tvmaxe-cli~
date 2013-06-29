@@ -57,7 +57,7 @@ until [ "$selectie0" == "1" ]; do
   selectat=`cat $tempfile`
   
   case "$selectat" in
-	01) echo $format_video tv > /tmp/tvmaxe-cli/format    ; ./TV_online;;
+	01) echo $format_video tv > /tmp/tvmaxe-cli/format ; ./TV on-line;;
 	02) echo $format_audio radio > /tmp/tvmaxe-cli/format ; ./radioro;;
 	03) echo $format_audio radio > /tmp/tvmaxe-cli/format ; ./radiomd;;
 	04) echo $format_audio radio > /tmp/tvmaxe-cli/format ; ./radioclasic;;

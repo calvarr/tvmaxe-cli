@@ -1,0 +1,14 @@
+digisport_1 sop://broker.sopcast.com:3912/111719
+digisport_1 sop://broker.sopcast.com:3912/98534
+digisport_1 sop://broker.sopcast.com:3912/98659
+digisport_2 sop://broker.sopcast.com:3912/111686
+digisport_3 sop://broker.sopcast.com:3912/98660
+dolce_sport_2 rtsp://fms20.mediadirect.ro/live/dolcesport2/dolcesport2
+dolce_sport_hd rtsp://fms3.mediadirect.ro/live/dolcesporthd/dolcesporthd?tcp
+dolce_sport rtsp://fms20.mediadirect.ro/live/dolcesport/dolcesport?tcp
+eurosport_2 sop://broker.sopcast.com:3912/80398
+eurosport sop://broker.sopcast.com:3912/124646
+gsp_tv sop://broker.sopcast.com:3912/111618
+gsp_tv sop://broker.sopcast.com:3912/118981
+sport_1 sop://218.106.52.252:3912/112096
+sport.ro sop://broker.sopcast.com:3912/80562

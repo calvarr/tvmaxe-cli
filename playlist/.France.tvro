@@ -1,0 +1,17 @@
+arte rtmp://cp108478.live.edgefcs.net/live/|-y|arte_fr_1_800@45512
+bfm_tv mms://vipmms.yacast.net/bfm_bfmtv
+bfm_tv rtmp://vipwowza.yacast.net:1935/bfmtv_live|-y|bfmtv.stream|-p|http://webactu.freehostia.com/france/bfmflash.html|-s|http://cdn.freedocast.com/hdflvplayer/hdplayer.swf
+bmf_business mms://vipmms.yacast.net/bfm_bfmbiz
+directstar rtmp://fr-par-5.stream-relay.hexaglobe.net/rtpdirectstarlive|-y|directstar-flash2-750.sdp|-p|http://www.directstar.fr|-s|http://direct8.hexaglobe.com/flowplayer/flowplayer.commercial-3.1.5.swf?0.43788982115465236
+france_24_(en) mms://stream1.france24.yacast.net/f24_liveen
+france_24 mms://stream1.france24.yacast.net/f24_livefr
+idf1 mms://live240.impek.com/idf1
+i_télé rtmp://live-fms.canalplus.fr:1935/live|-y|itele_800@42248|-p|http://webactu.freehostia.com/france/itele.html|-s|http://player.longtailvideo.com/player.swf
+la_locale rtsp://stream.lalocale.com/lalocale
+opal_tv rtmp://str81.creacast.com:80/opaltv|-y|high|-p|http://www.creacast.com/play.php?pf=flw&su=opaltv&wid=500&hei=340|-s|http://www.creacast.com/players/tv/flowplayer/flowplayer.swf?0.345441033092996
+orange_sport_event_1 mms://livewm.orange.fr/direct-evenementiels
+orange_sport_event_2 mms://livewm.orange.fr/direct-evenementiels2
+orangesport_info mms://livewm.orange.fr/live-multicanaux
+rouge_tv rtsp://rtmp.infomaniak.ch/livecast/rougetv
+tv5_monde rtmp://cp108478.live.edgefcs.net/live|-y|tv5monde_1_800@45511|-w|http://www.wilmaa.com/player/main_v3.316.swf
+tvsf mms://stream.tvsf.fr/live

@@ -1,0 +1,115 @@
+#!/bin/bash -x
+source config
+abandon () {
+if [ "$selectie0" == "255" ]||[ "$selectie0" == "1" ]; then
+   ./tvmaxe-cli
+  fi
+}
+
+	$DIALOG --backtitle "tvmaxe-cli" \
+		--title "configurare" \
+         	--menu ":::" 30 35 30 \
+	"01" "Procesare" \
+	"02" "Player redare" \
+	"03" "Marime ferastra mplayer" \
+	"04" "Coordonate mplayer" \
+	"05" "Aspect mplayer" \
+	"06" "Cale salvare fisiere" \
+	"07" "Timp steptare pana la redare" \
+	"08" "GUI/NOGUI" 2>$tempfile
+	selectie0=$?
+abandon
+  selectat=`cat $tempfile`
+ case "$selectat" in
+
+01)		
+		$DIALOG --title "Procesare:" --clear \
+			--radiolist ":::" 30 35 30 \
+			"01" "ffmpeg" ON \
+			"02" "avconv" off 2>$tempfile
+				selectie0=$?
+				abandon
+			procesator=`grep -i "procesare=" $locatia/config|sed 's/=/ /'|awk '{print $2}'`
+				selectat1=`cat $tempfile`
+				case "$selectat1" in
+				 01) sed -i "s/=${procesator}/=ffmpeg/" ‎config ;;
+				 02) sed -i "s/=${procesator}/=avconv/" config;;
+				esac ;;
+02) 		$DIALOG --title "Player redare:" --clear \
+			--radiolist ":::" 30 35 30 \
+			"01" "Mplayer" ON \
+			"02" "cvlc" off \
+			"03" "Implicit" off 2>$tempfile
+			selectie0=$?
+			abandon
+				selectat1=`cat $tempfile`
+			rand=`cat $locatia/config|sed -n '/player=/='`
+				case "$selectat1" in
+				 01) sed -i "${rand}d" config
+		sed -i "${rand}i player="mplayer -msglevel cache=-1 -msgcolor -nojoystick -nolirc -cache 820 -cache-min 20 -prefer-ipv4 -ao alsa,pulse, -vo xv,fbdev2, -xy $marime -zoom -geometry $coordonate -aspect $aspect -title $nume_tv"" config;;
+				 02) sed -i "${rand}d" config
+		sed -i "${rand}i player='cvlc'" config ;;
+				
+				 03) sed -i "${rand}d" config
+		sed -i "${rand}i player='xdg-open'" config 
+				esac ;;
+03)		$DIALOG --title "Marime Mplayer" \
+			--inputbox ":::" 8 35  2>$tempfile
+			selectie0=$?
+			abandon
+			selectat2=`cat $tempfile`
+			rand=`cat $locatia/config|sed -n '/marime=/='`
+			sed -i "${rand}d" $locatia/config
+			sed -i "${rand}i marime=$selectat2" $locatia/config ;;
+
+04)		$DIALOG --title "coordonate Mplayer" \
+			--inputbox ":::    x:y" 8 35  2>$tempfile
+			selectie0=$?
+			abandon
+			selectat1=`cat $tempfile`
+			rand=`cat $locatia/config|sed -n '/coordonate=/='`
+			sed -i "${rand}d" $locatia/config
+			sed -i "${rand}i coordonate=$selectat1" $locatia/config ;;
+
+05)		$DIALOG --title "Alegeti aspect fereastra mplayer" \
+			--inputbox ":::     ex.: 16:9" 8 35  2>$tempfile
+			selecrie0=$?
+			abandon
+			selectat1=`cat $tempfile`
+			rand=`cat $locatia/config|sed -n '/aspect=/='`
+			sed -i "${rand}d" $locatia/config
+			sed -i "${rand}i aspect=$selectat1"  $locatia/config ;;
+
+06) 		$DIALOG --title "Introduceti calea de salvare" \
+			--inputbox ":::" 8 35  2>$tempfile
+			selectie0=$?
+			abandon
+			selectat1=`cat $tempfile`
+			rand=`cat $locatia/config|sed -n '/dir_salvare=/='`
+			sed -i "${rand}d" $locatia/config
+			sed -i "${rand}i dir_salvare=$selectat1"  $locatia/config ;;
+
+07)		$DIALOG --title "Timp (sec) asteptare pana la redare" \
+			--inputbox ":::" 8 35  2>$tempfile
+			selectie0=$?
+			abandon
+			selectat1=`cat $tempfile`
+			rand=`cat $locatia/config|sed -n '/delay=/='`
+			sed -i "${rand}d" $locatia/config
+			sed -i "${rand}i delay=$selectat1"  $locatia/config ;;
+
+08) 		$DIALOG  --title "GUI/noGUI" --clear \
+                	 --radiolist "Selectati fereastra dorita:" 30 35 30 \
+			"01" "GUI" ON \
+			"02" "NoGUi" off 2>$tempfile
+			selectie0=$?
+			abandon
+				selectat1=`cat $tempfile`
+			rand=`cat $locatia/config|sed -n '/interfata=/='`
+				case "$selectat1" in
+				 01) sed -i "${rand}d" $locatia/config
+		sed -i "${rand}i interfata=gui " $locatia/config ;;
+				 02) sed -i "${rand}d" $locatia/config
+		sed -i "${rand}i interfata=nogui "  $locatia/config ;;
+				esac ;;
+esac

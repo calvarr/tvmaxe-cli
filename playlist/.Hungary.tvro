@@ -1,0 +1,17 @@
+atv rtmp://flash0.atv.hu/live|-a|live|-f|win|11,2,202,233|-w|http://static.atv.hu/flashes/atv_livevideoplayer_v2.swf|-p|http://atv.hu/live_player_medium.php|--live|-y|atvlive
+bptv http://stream02.gtk.hu/bptv
+dance_tv mms://dancetv.dyndns.org/dancetv
+duna_tv mms://80.249.172.27/dunatv
+duna_world mms://80.249.172.27/autonomia
+fehervar_tv http://stream01.gtk.hu/fehervar_tv
+gytv http://stream02.gtk.hu/gytv
+halozat_tv rtsp://stream02.gtk.hu/zeg_tv1
+hatoscsatorna http://78.131.55.125:8090
+hir_tv http://80.249.175.14/delayed.mpg
+kecskemeti_tv rtmp://193.142.209.45/live|-a|live|-f|win|11,2,202,233|-w|http://viptv.ucoz.hu/c/player.swf|-p|http://viptv.ucoz.hu/c/kecskemetitv.html|--live|-y|ktv
+m1_tv mms://streamer1.carnation.hu/mtvonlinem1?MSWMExt=.asf
+m2_tv http://streamer3.carnation.hu/mtvonlinem2
+pv_tv http://92.61.114.188:8080/tematik_MEDIA_pvtv-hu-mpeg4aac.flv
+revita_tv mms://stream02.gtk.hu/revita_tv
+rtl_klub rtmp://live.veemi.com/lb|-a|lb|-f|win|11,2,202,233|-w|http://www.veemi.com/player/player-licensed.swf|-p|http://www.veemi.com/embed.php?v=onlinetvnonstop&vw=530&vh=400&domain=onlinetvnonstop.org|-y|onlinetvnonstop
+tv_2 rtmp://live.limev.com/lb/|-a|lb/|-f|win|11,2,202,233|-w|http://www.streamiton.tv/player/player.swf|-p|http://www.limev.com/embed.php?fileid=kiuk&vw=520&vh=400|-y|kiuk

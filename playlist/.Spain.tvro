@@ -1,0 +1,7 @@
+canal_24h http://195.10.10.222/rtve/24h.flv
+cetelmon_tv http://84.232.79.194:8090/cetelmontv.flv
+intereconomia_tv rtmp://media.intereconomia.com/live/intereconomiatv1
+telemadrid rtmp://cp118141.live.edgefcs.net:443/live?videoId=868686574001&lineUpId=&pubId=104403117001&playerId=111868723001&affiliateId=/TSAlaotra@47718?videoId=868686574001&lineUpId=&pubId=104403117001&playerId=111868723001&affiliateId=
+telemadrid_satélite rtmp://cp118140.live.edgefcs.net:1935/live?videoId=110032781001&lineUpId=&pubId=104403117001&playerId=111868723001&affiliateId=/TSAtelemadridsat@47720?videoId=110032781001&lineUpId=&pubId=104403117001&playerId=111868723001&affiliateId=
+telesur rtmp://telesur.fms.visionip.tv/live/b2b-telesur-live-25f-4x3_3
+upv mms://mediaserver01.upv.es:7070/TelePoli

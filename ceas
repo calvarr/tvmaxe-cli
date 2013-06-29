@@ -1,0 +1,45 @@
+#! /bin/bash
+#sursa - http://www.bashguru.com/2010/04/shell-script-to-display-time-and-date.html
+#colors
+Black="$(tput setaf 0)"
+BlackBG="$(tput setab 0)"
+DarkGrey="$(tput bold ; tput setaf 0)"
+LightGrey="$(tput setaf 7)"
+LightGreyBG="$(tput setab 7)"
+White="$(tput bold ; tput setaf 7)"
+Red="$(tput setaf 1)"
+RedBG="$(tput setab 1)"
+LightRed="$(tput bold ; tput setaf 1)"
+Green="$(tput setaf 2)"
+GreenBG="$(tput setab 2)"
+LightGreen="$(tput bold ; tput setaf 2)"
+Brown="$(tput setaf 3)"
+BrownBG="$(tput setab 3)"
+Yellow="$(tput bold ; tput setaf 3)"
+Blue="$(tput setaf 4)"
+BlueBG="$(tput setab 4)"
+LightBlue="$(tput bold ; tput setaf 4)"
+Purple="$(tput setaf 5)"
+PurpleBG="$(tput setab 5)"
+Pink="$(tput bold ; tput setaf 5)"
+Cyan="$(tput setaf 6)"
+CyanBG="$(tput setab 6)"
+LightCyan="$(tput bold ; tput setaf 6)"
+NC="$(tput sgr0)" # No Color
+#########################
+  Columns=$(tput cols)
+  Startpoint=$(($Columns-22))
+  Color1=`tput setab 2`        # Green background color for time
+  Color2=`tput setab 6`        # Cyan  background color for date
+  Normal=`tput sgr0`           # back to normal screen colors
+while :
+do
+  Time=`date +%r`
+  Date=`date +"%d-%m-%Y"`
+  tput sc                   #Save the cursor position&attributes
+  tput cup 0 $Startpoint
+echo -n $Color1$Time $Color2$Date$Normal
+tput rc
+sleep 1
+
+done

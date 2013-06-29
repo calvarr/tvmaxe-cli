@@ -1,0 +1,9 @@
+hd_classics rtsp://93.114.43.3:1935/live/classicshd?tcp
+hd_dance rtsp://93.114.43.3:1935/live/dancehd?tcp
+hd_jazz rtsp://93.114.43.3:1935/live/jazzhd?tcp
+hd_live_mix rtsp://93.114.43.3:1935/live/onehdhd?tcp
+hd_pop rtsp://93.114.43.3:1935/live/pophd?tcp
+hd_rock rtsp://93.114.43.3:1935/live/rockhd?tcp
+miami_tv mmsh://74.208.43.204:90/music?MSWMExt=.asf
+tv_hit_music http://88.191.126.62:18002/
+tvu_music_television mms://nyc01.egihosting.com/102741

@@ -1,0 +1,27 @@
+#!/bin/bash -x
+
+DIALOG=dialog
+listatvmd=`cat $HOME/.tvmaxe-cli/playlist/.basarabiatv.tvro|awk '{print $1,"|"}'`
+##########################################
+mkdir -p /tmp/tvmaxe-cli
+if [ ! -f $HOME/.tvmaxe-cli/playlist/.basarabiatv.tvro ];
+then
+	wget -qO - http://pastebin.com/raw.php?i=cik78zCd|sed 's/|||/\n/g;'|sort -d|sed 's/||/ /g' > $HOME/.tvmaxe-cli/playlist/.basarabiatv.tvro
+fi
+##########################################
+basarabiatv (){
+	$DIALOG --backtitle "tvmaxe-cli" \
+	  --title "BasarabiaTV" --clear \
+          --menu ":::" 30 35 30 $listatvmd 2> $tempfile
+      	selectie0=$?
+	if [ "$selectie0" == "255" ]||[ "$selectie0" == "1" ]; then
+   		exit 0
+ 	fi
+nume_post_tv=`cat $tempfile`
+nr_post_tv=`cat $HOME/.tvmaxe-cli/playlist/.basarabiatv.tvro|sed -n "/$nume_post_tv/="`
+cat $HOME/.tvmaxe-cli/playlist/.basarabiatv.tvro|sed -n "${nr_post_tv}p" > /tmp/tvmaxe-cli/adr
+	    }
+##########################################
+
+basarabiatv
+./filtrutv

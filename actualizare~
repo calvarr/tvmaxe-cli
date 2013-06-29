@@ -1,0 +1,10 @@
+#! /bin/bash
+$DIALOG --backtitle "tvmaxe-cli" \
+        --checklist ":::" 30 50 30 \
+	"01" "Actualizare liste_tv" "off"\
+	"02" "Actualizare tvmaxe-cli" "off"\
+	"03" "Verifica actualizare" "off" 2> $tempfile
+      	selectie0=$?
+	abandon
+nr_linie=`cat $tempfile`
+

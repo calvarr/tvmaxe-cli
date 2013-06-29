@@ -1,0 +1,26 @@
+#GUI-NoGUI (gui ori nogui)
+interfata=nogui
+
+locatia=`pwd`
+rez=360
+
+delay=10
+salvare=$HOME
+
+procesare="ffmpeg"
+
+keyspice=`printf "c=173&u=56449&e=1369223009&t=250d3d7ab8b02bf9fe545d59e2aa1d17"`
+
+#afisare fereastra mplayer in tty:
+marime=720
+coordonate=10:20
+aspect=16:9
+
+#player:
+player="mplayer -msglevel cache=-1 -msgcolor -nojoystick -nolirc \
+ -cache 820 -cache-min 20 -prefer-ipv4 -ao alsa,pulse, \
+ -vo xv,fbdev2, -xy $marime -zoom -geometry $coordonate -aspect $aspect"
+
+
+
+

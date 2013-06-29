@@ -1,0 +1,40 @@
+#! /bin/bash
+git="https://raw.github.com/calvarr/tvmaxe-cli/master/"
+fisiere=$(echo \
+actualizare \
+adr_externa \
+capstream \
+ceas \
+config \
+configurare \
+divertisment \
+favorite \
+filme \
+filtrutv \
+meniufilm \
+radioclasic \
+radiomd \
+radiomix \
+radioro \
+README \
+romaniatv \
+scriptUP \
+shoutcast \
+timer_inregistrare \
+tv \
+tvlist \
+tvmaxe-cli \
+youtube \
+youtube_tv)
+nr_fisiere=`echo $fisiere|wc -w`
+echo $fisiere|awk '{print $3}' #debug
+echo nr fisiere $nr_fisiere #debug
+i=1;c=1
+for i in $(seq 1 $nr_fisiere )
+do
+nume_fisier=`echo $fisiere|sed 's/ /\n/g'|sed -n "${i}p"`
+url_fisier=`echo $fisiere|sed 's/ /\n/g'|sed -n "${i}p"|awk -v git=$git '{print git$1}'`
+#wget -O $HOME/.tvmaxe-cli/$nume_fisier $url_fisier
+((c+=4));echo $c|$DIALOG --gauge "Actualizez $nume_fisier" 6 50 10
+sleep 2
+done

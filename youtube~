@@ -1,0 +1,192 @@
+#! /bin/bash -x
+source config
+abandon () {
+if [ "$selectie0" == "255" ]||[ "$selectie0" == "1" ]; then
+   ./tvmaxe-cli
+  fi
+}
+control_adr_yt=`cat /tmp/tvmaxe-cli/yt2`
+if [ -z "$control_adr_yt" ]; then 
+
+		
+		nr_linie_colectie=1
+else
+
+		$DIALOG --title "| youtube |" \
+			--backtitle "tvmaxe-cli" \
+			--inputbox "Ce cautati?" 8 35  2>$tempfile
+			selectie0=$?
+			titlu=`cat $tempfile`
+			abandon
+pagini=`wget -qO -  http://www.youtube.com/results?search_query="$titlu"|grep data-page|wc -l`
+> /tmp/tvmaxe-cli/yt
+c=10
+for a in `seq 1 $pagini` ; do
+wget -qO - "http://www.youtube.com/results?search_query='$titlu'&page=$a"|grep item-title|sed 's/ /%_/g;s/[">]/ /g'|sed "s/\&amp;//g;s/quot;//g;s/#39;/'/g">>/tmp/tvmaxe-cli/yt
+((c+=10));echo $c|$DIALOG --gauge "Caut.." 6 50 10
+done
+cat /tmp/tvmaxe-cli/yt|sed -e 's/^.*\(title=.*\).*$/\1/'|sed 's/ /%_/g'|sed 's/[="]/ /g'|sed 's/data-/ /g'|sed '/playlist-item-title/d'|awk '{print $2}'>/tmp/tvmaxe-cli/yt1
+cat /tmp/tvmaxe-cli/yt|sed -e 's/^.*\(id=.*\).*$/\1/'|sed 's/ /%_/g'|sed 's/[="]/ /g'|sed 's/data-/ /g'|awk '{print "http://www.youtube.com/watch?v="$2}'|sed 's/%_//g'|sed '/playlist-item-title/d'>/tmp/tvmaxe-cli/yt2
+
+colectie=`cat /tmp/tvmaxe-cli/yt1|sed 's/%_/_/g;s/\&lt;b&gt;//g;s/\#39//g;s/&amp//'|awk '{print $1,"off"}'|nl`
+nr_piese_lista=`cat /tmp/tvmaxe-cli/yt1|wc -l`
+
+fi
+
+youtube () {
+adr_yt=`cat /tmp/tvmaxe-cli/yt2|sed -n "${nr_linie_colectie}p"`
+nume=`cat /tmp/tvmaxe-cli/yt1|sed 's/%_/_/g;s/\&lt;b&gt;//g;s/\#39//g;s/&amp//'|sed -n "${nr_linie_colectie}p"`
+#adr_yt_3gp=`echo $adr_yt|sed 's/=/ /'|awk '{print "http://m.youtube.com/watch?v="$2}'`
+#gp3_yt=`curl  http://m.youtube.com/watch?v=0Cnfrg5eh28|grep 'rtsp'|sed -n '1p'|sed 's/"/ /g'|awk '{print $3}'`
+}
+
+
+$DIALOG --backtitle "tvmaxe-cli" \
+          	--checklist ":::" 80 80 80 $colectie 2> $tempfile
+      	selectie0=$?
+	abandon
+nr_linie=`cat $tempfile`
+
+$DIALOG --backtitle "tvmaxe-cli" \
+	 	--title "| Youtube |" --clear \
+          	--menu ":::" 25 35 25 \
+	"01" "Reda selectia" \
+	"02" "Adauga la favorite*" \
+	"03" "Descarca selectia" \
+	"04" "Reda toate" \
+	"05" "Deascarca toate" \
+	"06" "Reda selectia audio" \
+	"07" "Reda toate audio" \
+	"08" "Conversie selectie wav" \
+	"09" "Conversie selectie mp3" \
+	"10" "Reveniti" 2>$tempfile
+	selectie0=$?
+	abandon
+ 	selectat=`cat $tempfile`
+  
+ 
+  case "$selectat" in
+
+	01) for nr_linie_colectie in  $nr_linie ; do
+
+	 youtube
+	
+
+		$DIALOG --title "| youtube |" \
+			--backtitle "tvmaxe-cli" \
+			--yesno "$nume" 7 60
+		raspuns=$?
+		case $raspuns in
+   			0) youtube-dl $adr_yt -o -|$player - &>/dev/null ;;
+   			1) break ;;
+   			255) break ;;
+			esac
+
+
+		
+
+		done
+;;
+
+	02)
+	$DIALOG --backtitle "tvmaxe-cli" \
+		--title "Creati o lista sau adaugati piesa la o lista existenta: " \
+		--inputbox "Liste existente: \n $liste" 15 75 2>$tempfile
+	selectie0=$?
+	abandon
+	selectat1=`cat $tempfile`
+		if [[ "$selectat1" = "" ]];then
+			$DIALOG --title "Eroare" \
+				--msgbox "\n Introduceti numele listei" 6 50
+		else
+	for nr_linie_colectie in  $nr_linie ; do
+
+	youtube
+			echo "$nume $adr_yt" >> $HOME/'.'tvmaxe-cli/playlist/$selectat1.tv
+	done
+		fi
+		
+;;
+
+	03)
+	for nr_linie_colectie in  $nr_linie ; do
+
+	youtube
+		
+	youtube-dl --max-quality FORMAT $adr_yt -o $salvare/$nume.flv
+
+	done
+;;
+	04)
+		
+		for nr_linie_colectie in `seq 1 $nr_piese_lista` ; do
+		echo nr linie $nr_linie_colectie
+		echo nr piese  $nr_piese_lista #debug
+		sleep 1
+		youtube
+		$DIALOG  --title "| Youtube |" \
+			--backtitle "tvmaxe-cli" \
+			--yesno "Doriti sa continuati redarea?" 7 60
+		raspuns=$?
+		case $raspuns in
+   			0) youtube-dl --max-quality FORMAT $adr_yt -o -|$player "-" &>/dev/null ;;
+   			1) break ;;
+   			255) break ;;
+			esac
+
+		done
+;;
+	05)
+		
+		for nr_linie_colectie in `seq 1 $nr_piese_lista` ; do
+		youtube
+		youtube-dl $adr_yt -o $salvare/$nume.flv
+		done
+;;
+	06)
+	for nr_linie_colectie in  $nr_linie ; do
+
+	youtube
+		
+	youtube-dl $adr_yt -o -|$player -novideo -
+#$($procesare -y -i "$gp3_yt" -acodec copy -vcodec copy -r 20 -f 3gp - 2>/dev/null|$player - &>/dev/null);stty sane
+#$($procesare -y -i "$adr" -acodec libmp3lame -ar 44100 -vcodec copy -f flv - 2>/dev/null|$player - &>/dev/null);stty sane
+	
+	done
+#ffmpeg -f lavfi -i testsrc -filter_complex "split=4[a][b][c][d];[a]pad=iw*4:ih[w];[b]lutyuv=u=128:v=128[x];[c]lutyuv=y=0:v=128[y];[d]lutyuv=y=0:u=128[z];[w][x]overlay=w:0[wx];[wx][y]overlay=w*2:0[wxy];[wxy][z]overlay=w*3:0" -f nut - | ffplay -
+
+#ffplay -f lavfi "amovie=$adr,asplit=3[out1][a][b]; [a]showwaves=s=640x240,pad=iw:ih*2[waves]; [b]showspectrum=s=640x240[spectrum]; [waves][spectrum] overlay=0:h [out0]"
+
+;;
+	07)
+	for nr_linie_colectie in `seq 1 $nr_piese_lista` ; do
+
+		youtube
+		
+		youtube-dl $adr_yt -o -|$player -novideo -
+
+	done
+;;
+
+	08)
+	for nr_linie_colectie in  $nr_linie ; do
+
+	youtube
+		
+	youtube-dl $adr_yt -o -|$procesare -i "-" -vn -acodec pcm_s16le -ar 16000 -ac 1 -f wav $salvare/$nume.wav
+	#youtube-dl  --extract-audio  --audio-format wav  --audio-quality 0 $adr_yt -o $salvare/$nume.wav
+	done
+;;
+	09)
+	for nr_linie_colectie in  $nr_linie ; do
+
+	youtube
+		
+	youtube-dl $adr_yt -o -|$procesare -i "-" -acodec libmp3lame -ac 2 -ab 128 -vn -y $salvare/$nume.mp3
+
+	done
+;;
+	10)exit 0;;
+esac
+############################################
+
