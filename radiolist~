@@ -1,0 +1,18 @@
+#! /bin/bash
+
+#radio_Romania
+wget -qO - http://pastebin.com/raw.php?i=E9Sy1Lux|sed 's/||/\n/g;s/ /_/g;s/|/ /g'|awk '{print $2"|"$4}'|sort -d|sed 's/|/ /g'|sed '1,2d'|sed '1d'  > $HOME/.tvmaxe-cli/playlist/.Romania.raddio
+
+#radio R.Moldova
+wget -qO - http://pastebin.com/raw.php?i=dLCT0dN1|sed 's/||/\n/g;s/ /_/g;s/|/ /g'|awk '{print $2"|"$4}'|sort -d|sed 's/|/ /g'|sed '1,2d'  > $HOME/.tvmaxe-cli/playlist/.Basarabia.raddio
+
+#radio_classic
+wget -qO - http://pastebin.com/raw.php?i=sGuVrhCy|sed 's/||/\n/g;s/ /_/g;s/|/ /g'|awk '{print $2"|"$4}'|sort -d|sed 's/|/ /g'|sed '1,2d'  > $HOME/.tvmaxe-cli/playlist/.Clasic.raddio
+
+#radio_mix
+wget -qO - http://pastebin.com/raw.php?i=MTrXrhsu|sed 's/||/\n/g;s/ /_/g;s/|/ /g'|awk '{print $2"|"$4}'|sort -d|sed 's/|/ /g'|sed '1,2d'  > $HOME/.tvmaxe-cli/playlist/.Mix.raddio
+
+#podcast_Romania
+wget -qO - http://pastebin.com/raw.php?i=eJ3P1xJB|sed 's/||/\n/g;s/ /_/g;s/|/ /g'|sed '1d'|awk '{print $2"|"$4}'|sort -d|sed 's/|/ /g'|sed '1d' > $HOME/.tvmaxe-cli/playlist/.Podcast.raddio
+
+

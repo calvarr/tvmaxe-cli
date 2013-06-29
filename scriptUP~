@@ -1,4 +1,5 @@
 #! /bin/bash
+source config
 git="https://raw.github.com/calvarr/tvmaxe-cli/master/"
 fisiere=$(echo \
 actualizare \

@@ -1,10 +1,23 @@
 #! /bin/bash
 $DIALOG --backtitle "tvmaxe-cli" \
         --checklist ":::" 30 50 30 \
-	"01" "Actualizare liste_tv" "off"\
+	"01" "Actualizare liste..." "off"\
 	"02" "Actualizare tvmaxe-cli" "off"\
 	"03" "Verifica actualizare" "off" 2> $tempfile
       	selectie0=$?
-	abandon
-nr_linie=`cat $tempfile`
+	if [ "$selectie0" == "255" ]||[ "$selectie0" == "1" ]; then
+   		exit 0
+ 	fi
+selectat=`cat $tempfile`
+
+		case "$selectat" in
+	01)	rm .*.tvro .*.radio
+		./tvlist
+		./radiolist
+		exit 0;;
+	02)	./scriptUP
+		exit 0;;
+	03)	echo "lucrez inca la asta"
+esac
+	exit 0
 

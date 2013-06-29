@@ -182,9 +182,9 @@ killall $procesare
 			$player -playlist $adr
 		else
 			#exec 2> /dev/null
-			$player $adr|tee /tmp/tvmaxe-cli/datehttp &
-			datehttp=`cat /tmp/tvmaxe-cli/datehttp`
-			$DIALOG --infobox "$datehttp" 30 35
+			$player $adr #|tee /tmp/tvmaxe-cli/datehttp &
+			#datehttp=`cat /tmp/tvmaxe-cli/datehttp`
+			#$DIALOG --infobox "$datehttp" 30 35
 	fi
 	
 ;;
