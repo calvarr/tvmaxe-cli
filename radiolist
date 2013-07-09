@@ -1,18 +1,34 @@
 #! /bin/bash
 
-#radio_Romania
-wget -qO - http://pastebin.com/raw.php?i=E9Sy1Lux|sed 's/||/\n/g;s/ /_/g;s/|/ /g'|awk '{print $2"|"$4}'|sort -d|sed 's/|/ /g'|sed '1,2d'|sed '1d'  > $HOME/.tvmaxe-cli/playlist/.Romania.raddio
+Romania () {
+$DIALOG --infobox "Actualizez liste radio.. \n Romania" 6 25
+wget -qO - https://raw.github.com/calvarr/tvmaxe-cli/master/playlist/.Romania.raddio  > $HOME/.tvmaxe-cli/playlist/.Romania.raddio
+}
 
-#radio R.Moldova
-wget -qO - http://pastebin.com/raw.php?i=dLCT0dN1|sed 's/||/\n/g;s/ /_/g;s/|/ /g'|awk '{print $2"|"$4}'|sort -d|sed 's/|/ /g'|sed '1,2d'  > $HOME/.tvmaxe-cli/playlist/.Basarabia.raddio
+Moldova () {
+$DIALOG --infobox "Actualizez liste radio.. \n R.Moldova" 6 25
+wget -qO - https://raw.github.com/calvarr/tvmaxe-cli/master/playlist/.Basarabia.raddio  > $HOME/.tvmaxe-cli/playlist/.Basarabia.raddio
+}
 
-#radio_classic
-wget -qO - http://pastebin.com/raw.php?i=sGuVrhCy|sed 's/||/\n/g;s/ /_/g;s/|/ /g'|awk '{print $2"|"$4}'|sort -d|sed 's/|/ /g'|sed '1,2d'  > $HOME/.tvmaxe-cli/playlist/.Clasic.raddio
+Classic () {
+$DIALOG --infobox "Actualizez liste radio.. \n Radio Classic" 6 25
+wget -qO - https://raw.github.com/calvarr/tvmaxe-cli/master/playlist/.Clasic.raddio  > $HOME/.tvmaxe-cli/playlist/.Clasic.raddio
+}
 
-#radio_mix
-wget -qO - http://pastebin.com/raw.php?i=MTrXrhsu|sed 's/||/\n/g;s/ /_/g;s/|/ /g'|awk '{print $2"|"$4}'|sort -d|sed 's/|/ /g'|sed '1,2d'  > $HOME/.tvmaxe-cli/playlist/.Mix.raddio
+Mix () {
+$DIALOG --infobox "Actualizez liste radio.. \n Radio Mix" 6 25
+wget -qO - https://raw.github.com/calvarr/tvmaxe-cli/master/playlist/.Mix.raddio  > $HOME/.tvmaxe-cli/playlist/.Mix.raddio
+}
 
-#podcast_Romania
-wget -qO - http://pastebin.com/raw.php?i=eJ3P1xJB|sed 's/||/\n/g;s/ /_/g;s/|/ /g'|sed '1d'|awk '{print $2"|"$4}'|sort -d|sed 's/|/ /g'|sed '1d'|sed '1d' > $HOME/.tvmaxe-cli/playlist/.Podcast.raddio
-
-
+Podcast () {
+$DIALOG --infobox "Actualizez liste radio.. \n Podcast" 6 25
+wget -qO - https://raw.github.com/calvarr/tvmaxe-cli/master/playlist/.Podcast.raddio > $HOME/.tvmaxe-cli/playlist/.Podcast.raddio
+}
+#################################################
+Romania
+Moldova
+Classic
+Mix
+Podcast
+#################################################
+exit 0

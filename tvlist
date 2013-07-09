@@ -1,86 +1,140 @@
-#! /bin/bash
-#Romania
-	wget -qO - http://tv-maxe.org/subscriptions/cli.php?db=Romania|sed 's/|||/\n/g'>/tmp/tvmaxe-cli/tmp2
-	cat /tmp/tvmaxe-cli/tmp2|sed 's/*/\n/g'|sort -d|sed "s/||/ /g;s/spice:/rtmp:/g;s/%key%/${keyspice}/g;s/\%//g;s/key/\&/g">$HOME/.tvmaxe-cli/playlist/.romaniatv.tvro
+#! /bin/bash -x
+source config
 
-#International
-wget -qO - http://tv-maxe.org/subscriptions/cli.php?db=International|sed 's/|||/\n/g'>/tmp/tvmaxe-cli/tmp2
-cat /tmp/tvmaxe-cli/tmp2|sed 's/*/\n/g'|sort -d|sed 's/||/ /g'>$HOME/.tvmaxe-cli/playlist/.International.tvro
 
-#basarabia
-wget -qO - http://pastebin.com/raw.php?i=cik78zCd|sed 's/|||/\n/g;'|sort -d|sed 's/||/ /g' > $HOME/.tvmaxe-cli/playlist/.basarabiatv.tvro
+Romania (){
+$DIALOG --infobox "Actualizez liste.. \n Romania" 6 25
+wget -qO - https://raw.github.com/calvarr/tvmaxe-cli/master/playlist/.Romaniatv.tvro >  $HOME/.tvmaxe-cli/playlist/.Romaniatv.tvro
+}
 
-#brazil
-wget -qO - http://tv-maxe.org/subscriptions/cli.php?db=brazil|sed 's/|||/\n/g'>/tmp/tvmaxe-cli/tmp2
-cat /tmp/tvmaxe-cli/tmp2|sed 's/*/\n/g'|sort -d|sed 's/||/ /g'>$HOME/.tvmaxe-cli/playlist/.Brazil.tvro
+International () {
+$DIALOG --infobox "Actualizez liste.. \n International" 6 25
+wget -qO - https://raw.github.com/calvarr/tvmaxe-cli/master/playlist/.International.tvro > $HOME/.tvmaxe-cli/playlist/.International.tvro
+}
 
-#bulgaria
-wget -qO - http://tv-maxe.org/subscriptions/cli.php?db=bulgaria|sed 's/|||/\n/g'>/tmp/tvmaxe-cli/tmp2
-cat /tmp/tvmaxe-cli/tmp2|sed 's/*/\n/g'|sort -d|sed 's/||/ /g'>$HOME/.tvmaxe-cli/playlist/.Bulgaria.tvro
+Basarabia () {
+$DIALOG --infobox "Actualizez liste.. \n Basarabia" 6 25
+wget -qO - https://raw.github.com/calvarr/tvmaxe-cli/master/playlist/.Basarabiatv.tvro > $HOME/.tvmaxe-cli/playlist/.Basarabiatv.tvro
+}
 
-#china
-wget -qO - http://tv-maxe.org/subscriptions/cli.php?db=china|sed 's/|||/\n/g'>/tmp/tvmaxe-cli/tmp2
-cat /tmp/tvmaxe-cli/tmp2|sed 's/*/\n/g'|sort -d|sed 's/||/ /g'>$HOME/.tvmaxe-cli/playlist/.China.tvro
+Brazil () {
+$DIALOG --infobox "Actualizez liste.. \n Brazil" 6 25
+wget -qO - https://raw.github.com/calvarr/tvmaxe-cli/master/playlist/.Brazil.tvro > $HOME/.tvmaxe-cli/playlist/.Brazil.tvro
+}
 
-#denmark
-wget -qO - http://tv-maxe.org/subscriptions/cli.php?db=denmark|sed 's/|||/\n/g'>/tmp/tvmaxe-cli/tmp2
-cat /tmp/tvmaxe-cli/tmp2|sed 's/*/\n/g'|sort -d|sed 's/||/ /g'>$HOME/.tvmaxe-cli/playlist/.Denmark.tvro
-#finland
-wget -qO - http://tv-maxe.org/subscriptions/cli.php?db=finland|sed 's/|||/\n/g'>/tmp/tvmaxe-cli/tmp2
-cat /tmp/tvmaxe-cli/tmp2|sed 's/*/\n/g'|sort -d|sed 's/||/ /g'>$HOME/.tvmaxe-cli/playlist/.Finland.tvro
+Bulgaria () {
+$DIALOG --infobox "Actualizez liste.. \n Bulgaria" 6 25
+wget -qO https://raw.github.com/calvarr/tvmaxe-cli/master/playlist/.Bulgaria.tvro > $HOME/.tvmaxe-cli/playlist/.Bulgaria.tvro
+}
 
-#france
-wget -qO - http://tv-maxe.org/subscriptions/cli.php?db=france|sed 's/|||/\n/g'>/tmp/tvmaxe-cli/tmp2
-cat /tmp/tvmaxe-cli/tmp2|sed 's/*/\n/g'|sort -d|sed 's/||/ /g'>$HOME/.tvmaxe-cli/playlist/.France.tvro
+China () {
+$DIALOG --infobox "Actualizez liste.. \n China" 6 25
+wget -qO - https://raw.github.com/calvarr/tvmaxe-cli/master/playlist/.China.tvro > $HOME/.tvmaxe-cli/playlist/.China.tvro
+}
 
-#germany
-wget -qO - http://tv-maxe.org/subscriptions/cli.php?db=germany|sed 's/|||/\n/g'>/tmp/tvmaxe-cli/tmp2
-cat /tmp/tvmaxe-cli/tmp2|sed 's/*/\n/g'|sort -d|sed 's/||/ /g'>$HOME/.tvmaxe-cli/playlist/.Germany.tvro
-#greece
-wget -qO - http://tv-maxe.org/subscriptions/cli.php?db=greece|sed 's/|||/\n/g'>/tmp/tvmaxe-cli/tmp2
-cat /tmp/tvmaxe-cli/tmp2|sed 's/*/\n/g'|sort -d|sed 's/||/ /g'>$HOME/.tvmaxe-cli/playlist/.Greece.tvro
+Denmark () {
+$DIALOG --infobox "Actualizez liste.. \n Denmark" 6 25
+wget -qO - https://raw.github.com/calvarr/tvmaxe-cli/master/playlist/.Denmark.tvro >$HOME/.tvmaxe-cli/playlist/.Denmark.tvro
+}
 
-#hungary
-wget -qO - http://tv-maxe.org/subscriptions/cli.php?db=hungary|sed 's/|||/\n/g'>/tmp/tvmaxe-cli/tmp2
-cat /tmp/tvmaxe-cli/tmp2|sed 's/*/\n/g'|sort -d|sed 's/||/ /g'>$HOME/.tvmaxe-cli/playlist/.Hungary.tvro
+Finland () {
+$DIALOG --infobox "Actualizez liste.. \n Finland" 6 25
+wget -qO - https://raw.github.com/calvarr/tvmaxe-cli/master/playlist/.Finland.tvro > $HOME/.tvmaxe-cli/playlist/.Finland.tvro
+}
 
-#italy
-wget -qO - http://tv-maxe.org/subscriptions/cli.php?db=italy|sed 's/|||/\n/g'>/tmp/tvmaxe-cli/tmp2
-cat /tmp/tvmaxe-cli/tmp2|sed 's/*/\n/g'|sort -d|sed 's/||/ /g'>$HOME/.tvmaxe-cli/playlist/.Italy.tvro
+France () {
+$DIALOG --infobox "Actualizez liste.. \n France" 6 25
+wget -qO - https://raw.github.com/calvarr/tvmaxe-cli/master/playlist/.France.tvro > $HOME/.tvmaxe-cli/playlist/.France.tvro
+}
 
-#moldova
-wget -qO - http://tv-maxe.org/subscriptions/cli.php?db=moldova|sed 's/|||/\n/g'>/tmp/tvmaxe-cli/tmp2
-cat /tmp/tvmaxe-cli/tmp2|sed 's/*/\n/g'|sort -d|sed 's/||/ /g'>$HOME/.tvmaxe-cli/playlist/.Moldova.tvro
+Germany () {
+$DIALOG --infobox "Actualizez liste.. \n Germany" 6 25
+wget -qO - https://raw.github.com/calvarr/tvmaxe-cli/master/playlist/.Germany.tvro > $HOME/.tvmaxe-cli/playlist/.Germany.tvro
+}
 
-#music
-wget -qO - http://tv-maxe.org/subscriptions/cli.php?db=music|sed 's/|||/\n/g'>/tmp/tvmaxe-cli/tmp2
-cat /tmp/tvmaxe-cli/tmp2|sed 's/*/\n/g'|sort -d|sed 's/||/ /g'>$HOME/.tvmaxe-cli/playlist/.Music.tvro
+Greece () {
+$DIALOG --infobox "Actualizez liste.. \n Greece" 6 25
+wget -qO - https://raw.github.com/calvarr/tvmaxe-cli/master/playlist/.Greece.tvro > $HOME/.tvmaxe-cli/playlist/.Greece.tvro
+}
 
-#norway
-wget -qO - http://tv-maxe.org/subscriptions/cli.php?db=norway|sed 's/|||/\n/g'>/tmp/tvmaxe-cli/tmp2
-cat /tmp/tvmaxe-cli/tmp2|sed 's/*/\n/g'|sort -d|sed 's/||/ /g'>$HOME/.tvmaxe-cli/playlist/.Norway.tvro
+Hungary () {
+$DIALOG --infobox "Actualizez liste.. \n Hungary" 6 25
+wget -qO - https://raw.github.com/calvarr/tvmaxe-cli/master/playlist/.Hungary.tvro > $HOME/.tvmaxe-cli/playlist/.Hungary.tvro
+}
 
-#russia
-wget -qO - http://tv-maxe.org/subscriptions/cli.php?db=russia|sed 's/|||/\n/g'>/tmp/tvmaxe-cli/tmp2
-cat /tmp/tvmaxe-cli/tmp2|sed 's/*/\n/g'|sort -d|sed 's/||/ /g'>$HOME/.tvmaxe-cli/playlist/.Russia.tvro
+Italy () {
+$DIALOG --infobox "Actualizez liste.. \n Italy" 6 25
+wget -qO - https://raw.github.com/calvarr/tvmaxe-cli/master/playlist/.Italy.tvro > $HOME.Italy.tvro/.tvmaxe-cli/playlist/.Italy.tvro
+}
 
-#spain
-wget -qO - http://tv-maxe.org/subscriptions/cli.php?db=spain|sed 's/|||/\n/g'>/tmp/tvmaxe-cli/tmp2
-cat /tmp/tvmaxe-cli/tmp2|sed 's/*/\n/g'|sort -d|sed 's/||/ /g'>$HOME/.tvmaxe-cli/playlist/.Spain.tvro
+Moldova () {
+$DIALOG --infobox "Actualizez liste.. \n Moldova" 6 25
+wget -qO - https://raw.github.com/calvarr/tvmaxe-cli/master/playlist/.Moldova.tvro > $HOME/.tvmaxe-cli/playlist/.Moldova.tvro
+}
 
-#sport
-wget -qO - http://tv-maxe.org/subscriptions/cli.php?db=sport|sed 's/|||/\n/g'>/tmp/tvmaxe-cli/tmp2
-cat /tmp/tvmaxe-cli/tmp2|sed 's/*/\n/g'|sort -d|sed 's/||/ /g'>$HOME/.tvmaxe-cli/playlist/.Sport.tvro
+Music () {
+$DIALOG --infobox "Actualizez liste.. \n Music" 6 25
+wget -qO - https://raw.github.com/calvarr/tvmaxe-cli/master/playlist/.Music.tvro > $HOME/.tvmaxe-cli/playlist/.Music.tvro
+}
 
-#uk
-wget -qO - http://tv-maxe.org/subscriptions/cli.php?db=uk|sed 's/|||/\n/g'>/tmp/tvmaxe-cli/tmp2
-cat /tmp/tvmaxe-cli/tmp2|sed 's/*/\n/g'|sort -d|sed 's/||/ /g'>$HOME/.tvmaxe-cli/playlist/.UK.tvro
+Norway () {
+$DIALOG --infobox "Actualizez liste.. \n Norway" 6 25
+wget -qO - https://raw.github.com/calvarr/tvmaxe-cli/master/playlist/.Norway.tvro > $HOME/.tvmaxe-cli/playlist/.Norway.tvro
+}
 
-#usa
-wget -qO - http://tv-maxe.org/subscriptions/cli.php?db=usa|sed 's/|||/\n/g'>/tmp/tvmaxe-cli/tmp2
-cat /tmp/tvmaxe-cli/tmp2|sed 's/*/\n/g'|sort -d|sed 's/||/ /g'>$HOME/.tvmaxe-cli/playlist/.USA.tvro
+Russia () {
+$DIALOG --infobox "Actualizez liste.. \n Russia" 6 25
+wget -qO - https://raw.github.com/calvarr/tvmaxe-cli/master/playlist/.Russia.tvro > $HOME/.tvmaxe-cli/playlist/.Russia.tvro
+}
 
-#xxx
-wget -qO - http://tv-maxe.org/subscriptions/cli.php?db=xxx|sed 's/|||/\n/g'>/tmp/tvmaxe-cli/tmp2
-cat /tmp/tvmaxe-cli/tmp2|sed 's/*/\n/g'|sort -d|sed 's/||/ /g'>$HOME/.tvmaxe-cli/playlist/.XxX.tvro
+Spain () {
+$DIALOG --infobox "Actualizez liste.. \n Spain" 6 25
+wget -qO - https://raw.github.com/calvarr/tvmaxe-cli/master/playlist/.Spain.tvro > $HOME/.tvmaxe-cli/playlist/.Spain.tvro
+}
+
+Sport () {
+$DIALOG --infobox "Actualizez liste.. \n Sport" 6 25
+wget -qO - https://raw.github.com/calvarr/tvmaxe-cli/master/playlist/.Sport.tvro > $HOME/.tvmaxe-cli/playlist/.Sport.tvro
+}
+
+UK () {
+$DIALOG --infobox "Actualizez liste.. \n UK" 6 25
+wget -qO - https://raw.github.com/calvarr/tvmaxe-cli/master/playlist/.UK.tvro > $HOME/.tvmaxe-cli/playlist/.UK.tvro
+}
+
+USA () {
+$DIALOG --infobox "Actualizez liste.. \n USA" 6 25
+wget -qO - https://raw.github.com/calvarr/tvmaxe-cli/master/playlist/.USA.tvro>$HOME/.tvmaxe-cli/playlist/.USA.tvro
+}
+
+xxx () {
+$DIALOG --infobox "Actualizez liste.. \n XXX" 6 25
+wget -qO - https://raw.github.com/calvarr/tvmaxe-cli/master/playlist/.XxX.tvro > $HOME/.tvmaxe-cli/playlist/.XxX.tvro
+}
+
+##############################################################
+Basarabia
+Brazil
+Bulgaria
+China
+Denmark
+Finland
+France
+Germany
+Greece
+Hungary
+International
+Italy
+Moldova
+Music
+Norway
+Romaniatv
+Russia
+Spain
+Sport
+UK
+USA
+xxx
+##############################################################
+exit 0
 

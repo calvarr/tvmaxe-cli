@@ -5,12 +5,7 @@ if [ "$selectie0" == "255" ]||[ "$selectie0" == "1" ]; then
    ./tvmaxe-cli
   fi
 }
-control_adr_yt=`cat /tmp/tvmaxe-cli/yt2`
-if [ -z "$control_adr_yt" ]; then 
 
-		
-		nr_linie_colectie=1
-else
 
 		$DIALOG --title "| youtube |" \
 			--backtitle "tvmaxe-cli" \
@@ -31,7 +26,6 @@ cat /tmp/tvmaxe-cli/yt|sed -e 's/^.*\(id=.*\).*$/\1/'|sed 's/ /%_/g'|sed 's/[="]
 colectie=`cat /tmp/tvmaxe-cli/yt1|sed 's/%_/_/g;s/\&lt;b&gt;//g;s/\#39//g;s/&amp//'|awk '{print $1,"off"}'|nl`
 nr_piese_lista=`cat /tmp/tvmaxe-cli/yt1|wc -l`
 
-fi
 
 youtube () {
 adr_yt=`cat /tmp/tvmaxe-cli/yt2|sed -n "${nr_linie_colectie}p"`

@@ -2,6 +2,7 @@
 source config
 git="https://raw.github.com/calvarr/tvmaxe-cli/master/"
 fisiere=$(echo \
+abandon \
 actualizare \
 adr_externa \
 capstream \

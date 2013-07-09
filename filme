@@ -14,7 +14,8 @@ fi;
 }
 abandon () {
 if [ "$selectie0" == "255" ]||[ "$selectie0" == "1" ]; then
-   ./tvmaxe-cli
+   #./tvmaxe-cli
+exit 0
   fi
 }
 despre_film () {
@@ -34,19 +35,24 @@ $DIALOG --backtitle "tvmaxe-cli" \
   selectie0=$?
 	abandon
   selectat=`cat $tempfile`
-
+		
   case "$selectat" in
-	01)	
-		echo "$nume1 $film1" > /tmp/tvmaxe-cli/adr
-		echo "$format_video tv" > /tmp/tvmaxe-cli/format
-		./filtrutv ;;
+	01)	 
+
+		$player $nume1 $film1
+		exit 0
+;;
 
 	02)	wget -O $salvare/$nume1$ext $film1 &>/dev/null &
 		sleep $delay ; 
 		wait $($player $salvare/$nume1$ext $postplay); 
-		killall wget ;;
+		killall wget 
+		exit 0
+;;
 
-	03)	axel -a -o $salvare/$nume1$ext $film1 ;;
+	03)	axel -a -o $salvare/$nume1$ext $film1 
+		exit 0
+;;
 
 	04)	
 			$DIALOG --backtitle "tvmaxe-cli" \
@@ -116,13 +122,17 @@ fi
 			selectie0=$?
 			abandon
 			film_cautat=`cat $tempfile`
-	$DIALOG --infobox "Caut pe www.990.ro" 5 15
+
+	$DIALOG --infobox "Caut pe www.990.ro" 5 30
 			wget -qO - "http://www.990.ro/cauta2.php?text=$film_cautat&submit=Cauta"|sed -n '/content_wrapper/,/post_title/ p'|grep titlu|sed 's/ /_/g;s/[<>"]/ /g'|awk '{print $5,$3,"Gasit_pe:_www.990.ro"}'>/tmp/tvmaxe-cli/filme_gasite
-	$DIALOG --infobox "Caut pe cinemaxx.rs" 5 15
+
+	$DIALOG --infobox "Caut pe cinemaxx.rs" 5 30
 			wget -qO - http://cinemaxx.rs/search.php?keywords=$film_cautat|grep 'title="Film '|sed 's/ /_/g;s/"/ /g;s/Film_-_//g'|awk '{print $8,$4,"Gasit_pe:_www.cinemaxx.rs"}'>>/tmp/tvmaxe-cli/filme_gasite
-	$DIALOG --infobox "Caut pe www.filmeonline.org" 5 15
+
+	$DIALOG --infobox "Caut pe www.filmeonline.org" 5 30
 			wget -qO - http://www.filmeonline.org/search/$film_cautat/|grep bookmark|sed 's/ /_/g;s/"/ /g'|awk '{print $8,$4,"Gasit_pe:_www.filmeonline.org"}'>>/tmp/tvmaxe-cli/filme_gasite
-	$DIALOG --infobox "Caut pe www.filmeonlinefree.net" 5 15
+
+	$DIALOG --infobox "Caut pe www.filmeonlinefree.net" 5 30
 			wget -qO - http://www.filmeonlinefree.net/?s=$film_cautat|sed -n '/content start/,/content end/ p'|grep del.icio|sed 's/ /_/g;s/["=&]/ /g'|awk '{print $5,$3,"Gasit_pe:_www.filmeonlinefree.net"}'>>/tmp/tvmaxe-cli/filme_gasite
 
 cat /tmp/tvmaxe-cli/filme_gasite|sed 's/ /||/g'|sort -d|sed 's/||/ /g' > /tmp/tvmaxe-cli/filme_gasite
@@ -133,7 +143,7 @@ if [[ -z `cat /tmp/tvmaxe-cli/filme_gasite` ]]; then
 $DIALOG	--title 'Eroare' \
 	--infobox '\n Nu am gasit filmul cautat' 5 35;sleep 2
 
-filmnou
+exit 0
 else
 
 
@@ -238,3 +248,5 @@ filtrufilm
 despre_film
 
 meniufilm
+
+exit 0

@@ -16,7 +16,9 @@ if [ "$selectie0" == "255" ]||[ "$selectie0" == "1" ]; then
 	"05" "Aspect mplayer" \
 	"06" "Cale salvare fisiere" \
 	"07" "Timp steptare pana la redare" \
-	"08" "GUI/NOGUI" 2>$tempfile
+	"08" "GUI/NOGUI" \
+	"09" "Subscrieri TV" \
+	"10" "Subscrieri Radio" 2>$tempfile
 	selectie0=$?
 abandon
   selectat=`cat $tempfile`
@@ -63,7 +65,7 @@ abandon
 			sed -i "${rand}i marime=$selectat2" $locatia/config ;;
 
 04)		$DIALOG --title "coordonate Mplayer" \
-			--inputbox ":::" 8 35  2>$tempfile
+			--inputbox ":::    x:y" 8 35  2>$tempfile
 			selectie0=$?
 			abandon
 			selectat1=`cat $tempfile`
@@ -72,7 +74,7 @@ abandon
 			sed -i "${rand}i coordonate=$selectat1" $locatia/config ;;
 
 05)		$DIALOG --title "Alegeti aspect fereastra mplayer" \
-			--inputbox ":::" 8 35  2>$tempfile
+			--inputbox ":::     ex.: 16:9" 8 35  2>$tempfile
 			selecrie0=$?
 			abandon
 			selectat1=`cat $tempfile`
@@ -89,7 +91,7 @@ abandon
 			sed -i "${rand}d" $locatia/config
 			sed -i "${rand}i dir_salvare=$selectat1"  $locatia/config ;;
 
-07)		$DIALOG --title "Timp asteptare pana la redare" \
+07)		$DIALOG --title "Timp (sec) asteptare pana la redare" \
 			--inputbox ":::" 8 35  2>$tempfile
 			selectie0=$?
 			abandon
@@ -98,7 +100,7 @@ abandon
 			sed -i "${rand}d" $locatia/config
 			sed -i "${rand}i delay=$selectat1"  $locatia/config ;;
 
-08) 		$DIALOG  --title "Ferestre deschise" --clear \
+08) 		$DIALOG  --title "GUI/noGUI" --clear \
                 	 --radiolist "Selectati fereastra dorita:" 30 35 30 \
 			"01" "GUI" ON \
 			"02" "NoGUi" off 2>$tempfile
@@ -111,5 +113,13 @@ abandon
 		sed -i "${rand}i interfata=gui " $locatia/config ;;
 				 02) sed -i "${rand}d" $locatia/config
 		sed -i "${rand}i interfata=nogui "  $locatia/config ;;
-				esac ;;
+		esac ;;
+
+09)		
+		liste_tv=`ls -a $HOME/.tvmaxe-cli/playlist|grep ".tvro"|sed 's/\./ /g'|awk '{print $1,"|",'"off"'}'`
+		$DIALOG --backtitle "tvmaxe-cli" \
+        		--checklist ":::" 30 50 30 \
+		$liste_tv  2> $tempfile;;
+
+				
 esac

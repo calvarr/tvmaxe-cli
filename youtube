@@ -61,20 +61,14 @@ $DIALOG --backtitle "tvmaxe-cli" \
  
   case "$selectat" in
 
-	01) for nr_linie_colectie in  $nr_linie ; do
+	01) ./abandon &
+		
+		for nr_linie_colectie in  $nr_linie ; do
 
 	 youtube
 	
-
-		$DIALOG --title "| youtube |" \
-			--backtitle "tvmaxe-cli" \
-			--yesno "$nume" 7 60
-		raspuns=$?
-		case $raspuns in
-   			0) youtube-dl $adr_yt -o -|$player - &>/dev/null ;;
-   			1) break ;;
-   			255) break ;;
-			esac
+ 	youtube-dl $adr_yt -o -|$player - &>/dev/null 
+   			
 
 
 		

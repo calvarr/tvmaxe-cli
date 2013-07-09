@@ -1,23 +1,47 @@
-#! /bin/bash
+#! /bin/bash -x
+source config
+
+######################################
+master=calvarr
+commit1=` wget -qO - https://github.com/$master/tvmaxe-cli/commits/master|grep sha|sed -n '1p'|sed 's/ /_/g;s/[><]/ /g'|awk '{print $3}'`
+if [ ! -f $HOME/.tvmaxe-cli/commit ];then 
+wget -qO - https://github.com/$master/tvmaxe-cli/commits/master|grep sha|sed -n '1p'|sed 's/ /_/g;s/[><]/ /g'|awk '{print $3}' > $HOME/.tvmaxe-cli/commit
+else
+commit2=`cat $HOME/.tvmaxe-cli/commit|sed -n '$p'`
+fi
+if [[ "$commit1" != "$commit2" ]]; then 
+wget -qO - https://github.com/$master/tvmaxe-cli/commits/master|grep sha|sed -n '1p'|sed 's/ /_/g;s/[><]/ /g'|awk '{print $3}' > $HOME/.tvmaxe-cli/commit
+wget -qO - https://github.com/$master/tvmaxe-cli/commits/master|grep '"message">'|sed 's/<[^>]*>/ /g'|sed '2,$d'>> $HOME/.tvmaxe-cli/mesaj_actualizare
+mesaj=`cat $HOME/.tvmaxe-cli/mesaj_actualizare|sed -n '$p'`
+$DIALOG --infobox "Actualizare noua... \n $mesaj" 30 50 ; sleep 5
+fi
+######################################
 $DIALOG --backtitle "tvmaxe-cli" \
         --checklist ":::" 30 50 30 \
-	"01" "Actualizare liste..." "off"\
-	"02" "Actualizare tvmaxe-cli" "off"\
-	"03" "Verifica actualizare" "off" 2> $tempfile
+	"01" "Actualizare liste tv" "off"\
+	"02" "Actualizare liste radio" "off"\
+	"03" "Actualizare tvmaxe-cli" "off" 2> $tempfile
       	selectie0=$?
 	if [ "$selectie0" == "255" ]||[ "$selectie0" == "1" ]; then
    		exit 0
  	fi
 selectat=`cat $tempfile`
+nr_optiuni=`cat $tempfile|wc -w`
+echo nr_optiuni $nr_optiuni
+for p in `seq 1 $nr_optiuni` ; do
+optiune=`echo $selectat|awk -v opt=$p '{print "0"opt}'`
 
-		case "$selectat" in
+		case "$optiune" in
 	01)	
 		./tvlist
+		;;
+	02)
 		./radiolist
+		;;
+	03)	./scriptUP
 		exit 0;;
-	02)	./scriptUP
-		exit 0;;
-	03)	echo "lucrez inca la asta"
+
 esac
+done
 	exit 0
 

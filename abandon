@@ -1,0 +1,10 @@
+#! /bin/bash -x
+$DIALOG --title "| youtube |" \
+			--backtitle "tvmaxe-cli" \
+			--yesno "$nume" 7 60
+		raspuns=$?
+		case $raspuns in
+			0)  echo continui redarea;;
+   			1) killall youtube ;;
+   			255) killall youtube ;;
+			esac
