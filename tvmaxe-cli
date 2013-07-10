@@ -41,15 +41,14 @@ until [ "$selectie0" == "1" ]; do
 	"01" "TV on-line" \
 	"02" "Radio on-line" \
 	"03" "Shoutcast" \
-	"04" "Podcast*" \
-	"05" "Filme" \
-	"06" "Youtube" \
-	"07" "Divertisment" \
-	"08" "Favorite" \
-	"09" "Captura web_tv" \
-	"10" "Configurare" \
-	"11" "Actualizare*" \
-	"12" "Parasiti" 2>$tempfile
+	"04" "Filme" \
+	"05" "Youtube" \
+	"06" "Divertisment" \
+	"07" "Favorite" \
+	"08" "Captura web_tv" \
+	"09" "Configurare" \
+	"10" "Actualizare" \
+	"11" "Parasiti" 2>$tempfile
   selectie0=$?
   selectat=`cat $tempfile`
   
@@ -57,15 +56,14 @@ until [ "$selectie0" == "1" ]; do
 	01) echo $format_video tv > /tmp/tvmaxe-cli/format    ; ./TV_online;;
 	02) echo $format_audio radio > /tmp/tvmaxe-cli/format ; ./radio_online;;
 	03) echo $format_audio radio > /tmp/tvmaxe-cli/format ; ./shoutcast;;
-	04) echo $format_audio radio > /tmp/tvmaxe-cli/format ; ./podcast;;
-	05) ./filme;;
-	06) echo "Youtube" > /tmp/tvmaxe-cli/adr ; ./youtube;;
-	07) ./divertisment;;
-	08) ./favorite;;
-	09) ./capstream;;
-	10) ./configurare;;
-	11) ./actualizare;;
-	12) killall ceas;exit 0;;
+	04) ./filme;;
+	05) echo "Youtube" > /tmp/tvmaxe-cli/adr ; ./youtube;;
+	06) ./divertisment;;
+	07) ./favorite;;
+	08) ./capstream;;
+	09) ./configurare;;
+	10) ./actualizare;;
+	11) killall ceas;exit 0;;
   esac
 
   if [ "$selectie0" == "255" ]||[ "$selectie0" == "1" ]; then

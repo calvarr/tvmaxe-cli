@@ -1,19 +1,17 @@
-#! /bin/bash
+#! /bin/bash -x
 source config
 
 ######################################
-master=calvarr
-commit1=` wget -qO - https://github.com/$master/tvmaxe-cli/commits/master|grep sha|sed -n '1p'|sed 's/ /_/g;s/[><]/ /g'|awk '{print $3}'`
-if [ ! -f $HOME/.tvmaxe-cli/commit ];then 
-wget -qO - https://github.com/$master/tvmaxe-cli/commits/master|grep sha|sed -n '1p'|sed 's/ /_/g;s/[><]/ /g'|awk '{print $3}' > $HOME/.tvmaxe-cli/commit
-else
-commit2=`cat $HOME/.tvmaxe-cli/commit|sed -n '$p'`
-fi
+commit1=`wget -qO - https://github.com/calvarr/tvmaxe-cli/commits/master|grep 'class="sha"'|sed -n '1p'|sed 's/ /_/g;s/[><]/ /g'|awk '{print $3}'`
+commit2=`cat $HOME/.tvmaxe-cli/.commit_tv`
+
 if [[ "$commit1" != "$commit2" ]]; then 
-wget -qO - https://github.com/$master/tvmaxe-cli/commits/master|grep sha|sed -n '1p'|sed 's/ /_/g;s/[><]/ /g'|awk '{print $3}' > $HOME/.tvmaxe-cli/commit
-wget -qO - https://github.com/$master/tvmaxe-cli/commits/master|grep '"message">'|sed 's/<[^>]*>/ /g'|sed '2,$d'>> $HOME/.tvmaxe-cli/mesaj_actualizare
+ wget -qO - https://github.com/calvarr/tvmaxe-cli/commits/master|grep 'class="sha"'|sed -n '1p'|sed 's/ /_/g;s/[><]/ /g'|awk '{print $3}' > $HOME/.tvmaxe-cli/.commit_tv
+wget -qO - https://github.com/calvarr/tvmaxe-cli/commits/master|sed -n  "/commit-title/,/commit-meta/ p"|sed -n '2p'|sed 's/<[^>]*>/ /g' >> $HOME/.tvmaxe-cli/mesaj_actualizare
 mesaj=`cat $HOME/.tvmaxe-cli/mesaj_actualizare|sed -n '$p'`
-$DIALOG --infobox "Actualizare noua... \n $mesaj" 30 50 ; sleep 5
+
+$DIALOG --title "tvmaxe-cli" \
+	--infobox "Actualizare noua... \ncommit: $commit1 \n$mesaj" 30 50
 fi
 ######################################
 $DIALOG --backtitle "tvmaxe-cli" \

@@ -39,39 +39,33 @@ until [ "$selectie0" == "1" ]; do
 	  --title "| Meniu |" --clear \
           --menu ":::" 25 30 25 \
 	"01" "TV on-line" \
-	"02" "Radio Ro" \
-	"03" "Radio Md." \
-	"04" "Radio clasic" \
-	"05" "Radio mix" \
-	"06" "Shoutcast" \
-	"07" "Podcast*" \
-	"08" "Filme" \
-	"09" "Youtube" \
-	"10" "Divertisment" \
-	"11" "Favorite" \
-	"12" "Captura web_tv" \
-	"13" "Configurare" \
-	"14" "Actualizare*" \
-	"15" "Parasiti" 2>$tempfile
+	"02" "Radio on-line" \
+	"03" "Shoutcast" \
+	"04" "Podcast*" \
+	"05" "Filme" \
+	"06" "Youtube" \
+	"07" "Divertisment" \
+	"08" "Favorite" \
+	"09" "Captura web_tv" \
+	"10" "Configurare" \
+	"11" "Actualizare*" \
+	"12" "Parasiti" 2>$tempfile
   selectie0=$?
   selectat=`cat $tempfile`
   
   case "$selectat" in
 	01) echo $format_video tv > /tmp/tvmaxe-cli/format    ; ./TV_online;;
-	02) echo $format_audio radio > /tmp/tvmaxe-cli/format ; ./radioro;;
-	03) echo $format_audio radio > /tmp/tvmaxe-cli/format ; ./radiomd;;
-	04) echo $format_audio radio > /tmp/tvmaxe-cli/format ; ./radioclasic;;
-	05) echo $format_audio radio > /tmp/tvmaxe-cli/format ; ./radiomix;;
-	06) echo $format_audio radio > /tmp/tvmaxe-cli/format ; ./shoutcast;;
-	07) echo $format_audio radio > /tmp/tvmaxe-cli/format ; ./podcast;;
-	08) ./filme;;
-	09) echo "Youtube" > /tmp/tvmaxe-cli/adr ; ./youtube;;
-	10) ./divertisment;;
-	11) ./favorite;;
-	12) ./capstream;;
-	13) ./configurare;;
-	14) ./actualizare;;
-	15) killall ceas;exit 0;;
+	02) echo $format_audio radio > /tmp/tvmaxe-cli/format ; ./radio_online;;
+	03) echo $format_audio radio > /tmp/tvmaxe-cli/format ; ./shoutcast;;
+	04) echo $format_audio radio > /tmp/tvmaxe-cli/format ; ./podcast;;
+	05) ./filme;;
+	06) echo "Youtube" > /tmp/tvmaxe-cli/adr ; ./youtube;;
+	07) ./divertisment;;
+	08) ./favorite;;
+	09) ./capstream;;
+	10) ./configurare;;
+	11) ./actualizare;;
+	12) killall ceas;exit 0;;
   esac
 
   if [ "$selectie0" == "255" ]||[ "$selectie0" == "1" ]; then
