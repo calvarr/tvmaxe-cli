@@ -215,4 +215,3 @@ viasat_nature sop://broker.sopcast.com:3912/ 60586
 kanal_d sop://broker.sopcast.com:3912/140600
 kanal_d_2 sop://broker.sopcast.com:3912/122833
 kanal_d_3 http://86.105.253.79:9231/kanald.asf
-

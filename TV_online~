@@ -13,7 +13,7 @@ nume_lista_tv=`cat $tempfile`
 listatvro=`cat $HOME/.tvmaxe-cli/playlist/.$nume_lista_tv.tvro|awk '{print $1,"|"}'`
 
 $DIALOG --backtitle "tvmaxe-cli" \
-	  --title "| Lista TV |" --clear \
+	  --title "RomaniaTV" --clear \
           --menu ":::" 30 35 30 $listatvro 2> $tempfile
       	selectie0=$?
 	if [ "$selectie0" == "255" ]||[ "$selectie0" == "1" ]; then
