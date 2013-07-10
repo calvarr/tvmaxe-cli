@@ -1,3 +1,4 @@
+1_Muzic_channal "rtmp://212-98.livestream.com/mogulus-stream-edge/1_music_channel"|-a|"mogulus-stream-edge/1_music_channel"|-f|"LNX|11,2,202,243"|-W|"http://cdn.livestream.com/chromelessPlayer/v21/playerapi.swf?autoPlay=true&jsEnabled=false&height=295&color=0x006ccd&width=480&allowchat=true&iconColor=0xb5dcff&time=&mute=false&iconColorOver=0xe4f2ff"|-p|"http://cdn.livestream.com"|-y|"rtmp://212-48.livestream.com/affiliateStream/1_music_channel/6c69766572657065617465723a72746d703a2f2f3231322d34382e6c69766573747265616d2e636f6d2f6d6f67756c75732f315f6d757369635f6368616e6e656c2f6d757369636368616e6e656c3030303032303133303532372d3032303835365f343936"
 2_plus-2 rtsp://83.218.202.202:1935/live/wt_2plus.stream
 2_plus http://83.218.202.202:1935/live/wt_2plus.stream/playlist.m3u8
 Alt_Tv http://83.218.202.202:1935/live/wt_alt_tv.stream/playlist.m3u8
