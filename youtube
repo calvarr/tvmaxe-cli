@@ -1,4 +1,4 @@
-#! /bin/bash -x
+#! /bin/bash
 source config
 abandon () {
 if [ "$selectie0" == "255" ]||[ "$selectie0" == "1" ]; then
@@ -67,7 +67,7 @@ $DIALOG --backtitle "tvmaxe-cli" \
 
 	 youtube
 	
- 	youtube-dl $adr_yt -o -|$player - &>/dev/null 
+ 	youtube-dl $adr_yt -o - 2>/dev/null |$player - &>/dev/null 
    			
 
 
@@ -106,52 +106,46 @@ $DIALOG --backtitle "tvmaxe-cli" \
 	done
 ;;
 	04)
-		
+		./abandon &
 		for nr_linie_colectie in `seq 1 $nr_piese_lista` ; do
 		echo nr linie $nr_linie_colectie
 		echo nr piese  $nr_piese_lista #debug
-		sleep 1
+		
 		youtube
-		$DIALOG  --title "| Youtube |" \
-			--backtitle "tvmaxe-cli" \
-			--yesno "Doriti sa continuati redarea?" 7 60
-		raspuns=$?
-		case $raspuns in
-   			0) youtube-dl --max-quality FORMAT $adr_yt -o -|$player "-" &>/dev/null ;;
-   			1) break ;;
-   			255) break ;;
-			esac
-
+		
+   			youtube-dl --max-quality FORMAT $adr_yt -o - 2>/dev/null|$player "-" &>/dev/null
+   			
 		done
 ;;
 	05)
 		
 		for nr_linie_colectie in `seq 1 $nr_piese_lista` ; do
 		youtube
-		youtube-dl $adr_yt -o $salvare/$nume.flv
+		youtube-dl $adr_yt -o $salvare/$nume.flv 2>/dev/null
 		done
 ;;
 	06)
+	./abandon &
 	for nr_linie_colectie in  $nr_linie ; do
 
 	youtube
 		
-	youtube-dl $adr_yt -o -|$player -novideo -
+	youtube-dl $adr_yt -o - 2>/dev/null|$player -novideo - &>/dev/null
+done
+;;
 #$($procesare -y -i "$gp3_yt" -acodec copy -vcodec copy -r 20 -f 3gp - 2>/dev/null|$player - &>/dev/null);stty sane
 #$($procesare -y -i "$adr" -acodec libmp3lame -ar 44100 -vcodec copy -f flv - 2>/dev/null|$player - &>/dev/null);stty sane
 	
-	done
 #ffmpeg -f lavfi -i testsrc -filter_complex "split=4[a][b][c][d];[a]pad=iw*4:ih[w];[b]lutyuv=u=128:v=128[x];[c]lutyuv=y=0:v=128[y];[d]lutyuv=y=0:u=128[z];[w][x]overlay=w:0[wx];[wx][y]overlay=w*2:0[wxy];[wxy][z]overlay=w*3:0" -f nut - | ffplay -
 
 #ffplay -f lavfi "amovie=$adr,asplit=3[out1][a][b]; [a]showwaves=s=640x240,pad=iw:ih*2[waves]; [b]showspectrum=s=640x240[spectrum]; [waves][spectrum] overlay=0:h [out0]"
 
-;;
-	07)
+	07)./abandon &
 	for nr_linie_colectie in `seq 1 $nr_piese_lista` ; do
 
 		youtube
 		
-		youtube-dl $adr_yt -o -|$player -novideo -
+		youtube-dl $adr_yt -o - 2>/dev/null|$player -novideo - &>/dev/null
 
 	done
 ;;
@@ -161,7 +155,7 @@ $DIALOG --backtitle "tvmaxe-cli" \
 
 	youtube
 		
-	youtube-dl $adr_yt -o -|$procesare -i "-" -vn -acodec pcm_s16le -ar 16000 -ac 1 -f wav $salvare/$nume.wav
+	youtube-dl $adr_yt -o - 2>/dev/null|$procesare -i "-" -vn -acodec pcm_s16le -ar 16000 -ac 1 -f wav $salvare/$nume.wav
 	#youtube-dl  --extract-audio  --audio-format wav  --audio-quality 0 $adr_yt -o $salvare/$nume.wav
 	done
 ;;
@@ -170,7 +164,7 @@ $DIALOG --backtitle "tvmaxe-cli" \
 
 	youtube
 		
-	youtube-dl $adr_yt -o -|$procesare -i "-" -acodec libmp3lame -ac 2 -ab 128 -vn -y $salvare/$nume.mp3
+	youtube-dl $adr_yt -o - 2>/dev/null|$procesare -i "-" -acodec libmp3lame -ac 2 -ab 128 -vn -y $salvare/$nume.mp3
 
 	done
 ;;

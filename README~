@@ -1,8 +1,0 @@
-Dependinte:
-----------
-dialog
-sed, awk, grep
-wget, axel
-sopcast,ffmpeg,rtmpdump,youtube-dl
-mplayer
-

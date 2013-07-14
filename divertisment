@@ -1,6 +1,6 @@
-#! /bin/bash 
+#! /bin/bash
 source config
-
+nume_tv=`cat /tmp/tvmaxe-cli/adr`
 	divertisment(){
 		piesepl=`cat /tmp/tvmaxe-cli/divertisment|wc -l`
 		nume=`cat /tmp/tvmaxe-cli/divertisment|awk '{print $1}'|sed -n "${nr_linie_colectie}p"`
@@ -17,12 +17,18 @@ source config
 		ext=.mp4
 		}
 listare_divertisment (){
+
 		wget -qO - http://st.220.t1.ro/rss/top|sed 's/<title>/\n/g;s/ /_/g;s/[<"?]/ /g'|grep href|awk '{print $1,$4,"www.220.ro"}'>/tmp/tvmaxe-cli/divertisment
+
+
 		wget -qO - "http://www.trilulilu.ro/video-haioase?cele-mai-tari&azi"|grep '<span class="title"><a href='|sed 's/ /_/g;s/["><]/ /g'|awk '{print $5,$4,"www.trilulilu.ro"}'>>/tmp/tvmaxe-cli/divertisment
+		
 		wget -qO - http://izismile.com/videos/|grep "config: {"|sed 's/ /_/g;s/"/ /g'|awk '{print $2}'|sed 's/\.flv/ /;s/\// /g'|awk '{print $7,$1"//"$2"/"$3"/"$4"/"$5"/"$6"/"$7".flv","izismile.com"}'>>/tmp/tvmaxe-cli/divertisment
+
 colectie=`cat /tmp/tvmaxe-cli/divertisment|awk '{print $1,"off"}'|nl`
 }
 ############################################
+$DIALOG --infobox "\nCaut divertisment" 5 30
 listare_divertisment
 	$DIALOG --backtitle "tvmaxe-cli" \
           	--checklist ":::" 80 50 80 $colectie 2> $tempfile
@@ -48,22 +54,13 @@ selectie0=$?
   divertisment
   case "$selectat" in
 
-	01) for nr_linie_colectie in  $nr_linie ; do
+	01) 
+		./abandon &
+		for nr_linie_colectie in  $nr_linie ; do
 
 	divertisment
 
-		$DIALOG --title "| Divertisment |" \
-			--backtitle "tvmaxe-cli" \
-			--yesno "$nume1" 7 60
-		raspuns=$?
-		case $raspuns in
-   			0) $player "$funny" $postplay &>/dev/null ;;
-   			1) break ;;
-   			255) break ;;
-			esac
-
-
-		
+   			$player "$funny" $postplay &>/dev/null
 
 		done
 ;;
@@ -99,18 +96,11 @@ awk '/[.] +[0-9][0-9]?[0-9]?%/ { print substr($0,63,3) }' | $DIALOG --gauge "Des
 	done
 ;;
 	04)
-		
+		./abandon &
 		for nr_linie_colectie in `seq 1 $piesepl` ; do
 		divertisment
-		$DIALOG  --title "| Divertisment |" \
-			--backtitle "tvmaxe-cli" \
-			--yesno "Doriti sa continuati redarea?" 7 60
-		raspuns=$?
-		case $raspuns in
-   			0) $player "$funny" $postplay &>/dev/null ;;
-   			1) break ;;
-   			255) break ;;
-			esac
+		
+   			$player "$funny" $postplay &>/dev/null
 
 		done
 ;;

@@ -1,8 +1,29 @@
 Dependinte:
 ----------
-dialog
-sed, awk, grep
-wget, axel
-sopcast,ffmpeg sau avconv,rtmpdump,youtube-dl
+dialog,
+sed, awk, grep,
+wget, axel,
+sopcast,ffmpeg sau avconv,rtmpdump,youtube-dl,
 mplayer
+
+Instalare:
+----------
+git clone https://github.com/calvarr/tvmaxe-cli .tvmaxe-cli
+
+cd ~/.tvmaxe-cli
+
+./tvmaxe-cli
+----------
+web:
+----------
+http://calvarr.github.io/tvmaxe-cli/
+
+forum:
+----------
+http://linuxfans.ro/scripturi/tvmaxe-cli
+
+Folosire:
+----------
+Pe linga meniul scriptului puteti verifica adrese:
+./tvmaxe-cli [url://]
 

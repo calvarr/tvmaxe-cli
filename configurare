@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 source config
 abandon () {
 if [ "$selectie0" == "255" ]||[ "$selectie0" == "1" ]; then

@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 cd $HOME/'.'tvmaxe-cli
 source config
 ./ceas &
@@ -19,14 +19,14 @@ fi
 nogui () {
 DIALOG=dialog
 }
+mkdir -p /tmp/tvmaxe-cli
+touch /tmp/tvmaxe-cli/adr
 $interfata
 export DIALOG
 tempfile=`tempfile 2>/dev/null` || tempfile=/tmp/tvmaxe-cli/capclitmp$$
 export tempfile
 trap "rm -f $tempfile" 0 1 2 5 15
 trap "rm -rf /tmp/tvmaxe-cli" 0 1 2 5 15
-mkdir -p /tmp/tvmaxe-cli
-
 if [[ "$1" != "" ]]; then
 echo "tvmaxe-cli $1" > /tmp/tvmaxe-cli/adr
 echo $format_video tv > /tmp/tvmaxe-cli/format
@@ -58,16 +58,20 @@ until [ "$selectie0" == "1" ]; do
 	03) echo $format_audio radio > /tmp/tvmaxe-cli/format ; ./shoutcast;;
 	04) ./filme;;
 	05) echo "Youtube" > /tmp/tvmaxe-cli/adr ; ./youtube;;
-	06) ./divertisment;;
+	06) echo "Divertisment" > /tmp/tvmaxe-cli/adr ; ./divertisment;;
 	07) ./favorite;;
 	08) ./capstream;;
 	09) ./configurare;;
 	10) ./actualizare;;
-	11) killall ceas;exit 0;;
+	11) killall ceas
+		stty sane
+		exit 0
+			;;
   esac
 
   if [ "$selectie0" == "255" ]||[ "$selectie0" == "1" ]; then
    killall ceas
+	stty sane
    exit 0
   fi
 done

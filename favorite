@@ -1,4 +1,4 @@
-#! /bin/bash -x
+#! /bin/bash
 favorite=`ls $HOME/.tvmaxe-cli/playlist/*.tv|sed 's/[\/\.]/ /g'|awk '{print $5,"|"}'`
 $DIALOG --backtitle "tvmaxe-cli" \
 	  --title "| Favorite |" --clear \
