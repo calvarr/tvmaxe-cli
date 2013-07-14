@@ -36,7 +36,7 @@ $DIALOG --backtitle "tvmaxe-cli" \
   selectie0=$?
 	abandon
   selectat=`cat $tempfile`
-		
+
   case "$selectat" in
 	01)	 
 
@@ -46,7 +46,7 @@ $DIALOG --backtitle "tvmaxe-cli" \
 
 	02)	wget -O $salvare/$nume1$ext $film1 &>/dev/null &
 		sleep $delay ; 
-		wait $($player $salvare/$nume1$ext $postplay); 
+		$player $nume1 $salvare/$nume1$ext $postplay
 		killall wget 
 		exit 0
 ;;
