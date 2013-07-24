@@ -1,6 +1,7 @@
 #!/bin/bash
 source config
 ########################################
+player1=`echo $player|awk '{print $1}'`
 data=`date +%F_%R`
 liste=`ls $HOME/.tvmaxe-cli/playlist|sed 's/\./ /'|grep " tv"|awk '{print $1}'`
 post=/tmp/tvmaxe-cli/adr
@@ -182,7 +183,11 @@ killall $procesare
 			$player -playlist $adr
 		else
 			#exec 2> /dev/null
-			$player $adr #|tee /tmp/tvmaxe-cli/datehttp &
+			$player "$adr" &> /dev/null & #|tee /tmp/tvmaxe-cli/datehttp &
+			$DIALOG --backtitle "tvmaxe-cli" \
+					--title "| $numetv |" \
+					--msgbox "\nDoriti sa intrerupeti redarea?" 10 50
+			killall $player1
 			#datehttp=`cat /tmp/tvmaxe-cli/datehttp`
 			#$DIALOG --infobox "$datehttp" 30 35
 	fi

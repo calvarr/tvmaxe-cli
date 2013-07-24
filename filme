@@ -104,7 +104,7 @@ fi
 
 		$DIALOG --backtitle "tvmaxe-cli" \
 		  --title "Noi aparitii" --clear \
-         	 --menu ":::" 30 35 30 $filmenoi  2> $tempfile
+         	 --menu ":::" 30 50 30 $filmenoi  2> $tempfile
       		selectie0=$?
 		abandon
 		nume_film_nou=`cat $tempfile`
@@ -154,7 +154,7 @@ else
 
 		$DIALOG --backtitle "tvmaxe-cli" \
 		  	--title "Rezultatul cautarii:" --clear \
-         	 	--menu  ":::" 30 35 50 $film_gasit 2> $tempfile
+         	 	--menu  ":::" 30 70 50 $film_gasit 2> $tempfile
       		selectie0=$?
 		abandon
 		nume_film_gasit=`cat $tempfile`
@@ -230,7 +230,7 @@ sleep 3
 		filme_gen=`cat /tmp/tvmaxe-cli/filme_gen|awk '{print $1}'|nl`
 		$DIALOG --backtitle "tvmaxe-cli" \
 		  	--title "$nume_gen" --clear \
-         	 	--menu ":::" 30 35 30 $filme_gen 2> $tempfile
+         	 	--menu ":::" 30 70 30 $filme_gen 2> $tempfile
       		selectie0=$?
 		abandon
 		nr_film_gen1=`cat $tempfile`

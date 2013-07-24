@@ -10,5 +10,65 @@ server=`cat /tmp/trilu|grep server|sed 's/"/ /g'|awk '{print $NF}'`
 hash=`cat /tmp/trilu|grep hash|sed 's/"/ /g'|awk '{print $NF}'`
 username=`cat /tmp/trilu|grep userid|sed 's/"/ /g'|awk '{print $NF}'`
 key=`cat /tmp/trilu|grep key|sed 's/"/ /g'|awk '{print $NF}'`
+lungime_user=`echo $username|wc -m`
+#echo "http://fs$server.trilulilu.ro/stream.php?type=audio&source=site&hash=$hash&username=$username&key=$key&exp=$exp"
+http://ubuntuforums.org/showthread.php?t=735140
+chr() {
+  printf \\$(printf '%03o' $1)
+}
+data () {
+chr 0x00 
+chr 0x03 
+chr 0x00
+chr 0x00 
+chr 0x00
+chr 0x01
+chr 0x00
+chr 0x0f
+chr 0x66
+chr 0x69
+chr 0x6c
+chr 0x65
+chr 0x2e
+chr 0x61
+chr 0x75
+chr 0x64
+chr 0x69
+chr 0x6f
+chr 0x5f
+chr 0x69
+chr 0x6e 
+chr 0x66
+chr 0x6f
+chr 0x00
+chr 0x02
+chr 0x2f
+chr 0x31
+chr 0x00
+chr 0x00
+chr 0x00
+chr 0x25
+chr 0x0a
+chr 0x00
+chr 0x00
+chr 0x00
+chr 0x03
+chr 0x02
+chr 0x00
+chr $lungime_user
+chr $username 
+chr 0x02 
+chr 0x00
+chr 0x0e
+chr $hash
+chr 0x02
+chr 0x00
+chr 0x04
+chr 0x70
+chr 0x6c
+chr 0x61
+chr 0x79
+}
+data > /tmp/dataamf12
+wget --post-data  /tmp/dataamf12 http://www.trilulilu.ro/amf
 
-echo "http://fs$server.trilulilu.ro/stream.php?type=audio&source=site&hash=$hash&username=$username&key=$key&exp=$exp"

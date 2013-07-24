@@ -22,6 +22,7 @@ README \
 romaniatv \
 scriptUP \
 shoutcast \
+teatrul_radiofonic \
 timer_inregistrare \
 tv \
 tvlist \
@@ -29,8 +30,6 @@ tvmaxe-cli \
 youtube \
 youtube_tv)
 nr_fisiere=`echo $fisiere|wc -w`
-echo $fisiere|awk '{print $3}' #debug
-echo nr fisiere $nr_fisiere #debug
 i=1;c=1
 for i in $(seq 1 $nr_fisiere )
 do

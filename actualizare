@@ -10,6 +10,8 @@ if [[ "$commit1" != "$commit2" ]]; then
 wget -qO - https://github.com/calvarr/tvmaxe-cli/commits/master|sed -n  "/commit-title/,/commit-meta/ p"|sed -n '2p'|sed 's/<[^>]*>/ /g' >> $HOME/.tvmaxe-cli/mesaj_actualizare
 mesaj=`cat $HOME/.tvmaxe-cli/mesaj_actualizare|sed -n '$p'`
 
+wget -qO - https://raw.github.com/calvarr/tvmaxe-cli/master/scriptUP > scriptUP
+
 $DIALOG --title "tvmaxe-cli" \
 	--infobox "Actualizare noua... \ncommit: $commit1 \n$mesaj" 30 50
 sleep 5

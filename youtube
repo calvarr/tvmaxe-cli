@@ -108,8 +108,6 @@ $DIALOG --backtitle "tvmaxe-cli" \
 	04)
 		./abandon &
 		for nr_linie_colectie in `seq 1 $nr_piese_lista` ; do
-		echo nr linie $nr_linie_colectie
-		echo nr piese  $nr_piese_lista #debug
 		
 		youtube
 		
