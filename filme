@@ -4,7 +4,7 @@ source config
 filtrufilm (){
 filtru=`echo $upload|sed 's/\// /g'|awk '{print $2}'`
 if [[ "$filtru" != "fastupload.ro" ]];then
-film1=$(echo `cat /tmp/tvmaxe-cli/surse`|awk -v rez=$rez '{print $1"u"$2"/videos/"$3"."rez".mp4"}')
+film1=$(echo `cat $HOME/.tvmaxe-cli/.tmp/surse`|awk -v rez=$rez '{print $1"u"$2"/videos/"$3"."rez".mp4"}')
 ext=.flv
 else
 film1=`wget -qO - $upload|grep flv|sed "s/ /_/;s/'/ /g"|awk '{print $4}'`
@@ -94,13 +94,13 @@ abandon
   selectat=`cat $tempfile`
 case "$selectat" in
 	01) 
-if [ ! -f /tmp/tvmaxe-cli/noi ];then
+if [ ! -f $HOME/.tvmaxe-cli/.tmp/noi ];then
 filme_noi=`wget -qO - http://www.990.ro/|grep test/|sed "s/ /_/;s/'/ /g"|awk '{print "http://www.990.ro/"$2}'|sed -n '1p'`
-		wget -qO - $filme_noi|grep title|sed 's/ /_/g;s/"../ /g;s/[<>]/ /g'|awk '{print $6 " "$2}'>/tmp/tvmaxe-cli/noi
+		wget -qO - $filme_noi|grep title|sed 's/ /_/g;s/"../ /g;s/[<>]/ /g'|awk '{print $6 " "$2}'>$HOME/.tvmaxe-cli/.tmp/noi
 seriale_noi=`wget -qO - http://www.990.ro/|grep test/|sed "s/ /_/;s/'/ /g"|awk '{print "http://www.990.ro/"$2}'|sed -n '2p'`
-		wget -qO - $seriale_noi|grep title|sed 's/ /_/g;s/"../ /g;s/[<>]/ /g'|awk '{print $6 " "$2}'>>/tmp/tvmaxe-cli/noi
+		wget -qO - $seriale_noi|grep title|sed 's/ /_/g;s/"../ /g;s/[<>]/ /g'|awk '{print $6 " "$2}'>>$HOME/.tvmaxe-cli/.tmp/noi
 fi
-		filmenoi=`cat /tmp/tvmaxe-cli/noi|awk '{print $1,"|"}'`
+		filmenoi=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print $1,"|"}'`
 
 		$DIALOG --backtitle "tvmaxe-cli" \
 		  --title "Noi aparitii" --clear \
@@ -108,10 +108,10 @@ fi
       		selectie0=$?
 		abandon
 		nume_film_nou=`cat $tempfile`
-		nr_film_nou=`cat /tmp/tvmaxe-cli/noi|sed -n "/$nume_film_nou/="`
-		adresa=`cat /tmp/tvmaxe-cli/noi|awk '{print $2}'|sed -n "${nr_film_nou}p"`
+		nr_film_nou=`cat $HOME/.tvmaxe-cli/.tmp/noi|sed -n "/$nume_film_nou/="`
+		adresa=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print $2}'|sed -n "${nr_film_nou}p"`
 		server1=`wget -qO - http://www.990.ro$adresa|grep Fastupload|sed "s/ /_/g;s/'/ /g"|awk '{print $2}'`
-		nume=`cat /tmp/tvmaxe-cli/noi|awk '{print $1}'|sed 's/_/ /g'|sed -n "${nr_film_nou}p"`
+		nume=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print $1}'|sed 's/_/ /g'|sed -n "${nr_film_nou}p"`
 		nume1=`echo $nume|sed 's/ /_/g'`
 		descriere=`wget -qO - http://www.990.ro/$adresa|sed -n "/colspan='2'/,/\/blockquote/ p"|sed 's/<[^>]*>/ /g'`
 		upload=`wget -qO - $server1|grep fastupload|sed "s/ /_/g;s/'/ /g"|awk '{print $2}'`
@@ -126,24 +126,24 @@ fi
 
 	$DIALOG --title "Caut pe:" --clear \
 		--infobox "www.990.ro" 5 35
-			wget -qO - "http://www.990.ro/cauta2.php?text=$film_cautat&submit=Cauta"|sed -n '/content_wrapper/,/post_title/ p'|grep titlu|sed 's/ /_/g;s/[<>"]/ /g'|awk '{print $5,$3,"Gasit_pe:_www.990.ro"}'>/tmp/tvmaxe-cli/filme_gasite1
+			wget -qO - "http://www.990.ro/cauta2.php?text=$film_cautat&submit=Cauta"|sed -n '/content_wrapper/,/post_title/ p'|grep titlu|sed 's/ /_/g;s/[<>"]/ /g'|awk '{print $5,$3,"Gasit_pe:_www.990.ro"}'>$HOME/.tvmaxe-cli/.tmp/filme_gasite1
 
 	$DIALOG --title "Caut pe:" --clear \
 		--infobox "www.cinemaxx.rs" 5 35
-			wget -qO - http://cinemaxx.rs/search.php?keywords=$film_cautat|grep 'title="Film '|sed 's/ /_/g;s/"/ /g;s/Film_-_//g'|awk '{print $8,$4,"Gasit_pe:_www.cinemaxx.rs"}'>>/tmp/tvmaxe-cli/filme_gasite1
+			wget -qO - http://cinemaxx.rs/search.php?keywords=$film_cautat|grep 'title="Film '|sed 's/ /_/g;s/"/ /g;s/Film_-_//g'|awk '{print $8,$4,"Gasit_pe:_www.cinemaxx.rs"}'>>$HOME/.tvmaxe-cli/.tmp/filme_gasite1
 
 	$DIALOG --title "Caut pe:" --clear \
 		--infobox "www.filmeonline.org" 5 35
-			wget -qO - http://www.filmeonline.org/search/$film_cautat/|grep bookmark|sed 's/ /_/g;s/"/ /g'|awk '{print $8,$4,"Gasit_pe:_www.filmeonline.org"}'>>/tmp/tvmaxe-cli/filme_gasite1
+			wget -qO - http://www.filmeonline.org/search/$film_cautat/|grep bookmark|sed 's/ /_/g;s/"/ /g'|awk '{print $8,$4,"Gasit_pe:_www.filmeonline.org"}'>>$HOME/.tvmaxe-cli/.tmp/filme_gasite1
 
 	$DIALOG --infobox "Caut pe www.filmeonlinefree.net" 5 35
-			wget -qO - http://www.filmeonlinefree.net/?s=$film_cautat|sed -n '/content start/,/content end/ p'|grep del.icio|sed 's/ /_/g;s/["=&]/ /g'|awk '{print $5,$3,"Gasit_pe:_www.filmeonlinefree.net"}'>>/tmp/tvmaxe-cli/filme_gasite1
+			wget -qO - http://www.filmeonlinefree.net/?s=$film_cautat|sed -n '/content start/,/content end/ p'|grep del.icio|sed 's/ /_/g;s/["=&]/ /g'|awk '{print $5,$3,"Gasit_pe:_www.filmeonlinefree.net"}'>>$HOME/.tvmaxe-cli/.tmp/filme_gasite1
 
-cat /tmp/tvmaxe-cli/filme_gasite1|sed 's/ /||/g'|sort -d|sed 's/||/ /g' > /tmp/tvmaxe-cli/filme_gasite
+cat $HOME/.tvmaxe-cli/.tmp/filme_gasite1|sed 's/ /||/g'|sort -d|sed 's/||/ /g' > $HOME/.tvmaxe-cli/.tmp/filme_gasite
 
-film_gasit=`cat /tmp/tvmaxe-cli/filme_gasite|awk '{print $1,"|"}'`
+film_gasit=`cat $HOME/.tvmaxe-cli/.tmp/filme_gasite|awk '{print $1,"|"}'`
 
-if [[ -z `cat /tmp/tvmaxe-cli/filme_gasite` ]]; then
+if [[ -z `cat $HOME/.tvmaxe-cli/.tmp/filme_gasite` ]]; then
 $DIALOG	--title 'Eroare' \
 	--infobox '\n Nu am gasit filmul cautat' 5 35;sleep 2
 
@@ -160,9 +160,9 @@ else
 		nume_film_gasit=`cat $tempfile`
 		nume1=`echo $nume_film_gasit`
 		nume_serial=`echo $nume_film_gasit`
-		nr_film_gasit=`cat /tmp/tvmaxe-cli/filme_gasite|sed -n "/$nume_film_gasit/="`
-		adresa=`cat /tmp/tvmaxe-cli/filme_gasite|awk '{print $2}'|sed -n "${nr_film_gasit}p"`
-		gasit_pe=`cat /tmp/tvmaxe-cli/filme_gasite|awk '{print $3}'|sed -n "${nr_film_gasit}p"`
+		nr_film_gasit=`cat $HOME/.tvmaxe-cli/.tmp/filme_gasite|sed -n "/$nume_film_gasit/="`
+		adresa=`cat $HOME/.tvmaxe-cli/.tmp/filme_gasite|awk '{print $2}'|sed -n "${nr_film_gasit}p"`
+		gasit_pe=`cat $HOME/.tvmaxe-cli/.tmp/filme_gasite|awk '{print $3}'|sed -n "${nr_film_gasit}p"`
 
 fi
 #filtru film/serial 990
@@ -177,8 +177,8 @@ fi
 		upload=`wget -qO - $server1|grep fastupload|sed "s/ /_/g;s/'/ /g"|awk '{print $2}'`
 
 		elif [[ "$selectie" = "seriale" ]]; then
-		wget -qO - http://www.990.ro/$adresa|sed -n '/show_faces/,/sidebar_wrapper/ p'|grep href|sed "s/px;/\n/g;s/ /_/g;s/[><']/ /g"|grep href|sed '$d'|awk '{print $1,$7,$6}' >/tmp/tvmaxe-cli/seriale
-		epizoade=`cat /tmp/tvmaxe-cli/seriale|sed '1d'|awk '{print $1"--"$2,"|"}'`
+		wget -qO - http://www.990.ro/$adresa|sed -n '/show_faces/,/sidebar_wrapper/ p'|grep href|sed "s/px;/\n/g;s/ /_/g;s/[><']/ /g"|grep href|sed '$d'|awk '{print $1,$7,$6}' >$HOME/.tvmaxe-cli/.tmp/seriale
+		epizoade=`cat $HOME/.tvmaxe-cli/.tmp/seriale|sed '1d'|awk '{print $1"--"$2,"|"}'`
 
 		$DIALOG --backtitle "tvmaxe-cli" \
 		  	--title "$nume_serial" --clear \
@@ -187,9 +187,9 @@ fi
 		abandon
 		nume_epizod=`cat $tempfile|sed 's/--/ /g'`
 		nume1=`cat $tempfile`
-		nr_epizod=`cat /tmp/tvmaxe-cli/seriale|sed -n "/$nume_epizod/="`
+		nr_epizod=`cat $HOME/.tvmaxe-cli/.tmp/seriale|sed -n "/$nume_epizod/="`
 
-		epizod=`cat /tmp/tvmaxe-cli/seriale|awk '{print $3}'|sed -n "${nr_epizod}p"`
+		epizod=`cat $HOME/.tvmaxe-cli/.tmp/seriale|awk '{print $3}'|sed -n "${nr_epizod}p"`
 		descriere=`wget -qO - http://www.990.ro/$adresa|sed -n "/colspan='2'/,/\/blockquote/ p"|sed "s/<[^>]*>/ /g;s/:/\n/g"`
 		server1=`wget -qO - http://www.990.ro/$epizod|grep Fastupload|sed "s/ /_/g;s/'/ /g"|awk '{print $2}'`
 		upload=`wget -qO - $server1|grep fastupload|sed "s/ /_/g;s/'/ /g"|awk '{print $2}'`
@@ -198,46 +198,46 @@ fi
 	elif [[ "$sursa" = "www.cinemaxx.rs" ]];then
 	upload=`wget -qO - $adresa|grep vk|sed 's/ /_/g;s/"/ /g'|awk '{print $12}'`
 
-	wget -qO - $upload|sed -n '/video_host/,/video_vtag/ p'|sed "s/ /_/g;s/'/ /g"|awk '{print $2}' > /tmp/tvmaxe-cli/surse
+	wget -qO - $upload|sed -n '/video_host/,/video_vtag/ p'|sed "s/ /_/g;s/'/ /g"|awk '{print $2}' > $HOME/.tvmaxe-cli/.tmp/surse
 	descriere=`wget -qO - $adresa|sed -n '/Descriere/,/show-more/ p'|sed 's/<[^>]*>/ /g'|sed '1d;$d'`
 
 	elif [[ "$sursa" = "www.filmeonline.org" ]];then
 	upload=`wget -qO - $adresa|grep VK|sed 's/ /_/g;s/"/ /g;s/?/ /g;s/\;/\&/g;s/\#038//g'|sed -n '1p'|awk '{print $3}'`
-	wget -qO - "http://vk.com/video_ext.php?$upload"|sed -n '/video_host/,/video_vtag/ p'|sed "s/ /_/g;s/'/ /g"|awk '{print $2}' > /tmp/tvmaxe-cli/surse
+	wget -qO - "http://vk.com/video_ext.php?$upload"|sed -n '/video_host/,/video_vtag/ p'|sed "s/ /_/g;s/'/ /g"|awk '{print $2}' > $HOME/.tvmaxe-cli/.tmp/surse
 	descriere=`wget -qO - $adresa|sed -n '/itemprop/,/more-/ p'|sed 's/<[^>]*>/ /g'`
 
 	fi
 sleep 3
 ;;
 03)
-			wget -qO - http://www.990.ro|sed -n '/dupa gen/,/\/ul/ p'|sed '1,2d;$d'|sed 's/ /_/g;s/["<>]/ /g'|awk '{print $7,"http://www.990.ro/"$4}'>/tmp/tvmaxe-cli/gen_film
-			gen_film=`cat /tmp/tvmaxe-cli/gen_film|awk '{print $1}'|nl`
+			wget -qO - http://www.990.ro|sed -n '/dupa gen/,/\/ul/ p'|sed '1,2d;$d'|sed 's/ /_/g;s/["<>]/ /g'|awk '{print $7,"http://www.990.ro/"$4}'>$HOME/.tvmaxe-cli/.tmp/gen_film
+			gen_film=`cat $HOME/.tvmaxe-cli/.tmp/gen_film|awk '{print $1}'|nl`
 		$DIALOG --backtitle "tvmaxe-cli" \
 		  	--title "Ordonare dupa gen" --clear \
          	 	--menu ":::" 30 35 30 $gen_film 2> $tempfile
       		selectie0=$?
 		abandon
 		nr_film_gen=`cat $tempfile`
-		genul=`cat /tmp/tvmaxe-cli/gen_film|awk '{print $2}'|sed -n "${nr_film_gen}p"`
-		nume_gen=`cat /tmp/tvmaxe-cli/gen_film|awk '{print $1}'|sed -n "${nr_film_gen}p"`
+		genul=`cat $HOME/.tvmaxe-cli/.tmp/gen_film|awk '{print $2}'|sed -n "${nr_film_gen}p"`
+		nume_gen=`cat $HOME/.tvmaxe-cli/.tmp/gen_film|awk '{print $1}'|sed -n "${nr_film_gen}p"`
 		pagini_gen=`wget -qO - $genul|grep "Pagina -"|sed '$d'|sed 's/href/\n/g'|sed '1d'|wc -l`
 		cumulpg=`echo $genul|sed 's/-1.html//'`
 		i=1
 		for p in `seq 1 $pagini_gen` ; do
-			wget -qO - $cumulpg-$(( i++ )).html|sed -n '/post_meta/,/post_meta/ p'|grep title|sed 's/ /_/g;s/"/ /g'|awk '{print $9,"www.990.ro/"$3}'>>/tmp/tvmaxe-cli/filme_gen
+			wget -qO - $cumulpg-$(( i++ )).html|sed -n '/post_meta/,/post_meta/ p'|grep title|sed 's/ /_/g;s/"/ /g'|awk '{print $9,"www.990.ro/"$3}'>>$HOME/.tvmaxe-cli/.tmp/filme_gen
 		$DIALOG --infobox "Pagini $(( i++ ))" 5 15;sleep 0.5
 		done
-		filme_gen=`cat /tmp/tvmaxe-cli/filme_gen|awk '{print $1}'|nl`
+		filme_gen=`cat $HOME/.tvmaxe-cli/.tmp/filme_gen|awk '{print $1}'|nl`
 		$DIALOG --backtitle "tvmaxe-cli" \
 		  	--title "$nume_gen" --clear \
          	 	--menu ":::" 30 70 30 $filme_gen 2> $tempfile
       		selectie0=$?
 		abandon
 		nr_film_gen1=`cat $tempfile`
-		adresa=`cat /tmp/tvmaxe-cli/filme_gen|awk '{print $2}'|sed -n "${nr_film_gen1}p"`
+		adresa=`cat$HOME/.tvmaxe-cli/.tmp/filme_gen|awk '{print $2}'|sed -n "${nr_film_gen1}p"`
 		server1=`wget -qO - $adresa|grep Fastupload|sed "s/ /_/g;s/'/ /g"|awk '{print $2}'`
 		upload=`wget -qO - $server1|grep fastupload|sed "s/ /_/g;s/'/ /g"|awk '{print $2}'`
-		nume=`cat /tmp/tvmaxe-cli/filme_gen|awk '{print $1}'|sed -n "${nr_film_gen1}p"`
+		nume=`cat$HOME/.tvmaxe-cli/.tmp/filme_gen|awk '{print $1}'|sed -n "${nr_film_gen1}p"`
 		nume1=`echo $nume|sed 's/ /_/g'`
 		descriere=`wget -qO - $adresa|sed -n "/colspan='2'/,/\/blockquote/ p"|sed 's/<[^>]*>/ /g'`
 ;;

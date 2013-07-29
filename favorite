@@ -16,7 +16,6 @@ $DIALOG --backtitle "tvmaxe-cli" \
       	selectie0=$?
 nume_favorit=`cat $tempfile`
 nr_favorit=`cat $HOME/.tvmaxe-cli/playlist/$nume_lista.tv|sed -n "/$nume_favorit/="`
-cat $HOME/.tvmaxe-cli/playlist/$nume_lista.tv|sed -n "${nr_favorit}p" > /tmp/tvmaxe-cli/adr
-echo $format_video tv > /tmp/tvmaxe-cli/format
+cat $HOME/.tvmaxe-cli/playlist/$nume_lista.tv|sed -n "${nr_favorit}p" > $HOME/.tvmaxe-cli/.tmp/adr
+echo $format_video tv > $HOME/.tvmaxe-cli/.tmp/format
 ./filtrutv
-t

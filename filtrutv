@@ -4,11 +4,11 @@ source config
 player1=`echo $player|awk '{print $1}'`
 data=`date +%F_%R`
 liste=`ls $HOME/.tvmaxe-cli/playlist|sed 's/\./ /'|grep " tv"|awk '{print $1}'`
-post=/tmp/tvmaxe-cli/adr
+post=$HOME/.tvmaxe-cli/.tmp/adr
 adr=`cat $post|awk '{print $2}'|sed 's/|/ /g;s/"//g'`
 nume_tv=`cat $post|awk '{print $1}'`
-format=`cat /tmp/tvmaxe-cli/format|awk '{print $1}'`
-radio=`cat /tmp/tvmaxe-cli/format|awk '{print $2}'`
+format=`cat $HOME/.tvmaxe-cli/.tmp/format|awk '{print $1}'`
+radio=`cat $HOME/.tvmaxe-cli/.tmp/format|awk '{print $2}'`
 protocol_tv (){
 soptest=`cat $post|awk '{print $2}'|sed 's/[":]/ /g'|awk '{print $1}'`
 m3u8test=`cat $post|awk '{print $2}'|sed 's/?/ /'|sed -e 's/^.*\(m3u8[^ ,]*\).*$/\1/'`
@@ -183,12 +183,12 @@ killall $procesare
 			$player -playlist $adr
 		else
 			#exec 2> /dev/null
-			$player "$adr" &> /dev/null & #|tee /tmp/tvmaxe-cli/datehttp &
+			$player "$adr" &> /dev/null & #|tee $HOME/.tvmaxe-cli/.tmp/datehttp &
 			$DIALOG --backtitle "tvmaxe-cli" \
 					--title "| $numetv |" \
 					--msgbox "\nDoriti sa intrerupeti redarea?" 10 50
 			killall $player1
-			#datehttp=`cat /tmp/tvmaxe-cli/datehttp`
+			#datehttp=`cat $HOME/.tvmaxe-cli/.tmp/datehttp`
 			#$DIALOG --infobox "$datehttp" 30 35
 	fi
 	

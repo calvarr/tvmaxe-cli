@@ -18,20 +18,20 @@ abandon () {
 case "$selectat" in
 01)
 
-		wget -qO - http://www.shoutcast.com/radio/genres|sed -n '/Radio Genres/,/Top genres/ p'|grep href|sed 's/ /_/g;s/["<>]/ /g'|awk '{print $8,"http://www.shoutcast.com"$7}' > /tmp/tvmaxe-cli/shoutcast_genuri
-		genuri=`cat /tmp/tvmaxe-cli/shoutcast_genuri|awk '{print $1,"|"}'|sed 's/\&amp;/\&/g'`
+		wget -qO - http://www.shoutcast.com/radio/genres|sed -n '/Radio Genres/,/Top genres/ p'|grep href|sed 's/ /_/g;s/["<>]/ /g'|awk '{print $8,"http://www.shoutcast.com"$7}' > $HOME/.tvmaxe-cli/.tmp/shoutcast_genuri
+		genuri=`cat $HOME/.tvmaxe-cli/.tmp/shoutcast_genuri|awk '{print $1,"|"}'|sed 's/\&amp;/\&/g'`
 		$DIALOG --backtitle "tvmaxe-cli" \
 		  	--title "Shoutcast-gen" --clear \
          		--menu ":::" 30 35 30 $genuri  2> $tempfile
       		selectie0=$?
 		abandon
 		nume_gen=`cat $tempfile`
-		nr_gen=`cat /tmp/tvmaxe-cli/shoutcast_genuri|sed -n "/$nume_gen/="`
-		gen=`cat /tmp/tvmaxe-cli/shoutcast_genuri|awk '{print $2}'|sed -n "${nr_gen}p"`
-		gen1=`cat /tmp/tvmaxe-cli/shoutcast_genuri|awk '{print $1}'|sed -n "${nr_gen}p"`
-		wget -qO - "$gen"|grep tunein-station|grep  clickabletitle|sed 's/ /_/g;s/["<>]/ /g'|awk '{print $9,$11}'>/tmp/tvmaxe-cli/shoutcast_radio
+		nr_gen=`cat $HOME/.tvmaxe-cli/.tmp/shoutcast_genuri|sed -n "/$nume_gen/="`
+		gen=`cat $HOME/.tvmaxe-cli/.tmp/shoutcast_genuri|awk '{print $2}'|sed -n "${nr_gen}p"`
+		gen1=`cat $HOME/.tvmaxe-cli/.tmp/shoutcast_genuri|awk '{print $1}'|sed -n "${nr_gen}p"`
+		wget -qO - "$gen"|grep tunein-station|grep  clickabletitle|sed 's/ /_/g;s/["<>]/ /g'|awk '{print $9,$11}'>$HOME/.tvmaxe-cli/.tmp/shoutcast_radio
 
-			lista_radio=`cat /tmp/tvmaxe-cli/shoutcast_radio|awk '{print $1,"|"}'|sed 's/\&amp;/\&/g'`
+			lista_radio=`cat $HOME/.tvmaxe-cli/.tmp/shoutcast_radio|awk '{print $1,"|"}'|sed 's/\&amp;/\&/g'`
 
 			$DIALOG --backtitle "tvmaxe-cli" \
 		  	--title "Shoutcast-radio" --clear \
@@ -39,10 +39,10 @@ case "$selectat" in
       			selectie0=$?
 			abandon
 			nume_radio=`cat $tempfile`
-			nr_radio=`cat /tmp/tvmaxe-cli/shoutcast_radio|sed -n "/$nume_radio/="`
+			nr_radio=`cat $HOME/.tvmaxe-cli/.tmp/shoutcast_radio|sed -n "/$nume_radio/="`
 
-			radio=`cat /tmp/tvmaxe-cli/shoutcast_radio|awk '{print $2}'|sed -n "${nr_radio}p"`
-			echo $nume_radio $radio > /tmp/tvmaxe-cli/adr
+			radio=`cat $HOME/.tvmaxe-cli/.tmp/shoutcast_radio|awk '{print $2}'|sed -n "${nr_radio}p"`
+			echo $nume_radio $radio > $HOME/.tvmaxe-cli/.tmp/adr
 			
 ;;
 02)
@@ -53,23 +53,23 @@ case "$selectat" in
 			abandon
 			radio_cautat=`cat $tempfile`
 
-		wget -qO - http://www.shoutcast.com/Internet-Radio/"$radio_cautat"|grep tunein-station|grep  clickabletitle|sed 's/ /_/g;s/["<>]/ /g'|awk '{print $9,$11}'>/tmp/tvmaxe-cli/radio_cautat
+		wget -qO - http://www.shoutcast.com/Internet-Radio/"$radio_cautat"|grep tunein-station|grep  clickabletitle|sed 's/ /_/g;s/["<>]/ /g'|awk '{print $9,$11}'>$HOME/.tvmaxe-cli/.tmp/radio_cautat
 
-if [[ -z `cat /tmp/tvmaxe-cli/radio_cautat` ]];then
+if [[ -z `cat $HOME/.tvmaxe-cli/.tmp/radio_cautat` ]];then
 	$DIALOG	--title 'Eroare' \
 	--infobox '\n Nu am gasit postul radio' 5 50;sleep 2
 	exit 0
 else
-		radio_gasite=`cat /tmp/tvmaxe-cli/radio_cautat|awk '{print $1}'|sed 's/\&amp;/\&/g'`
+		radio_gasite=`cat $HOME/.tvmaxe-cli/.tmp/radio_cautat|awk '{print $1}'|sed 's/\&amp;/\&/g'`
 		$DIALOG --backtitle "tvmaxe-cli" \
 		  	--title "Shoutcast-radio" --clear \
          		--menu ":::" 30 35 30 $radio_gasite  2> $tempfile
       			selectie0=$?
 			abandon
 			nume_radio_gasit=`cat $tempfile`
-			nr_radio_gasit=`cat /tmp/tvmaxe-cli/shoutcast_cautat|sed -n "/$nume_radio_gasit/="`
-			radio_gasit=`cat /tmp/tvmaxe-cli/shoutcast_radio|awk '{print $2}'|sed -n "${nr_radio}p"`
-			echo $nume_radio_gasit $radio_gasit > /tmp/tvmaxe-cli/adr
+			nr_radio_gasit=`cat $HOME/.tvmaxe-cli/.tmp/shoutcast_cautat|sed -n "/$nume_radio_gasit/="`
+			radio_gasit=`cat $HOME/.tvmaxe-cli/.tmp/shoutcast_radio|awk '{print $2}'|sed -n "${nr_radio}p"`
+			echo $nume_radio_gasit $radio_gasit > $HOME/.tvmaxe-cli/.tmp/adr
 			
 fi
 ;;
