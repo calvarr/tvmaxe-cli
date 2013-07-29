@@ -39,7 +39,7 @@ $DIALOG --backtitle "tvmaxe-cli" \
           	--checklist ":::" 80 80 80 $colectie 2> $tempfile
       	selectie0=$?
 	abandon
-nr_linie=`cat $tempfile`
+nr_linie=`cat $tempfile|sed 's/"//g'`
 
 $DIALOG --backtitle "tvmaxe-cli" \
 	 	--title "| Youtube |" --clear \
@@ -67,13 +67,10 @@ $DIALOG --backtitle "tvmaxe-cli" \
 
 	 youtube
 	
- 	youtube-dl $adr_yt -o - 2>/dev/null |$player - &>/dev/null 
+ 	youtube-dl --max-quality FORMAT $adr_yt -o - 2>/dev/null|$player "-" &>/dev/null
    			
-
-
-		
-
 		done
+	exit 0
 ;;
 
 	02)
@@ -104,6 +101,8 @@ $DIALOG --backtitle "tvmaxe-cli" \
 	youtube-dl --max-quality FORMAT $adr_yt -o $salvare/$nume.flv
 
 	done
+
+	exit 0
 ;;
 	04)
 		./abandon &
@@ -114,6 +113,7 @@ $DIALOG --backtitle "tvmaxe-cli" \
    			youtube-dl --max-quality FORMAT $adr_yt -o - 2>/dev/null|$player "-" &>/dev/null
    			
 		done
+		exit 0
 ;;
 	05)
 		
@@ -121,6 +121,7 @@ $DIALOG --backtitle "tvmaxe-cli" \
 		youtube
 		youtube-dl $adr_yt -o $salvare/$nume.flv 2>/dev/null
 		done
+		exit 0
 ;;
 	06)
 	./abandon &
@@ -130,6 +131,7 @@ $DIALOG --backtitle "tvmaxe-cli" \
 		
 	youtube-dl $adr_yt -o - 2>/dev/null|$player -novideo - &>/dev/null
 done
+exit 0
 ;;
 #$($procesare -y -i "$gp3_yt" -acodec copy -vcodec copy -r 20 -f 3gp - 2>/dev/null|$player - &>/dev/null);stty sane
 #$($procesare -y -i "$adr" -acodec libmp3lame -ar 44100 -vcodec copy -f flv - 2>/dev/null|$player - &>/dev/null);stty sane
@@ -146,6 +148,7 @@ done
 		youtube-dl $adr_yt -o - 2>/dev/null|$player -novideo - &>/dev/null
 
 	done
+	exit 0
 ;;
 
 	08)
@@ -156,6 +159,7 @@ done
 	youtube-dl $adr_yt -o - 2>/dev/null|$procesare -i "-" -vn -acodec pcm_s16le -ar 16000 -ac 1 -f wav $salvare/$nume.wav
 	#youtube-dl  --extract-audio  --audio-format wav  --audio-quality 0 $adr_yt -o $salvare/$nume.wav
 	done
+	exit 0
 ;;
 	09)
 	for nr_linie_colectie in  $nr_linie ; do
@@ -165,6 +169,7 @@ done
 	youtube-dl $adr_yt -o - 2>/dev/null|$procesare -i "-" -acodec libmp3lame -ac 2 -ab 128 -vn -y $salvare/$nume.mp3
 
 	done
+	exit 0
 ;;
 	10)exit 0;;
 esac

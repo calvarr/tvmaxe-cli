@@ -4,10 +4,10 @@ source config
 
 $DIALOG --infobox "caut piese..." 5 20
 
-wget -qO - https://copy.com/s/Z78yGuFuuMLj/Teatrul_radiofonic|grep mp3|sed 's/"url":"/\n/g;s/"/ /g;s/\\//g'|awk '{print $1}'|sed '1d;$d'|sed "s/.mp3//g;s/\// /g;s/%20/_/g;s/%21/\!/g;s/%3C/\</g;s/%3E/\>/g;s/%23/\#/g;s/%25/\%/g;s/%7B/\{/g;s/%7D/\}/g;s/%7C/\|/g;s/%5C/\//g;s/%5E/\^/g;s/%7E/\~/g;s/%5B/\[/g;s/%5D/\]/;s/%60/\`/g;s/%24/\$/g;s/%26/\&/g;s/%27/\'/g;s/%28/\(/g;s/%29/\)/g;s/%2B/\+/g;s/%2C/\,/g;s/%2F/\\\/g;s/%3A/\:/g;s/%3B/\;/g;s/%3D/\=/g;s/%3F/\?/g;s/%40/\@/g"|awk '{print $NF}'>/tmp/tvmaxe-cli/teatrul_nume_piese
+wget -qO - http://copy.com/s/Z78yGuFuuMLj/Teatrul_radiofonic|grep mp3|sed 's/"url":"/\n/g;s/"/ /g;s/\\//g'|awk '{print $1}'|sed '1d;$d'|sed "s/.mp3//g;s/\// /g;s/%20/_/g;s/%21/\!/g;s/%3C/\</g;s/%3E/\>/g;s/%23/\#/g;s/%25/\%/g;s/%7B/\{/g;s/%7D/\}/g;s/%7C/\|/g;s/%5C/\//g;s/%5E/\^/g;s/%7E/\~/g;s/%5B/\[/g;s/%5D/\]/;s/%60/\`/g;s/%24/\$/g;s/%26/\&/g;s/%27/\'/g;s/%28/\(/g;s/%29/\)/g;s/%2B/\+/g;s/%2C/\,/g;s/%2F/\\\/g;s/%3A/\:/g;s/%3B/\;/g;s/%3D/\=/g;s/%3F/\?/g;s/%40/\@/g"|awk '{print $NF}'>/tmp/tvmaxe-cli/teatrul_nume_piese
 nume_piese=`cat /tmp/tvmaxe-cli/teatrul_nume_piese|sed '1d'|sed '$d'|awk '{print $1,"|"}'`
 
-wget -qO - https://copy.com/s/Z78yGuFuuMLj/Teatrul_radiofonic|grep mp3|sed 's/"url":"/\n/g;s/"/ /g;s/\\//g;s/https/http/g'|awk '{print $1}'|sed 's/%20/ /g'|sed '1d;$d'>/tmp/tvmaxe-cli/teatrul_adrese_piese
+wget -qO - http://copy.com/s/Z78yGuFuuMLj/Teatrul_radiofonic|grep mp3|sed 's/"url":"/\n/g;s/"/ /g;s/\\//g;s/https/http/g'|awk '{print $1}'|sed 's/%20/ /g'|sed '1d;$d'>/tmp/tvmaxe-cli/teatrul_adrese_piese
 adrese=`cat /tmp/tvmaxe-cli/teatrul_adrese_piese|sed '1d'|sed '$d'`
 
 
@@ -23,3 +23,4 @@ nr_piesa=`cat /tmp/tvmaxe-cli/teatrul_nume_piese|sed -n "/$nume_piesa/="`
 adr=`cat /tmp/tvmaxe-cli/teatrul_adrese_piese|sed -n "${nr_piesa}p"|sed 's/ /|/g'` 
 echo "$nume_piesa $adr" > /tmp/tvmaxe-cli/adr
 ./filtrutv
+exit 0

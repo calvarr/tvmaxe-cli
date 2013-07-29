@@ -245,4 +245,4 @@ killall $procesare
 	05) abandon ;;
 	06) exit 0;;
 esac
-
+exit 0

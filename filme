@@ -40,13 +40,13 @@ $DIALOG --backtitle "tvmaxe-cli" \
   case "$selectat" in
 	01)	 
 
-		$player $nume1 $film1
+		$player $nume1 $film1  &>/dev/null
 		exit 0
 ;;
 
 	02)	wget -O $salvare/$nume1$ext $film1 &>/dev/null &
 		sleep $delay ; 
-		$player $nume1 $salvare/$nume1$ext $postplay
+		$player $nume1 $salvare/$nume1$ext $postplay  &>/dev/null
 		killall wget 
 		exit 0
 ;;

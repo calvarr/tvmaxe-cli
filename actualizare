@@ -7,7 +7,7 @@ commit2=`cat $HOME/.tvmaxe-cli/.commit_tv`
 
 if [[ "$commit1" != "$commit2" ]]; then 
  wget -qO - https://github.com/calvarr/tvmaxe-cli/commits/master|grep 'class="sha"'|sed -n '1p'|sed 's/ /_/g;s/[><]/ /g'|awk '{print $3}' > $HOME/.tvmaxe-cli/.commit_tv
-wget -qO - https://github.com/calvarr/tvmaxe-cli/commits/master|sed -n  "/commit-title/,/commit-meta/ p"|sed -n '2p'|sed 's/<[^>]*>/ /g' >> $HOME/.tvmaxe-cli/mesaj_actualizare
+ wget -qO - http://github.com/calvarr/tvmaxe-cli/commits/master|sed -n  "/commit-title/,/commit-meta/ p"|sed -n '2p'|sed 's/ /|/g;s/"/ /g'|awk '{print $NF}'|sed 's/|/ /g' >> $HOME/.tvmaxe-cli/mesaj_actualizare
 mesaj=`cat $HOME/.tvmaxe-cli/mesaj_actualizare|sed -n '$p'`
 
 wget -qO - https://raw.github.com/calvarr/tvmaxe-cli/master/scriptUP > scriptUP
