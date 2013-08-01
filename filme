@@ -234,10 +234,10 @@ sleep 3
       		selectie0=$?
 		abandon
 		nr_film_gen1=`cat $tempfile`
-		adresa=`cat$HOME/.tvmaxe-cli/.tmp/filme_gen|awk '{print $2}'|sed -n "${nr_film_gen1}p"`
+		adresa=`cat $HOME/.tvmaxe-cli/.tmp/filme_gen|awk '{print $2}'|sed -n "${nr_film_gen1}p"`
 		server1=`wget -qO - $adresa|grep Fastupload|sed "s/ /_/g;s/'/ /g"|awk '{print $2}'`
 		upload=`wget -qO - $server1|grep fastupload|sed "s/ /_/g;s/'/ /g"|awk '{print $2}'`
-		nume=`cat$HOME/.tvmaxe-cli/.tmp/filme_gen|awk '{print $1}'|sed -n "${nr_film_gen1}p"`
+		nume=`cat $HOME/.tvmaxe-cli/.tmp/filme_gen|awk '{print $1}'|sed -n "${nr_film_gen1}p"`
 		nume1=`echo $nume|sed 's/ /_/g'`
 		descriere=`wget -qO - $adresa|sed -n "/colspan='2'/,/\/blockquote/ p"|sed 's/<[^>]*>/ /g'`
 ;;
