@@ -1,2 +1,62 @@
-#! /bin/bash
-https://www.youtube.com/tv#/browse
+#! /bin/bash 
+source config
+live=`cat $HOME/.tvmaxe-cli/playlist/.youtube_live|awk '{print $1,"|"}'`
+abandon () {
+if [ "$selectie0" == "255" ]||[ "$selectie0" == "1" ]; then
+exit 0
+  fi
+}
+
+
+$DIALOG --backtitle "tvmaxe-cli" \
+	  --title "| Youtube Live |" --clear \
+          --menu  ":::" 30 35 50 $live 2> $tempfile
+      		selectie0=$?
+abandon
+		nume_canal=`cat $tempfile`
+		nr_canal=`cat $HOME/.tvmaxe-cli/playlist/.youtube_live|sed -n "/$nume_canal/="`
+		adresa=`cat $HOME/.tvmaxe-cli/playlist/.youtube_live|awk '{print $2}'|sed -n "${nr_canal}p"`
+
+		$DIALOG --infobox "Procesez..." 5 15
+		
+wget -qO - "$adresa"|grep "data-context-item-title"> $HOME/.tvmaxe-cli/.tmp/yt_live
+
+cat $HOME/.tvmaxe-cli/.tmp/yt_live|sed -e 's/^.*\(title=.*\).*$/\1/'|sed 's/ /%_/g'|sed 's/[="]/ /g'|sed 's/data-/ /g'|sed '/playlist-item-title/d'|awk '{print $2}'>$HOME/.tvmaxe-cli/.tmp/yt1_live
+
+cat $HOME/.tvmaxe-cli/.tmp/yt_live|sed -e 's/^.*\(id=.*\).*$/\1/'|sed 's/ /%_/g'|sed 's/[="]/ /g'|sed 's/data-/ /g'|awk '{print "http://www.youtube.com/watch?v="$2}'|sed 's/%_//g'|sed '/playlist-item-title/d'>$HOME/.tvmaxe-cli/.tmp/yt2_live
+
+canale_live=`cat $HOME/.tvmaxe-cli/.tmp/yt1_live|sed 's/\%//g'|nl`
+
+$DIALOG --backtitle "tvmaxe-cli" \
+	  --title "| $nume_canal |" --clear \
+          --menu  ":::" 30 60 50 $canale_live 2> $tempfile
+      		selectie0=$?
+abandon
+		nr_canal_live=`cat $tempfile`
+		adresa_live=`cat $HOME/.tvmaxe-cli/.tmp/yt2_live|sed -n "${nr_canal_live}p"`
+		nume_canal_live=`cat $HOME/.tvmaxe-cli/.tmp/yt1_live|sed -n "${nr_canal_live}p"|sed 's/\%//g'`
+
+$DIALOG --infobox "Procesez..." 5 15
+
+$DIALOG --backtitle "tvmaxe-cli" \
+	  --title "| Meniu |" --clear \
+          --menu ":::" 25 30 25 \
+	"01" "Redati" \
+	"02" "Inregistrati" 2>$tempfile
+	 selectie0=$?
+  selectat=`cat $tempfile`
+  case "$selectat" in
+  	01) 
+
+		livestreamer $adresa_live best -Q -o - |$player $nume_canal_live - &>/dev/null
+		;;
+	02) 
+		livestreamer $adresa_live best -Q -f -o $salvare/$nume_canal_live.mp4 &
+		sleep $delay
+		$player $nume_canal_live $salvare/$nume_canal_live.mp4 &>/dev/null
+		killall livestreamer
+		exit 0
+		;;
+	esac
+
+exit 0
