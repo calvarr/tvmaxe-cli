@@ -110,7 +110,7 @@ fi
 		nume_film_nou=`cat $tempfile`
 		nr_film_nou=`cat $HOME/.tvmaxe-cli/.tmp/noi|sed -n "/$nume_film_nou/="`
 		adresa=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print $2}'|sed -n "${nr_film_nou}p"`
-		server1=`wget -qO - http://www.990.ro$adresa|grep Fastupload|sed "s/ /_/g;s/'/ /g"|awk '{print $2}'`
+		server1=`wget -qO - http://www.990.ro$adresa|grep Superweb|sed "s/ /|/g;s/'/ /g"|awk '{print $2}'`
 		nume=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print $1}'|sed 's/_/ /g'|sed -n "${nr_film_nou}p"`
 		nume1=`echo $nume|sed 's/ /_/g'`
 		descriere=`wget -qO - http://www.990.ro/$adresa|sed -n "/colspan='2'/,/\/blockquote/ p"|sed 's/<[^>]*>/ /g'`
