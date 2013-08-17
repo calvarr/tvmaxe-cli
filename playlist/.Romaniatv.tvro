@@ -66,7 +66,7 @@ discovery_id sop://broker.sopcast.com:3912/122851
 discovery_science sop://broker.sopcast.com:3912/122850
 discovery_world sop://broker.sopcast.com:3912/122849
 disney_channel sop://broker.sopcast.com:3912/139573
-disney_channel http://86.105.253.79:9134/discovery.asf
+disney_channel_2 http://86.105.253.79:9134/discovery.asf
 disney_junior sop://broker.sopcast.com:3912/122838
 diva_universal sop://broker.sopcast.com:3912/120700
 diva_universal_2 http://86.105.253.79:9037/divatv.asf
@@ -142,6 +142,7 @@ otv rtmp://lh01.mediadirect.ro/live3/_definst_/otv
 party_tv sop://broker.sopcast.com:3912/122858
 party_tv_2 rtmp://lh01.mediadirect.ro/live3/_definst_/party
 plus_tv_suceava http://85.186.146.34:8080
+poker1 rtmp://vod.protv.ro/poker1
 prima_tv sop://broker.sopcast.com:3912/140599
 prima_tv_2 sop://broker.sopcast.com:3912/122834
 prima_tv_3 rtmp://origin1.spicetvnetwork.ro:1935/live|-a|redirect?|-f|win|11,4,402,278|-w|http://www.spicetv.ro/assets/player/player.swf|-p|http://www.spicetv.ro/tv-online/kanal-d|-y|mp4:spicetv/ro/primatv.stream

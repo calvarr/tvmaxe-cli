@@ -14,7 +14,7 @@ fi;
 }
 abandon () {
 if [ "$selectie0" == "255" ]||[ "$selectie0" == "1" ]; then
-   #./tvmaxe-cli
+   
 exit 0
   fi
 }
@@ -51,7 +51,8 @@ $DIALOG --backtitle "tvmaxe-cli" \
 		exit 0
 ;;
 
-	03)	axel -a -o $salvare/$nume1$ext $film1 
+	03)	axel -o $salvare/$nume1$ext $film1 2>&1 |grep "%]"| sed -u -e "s,\.,,g;s/\]//" | awk '{printf("\b\b\b\b%4s", $2)}' 2>&1
+			echo -ne "\b\b\b\b" #|$DIALOG --gauge "Descarc.." 6 50 10
 		exit 0
 ;;
 
@@ -171,9 +172,8 @@ fi
 	if [[ "$sursa" = "www.990.ro" ]];then
 		selectie=`echo $adresa|sed 's/-/ /g'|awk '{print $1}'`
 		if [[ "$selectie" = "filme" ]]; then
-		server1=`wget -qO - http://www.990.ro/$adresa|grep Fastupload|sed "s/ /_/g;s/'/ /g"|awk '{print $2}'`
-		descriere=`wget -qO - http://www.990.ro/$adresa|sed -n "/colspan='2'/,/\/blockquote/ p"|sed "s/<[^>]*>/ /g;s/:/\n/"`
-
+		server1=`wget -qO - http://www.990.ro/$adresa|grep Superweb|sed "s/ /|/g;s/'/ /g"|awk '{print $2}'`
+		descriere=`wget -qO - http://www.990.ro/$adresa|sed -n "/colspan='2'/,/\/blockquote/ p"|sed 's/<[^>]*>/ /g'`
 		upload=`wget -qO - $server1|grep fastupload|sed "s/ /_/g;s/'/ /g"|awk '{print $2}'`
 
 		elif [[ "$selectie" = "seriale" ]]; then
@@ -191,7 +191,7 @@ fi
 
 		epizod=`cat $HOME/.tvmaxe-cli/.tmp/seriale|awk '{print $3}'|sed -n "${nr_epizod}p"`
 		descriere=`wget -qO - http://www.990.ro/$adresa|sed -n "/colspan='2'/,/\/blockquote/ p"|sed "s/<[^>]*>/ /g;s/:/\n/g"`
-		server1=`wget -qO - http://www.990.ro/$epizod|grep Fastupload|sed "s/ /_/g;s/'/ /g"|awk '{print $2}'`
+		server1=`wget -qO - http://www.990.ro/$epizod|grep Superweb|sed "s/ /|/g;s/'/ /g"|awk '{print $2}'`
 		upload=`wget -qO - $server1|grep fastupload|sed "s/ /_/g;s/'/ /g"|awk '{print $2}'`
 		fi
 
@@ -235,7 +235,7 @@ sleep 3
 		abandon
 		nr_film_gen1=`cat $tempfile`
 		adresa=`cat $HOME/.tvmaxe-cli/.tmp/filme_gen|awk '{print $2}'|sed -n "${nr_film_gen1}p"`
-		server1=`wget -qO - $adresa|grep Fastupload|sed "s/ /_/g;s/'/ /g"|awk '{print $2}'`
+		server1=`wget -qO - $adresa|grep Superweb|sed "s/ /|/g;s/'/ /g"|awk '{print $2}'`
 		upload=`wget -qO - $server1|grep fastupload|sed "s/ /_/g;s/'/ /g"|awk '{print $2}'`
 		nume=`cat $HOME/.tvmaxe-cli/.tmp/filme_gen|awk '{print $1}'|sed -n "${nr_film_gen1}p"`
 		nume1=`echo $nume|sed 's/ /_/g'`

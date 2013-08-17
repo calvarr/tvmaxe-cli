@@ -1,5 +1,7 @@
 #!/bin/bash
 cd $HOME/'.'tvmaxe-cli
+mkdir -p $HOME/.tvmaxe-cli/.tmp
+touch $HOME/.tvmaxe-cli/.tmp/adr
 source config
 ./ceas &
 gui () {
@@ -19,8 +21,6 @@ fi
 nogui () {
 DIALOG=dialog
 }
-mkdir -p $HOME/.tvmaxe-cli/.tmp
-touch $HOME/.tvmaxe-cli/.tmp/adr
 $interfata
 export DIALOG
 tempfile=`tempfile 2>/dev/null` || tempfile=$HOME/.tvmaxe-cli/.tmp/capclitmp$$
@@ -43,13 +43,14 @@ until [ "$selectie0" == "1" ]; do
 	"03" "Shoutcast" \
 	"04" "Filme" \
 	"05" "Youtube" \
-	"06" "Divertisment" \
-	"07" "Teatrul Radiofonic" \
-	"08" "Favorite" \
-	"09" "Captura web_tv" \
-	"10" "Configurare" \
-	"11" "Actualizare" \
-	"12" "Parasiti" 2>$tempfile
+	"06" "Youtube Live" \
+	"07" "Divertisment" \
+	"08" "Teatrul Radiofonic" \
+	"09" "Favorite" \
+	"10" "Captura web_tv" \
+	"11" "Configurare" \
+	"12" "Actualizare" \
+	"13" "Parasiti" 2>$tempfile
   selectie0=$?
   selectat=`cat $tempfile`
   
@@ -59,13 +60,14 @@ until [ "$selectie0" == "1" ]; do
 	03) echo $format_audio radio > $HOME/.tvmaxe-cli/.tmp/format ; ./shoutcast;;
 	04) ./filme;;
 	05) echo "Youtube" > $HOME/.tvmaxe-cli/.tmp/adr ; ./youtube;;
-	06) echo "Divertisment" > $HOME/.tvmaxe-cli/.tmp/adr ; ./divertisment;;
-	07) echo $format_audio radio > $HOME/.tvmaxe-cli/.tmp/format ; ./teatrul_radiofonic;;
-	08) ./favorite;;
-	09) ./capstream;;
-	10) ./configurare;;
-	11) ./actualizare;;
-	12) killall ceas
+	06) ./youtube_tv;;
+	07) echo "Divertisment" > $HOME/.tvmaxe-cli/.tmp/adr ; ./divertisment;;
+	08) echo $format_audio radio > $HOME/.tvmaxe-cli/.tmp/format ; ./teatrul_radiofonic;;
+	09) ./favorite;;
+	10) ./capstream;;
+	11) ./configurare;;
+	12) ./actualizare;;
+	13) killall ceas
 		stty sane
 		exit 0
 			;;
