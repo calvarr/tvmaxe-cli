@@ -37,7 +37,7 @@ selectat=`cat $tempfile`
 		./radiolist
 		;;
 	03)	./scriptUP
-
+		;;
 	04) ./tvlist
 		./radiolist
 		./scriptUP
