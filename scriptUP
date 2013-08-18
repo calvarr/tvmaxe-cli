@@ -1,34 +1,8 @@
 #! /bin/bash
 source config
 git="https://raw.github.com/calvarr/tvmaxe-cli/master/"
-fisiere=$(echo \
-abandon \
-actualizare \
-adr_externa \
-capstream \
-ceas \
-config \
-configurare \
-divertisment \
-favorite \
-filme \
-filtrutv \
-meniufilm \
-radioclasic \
-radiomd \
-radiomix \
-radioro \
-README \
-romaniatv \
-scriptUP \
-shoutcast \
-teatrul_radiofonic \
-timer_inregistrare \
-tv \
-tvlist \
-tvmaxe-cli \
-youtube \
-youtube_tv)
+lista=`ls|grep -v ^d`
+fisiere=$(echo $lista)
 nr_fisiere=`echo $fisiere|wc -w`
 i=1;c=1
 for i in $(seq 1 $nr_fisiere )
