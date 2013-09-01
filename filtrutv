@@ -9,15 +9,16 @@ adr=`cat $post|awk '{print $2}'|sed 's/|/ /g;s/"//g'`
 nume_tv=`cat $post|awk '{print $1}'`
 format=`cat $HOME/.tvmaxe-cli/.tmp/format|awk '{print $1}'`
 radio=`cat $HOME/.tvmaxe-cli/.tmp/format|awk '{print $2}'`
+
 protocol_tv (){
-soptest=`cat $post|awk '{print $2}'|sed 's/[":]/ /g'|awk '{print $1}'`
+soptest=`cat $post|awk '{print $2}'|sed 's/\:/ /g;s/"//g'|awk '{print $1}'`
 m3u8test=`cat $post|awk '{print $2}'|sed 's/?/ /'|sed -e 's/^.*\(m3u8[^ ,]*\).*$/\1/'`
-rtsptest=`cat $post|awk '{print $2}'|sed 's/:/ /g'|awk '{print $1}'`
+#rtsptest=`cat $post|awk '{print $2}'|sed 's/:/ /g'|awk '{print $1}'`
 numetv=`cat $post|awk '{print $1}'`
 pls=`cat $post|awk '{print $2}'|sed 's/\./ /g'|awk '{ print $NF }'`
 pls3=`cat $post|awk '{print $2}'|sed 's/\./ /g'|awk '{print $2}'`
-youtube_m=`cat $post|awk '{print $2}'|sed 's/\./ /g'|awk '{print $2}'`
-if [[ "$soptest" = "sop" ]];then protocol=sopcast
+
+if [[ "$soptest" = "sop" ]]; then protocol=sopcast
 	elif [[ "$soptest" = "rtsp" ]]; then protocol=rtsp
 	elif [[ "$soptest" = "rtmp" ]]; then protocol=rtmp
 	elif [[ "$soptest" = "mms" ]]; then protocol=mms
@@ -27,9 +28,10 @@ if [[ "$soptest" = "sop" ]];then protocol=sopcast
 	elif [[ "$pls" = "pls" ]]; then protocol=pls
 	elif [[ "$pls" = "asx" ]]; then protocol=pls
 	elif [[ "$pls" = "m3u" ]]; then protocol=m3u
+	#elif [[ "$pls" = "m3u8" ]]; then protocol=m3u8
 	elif [[ "$pls3" = "shoutcast" ]]; then protocol=shoutcast
 	elif [[ "$pls3" = "youtube" ]]; then protocol=youtube
-	elif [[ "$youtube_m" = "youtube" ]]; then protocol=youtube
+	elif [[ "$pls3" = "youtube" ]]; then protocol=youtube
 else 
 	protocol=http
 fi
@@ -150,7 +152,7 @@ $DIALOG --backtitle "tvmaxe-cli" \
 	abandon
 
   selectat=`cat $tempfile`
-$DIALOG --infobox "Procesez..." 3 15
+$DIALOG --infobox "Procesez... \n Protocol $protocol" 5 15
 case "$selectat" in
 01) 
 	if [[ "$protocol" = "sopcast" ]]; then
@@ -162,7 +164,7 @@ $procesare -f lavfi -i testsrc -filter_complex "split=4[a][b][c][d];[a]pad=iw*4:
 killall $procesare
 			sleep 3
 		else
-			$($player http://localhost:9901 &>/dev/null); killall sp-sc ; break
+			$($player http://localhost:9901 &>/dev/null); killall sp-sc ; 
 		fi
 	elif [[ "$protocol" = "m3u8" ]]; then 
 			$($procesare -y -i "$adr" -acodec libmp3lame -ar 44100 -vcodec copy -f flv - 2>/dev/null|$player - &>/dev/null);stty sane
