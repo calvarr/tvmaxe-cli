@@ -133,8 +133,8 @@ prima_tv_2 sop://broker.sopcast.com:3912/122834
 prima_tv_4 http://86.105.253.79:9034/primatv.asf
 procinema sop://broker.sopcast.com:3912/80622
 pro_tv_chişinău rtmp://93.116.255.2/live|-a|live|-f|lnx|11,2,202,235|-w|http://m.protv.md/design/mediaplayer/player_embed.swf|-p|http://live.protv.md/|-c|s:protv|-c|s:_wzxq_|-y|direct|--live
-pro_tv_hd sop://broker.sopcast.com:3912/142369
-pro_tv_hd_2 sop://broker.sopcast.com:3912/144604
+pro_tv_hd_I sop://broker.sopcast.com:3912/142369
+pro_tv_hd_II sop://broker.sopcast.com:3912/144604
 pro_tv_internațional sop://broker.sopcast.com:3912/90686
 pro_tv sop://broker.sopcast.com:3912/122831
 pro_tv_2 sop://broker.sopcast.com:3912/140127
