@@ -136,7 +136,7 @@ if [[ "$protocol" = "youtube" ]]; then
  				selectat=`cat $tempfile`
 
 			case "$selectat" in
-				01) youtube-dl $adr -o -|$player - &>/dev/null ;exit 0 ;;
+				01) youtube-dl $adr -o -|$player - &>/dev/null || livestreamer $adr best -Q -o - |$player - &>/dev/null;exit 0 ;;
 				02) cd $salvare;youtube-dl --max-quality FORMAT $adr;exit 0;;
 				03) youtube-dl $adr -o -|$procesare -i "-" -vn -acodec pcm_s16le -ar 16000 -ac 1 -f wav $salvare/youtube$$.wav;exit 0;;
 				04) youtube-dl $adr -o -|$procesare -i "-" -acodec libmp3lame -ac 2 -ab 128 -vn -y $salvare/youtube$$.mp3;exit 0;;
@@ -193,7 +193,7 @@ killall $procesare
 	then
 			$player -playlist $adr
 	elif [[ "$protocol" = "livestream" ]]; then 
-			livestreamer $adr best -Q -o - |$playerq - &>/dev/null
+			livestreamer $adr best -Q -o - |$player - &>/dev/null
 		else
 			#exec 2> /dev/null
 			$player "$adr" &> /dev/null & #|tee $HOME/.tvmaxe-cli/.tmp/datehttp &

@@ -41,18 +41,27 @@ abandon
 			--radiolist ":::" 30 35 30 \
 			"01" "Mplayer" ON \
 			"02" "cvlc" off \
-			"03" "Implicit" off 2>$tempfile
+			"03" "omxplayer" off \
+			"04" "omxplayer hdmi" off \
+			"05" "Implicit" off 2>$tempfile
 			selectie0=$?
 			abandon
 				selectat1=`cat $tempfile`
 			rand=`cat $locatia/config|sed -n '/player=/='`
 				case "$selectat1" in
 				 01) sed -i "${rand}d" config
-		sed -i "${rand}i player="mplayer -msglevel cache=-1 -msgcolor -nojoystick -nolirc -cache 820 -cache-min 20 -prefer-ipv4 -ao alsa,pulse, -vo xv,fbdev2, -xy $marime -zoom -geometry $coordonate -aspect $aspect -title $nume_tv"" config;;
+		sed -i "${rand}i player='mplayer -msglevel cache=-1 -msgcolor -nojoystick -nolirc -cache 820 -cache-min 20 -prefer-ipv4 -ao alsa,pulse, -vo xv,fbdev2, -xy $marime -zoom -geometry $coordonate -aspect $aspect'  " config ;;
 				 02) sed -i "${rand}d" config
-		sed -i "${rand}i player='cvlc'" config ;;
-				
+		sed -i "${rand}i player='cvlc' postplay='vlc://quit' " config 
+		;;
 				 03) sed -i "${rand}d" config
+		sed -i "${rand}i player='omxplayer' " config 
+		;;
+				 04) sed -i "${rand}d" config
+		sed -i "${rand}i player='omxplayer -o hdmi' " config 
+		;;
+				
+				 05) sed -i "${rand}d" config
 		sed -i "${rand}i player='xdg-open'" config 
 				esac ;;
 03)		$DIALOG --title "Marime Mplayer" \
@@ -113,7 +122,7 @@ abandon
 		sed -i "${rand}i interfata=gui " $locatia/config ;;
 				 02) sed -i "${rand}d" $locatia/config
 		sed -i "${rand}i interfata=nogui "  $locatia/config ;;
-		esac ;;
+				esac ;;
 
 09)		
 		liste_tv=`ls -a $HOME/.tvmaxe-cli/playlist|grep ".tvro"|sed 's/\./ /g'|awk '{print $1,"|","off"}'`

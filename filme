@@ -24,6 +24,7 @@ $DIALOG --infobox "$descriere" 30 50 ; sleep 5
 }
 
 meniufilm () {
+	
 $DIALOG --backtitle "tvmaxe-cli" \
 	  --title "$nume" --clear \
           --menu ":::" 30 35 30 \
@@ -40,13 +41,14 @@ $DIALOG --backtitle "tvmaxe-cli" \
   case "$selectat" in
 	01)	 
 
-		$player $nume1 $film1  &>/dev/null
+		$player  $nume1 $film1  &>/dev/null
+		$postplay
 		exit 0
 ;;
 
 	02)	wget -O $salvare/$nume1$ext $film1 &>/dev/null &
 		sleep $delay ; 
-		$player $nume1 $salvare/$nume1$ext $postplay  &>/dev/null
+		$player $salvare/$nume1$ext $postplay  &>/dev/null
 		killall wget 
 		exit 0
 ;;
@@ -246,7 +248,8 @@ sleep 3
 06) exit 0;;
 esac
 }
-###################################3
+###################################
+
 filmnou
 
 filtrufilm
