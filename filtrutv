@@ -90,11 +90,20 @@ inregistrare () {
 		else
 			if [ "$radio" == "radio" ]
 				then
-					$procesare -y -i "$adr" -acodec libmp3lame -ar 44100 -f $format  $salvare/$numetv"_"$data.$format 2>/dev/null & 
-			$DIALOG --infobox "inregistrez, redau inregistrarea in $delay sec" 5 35
-			sleep $delay
-					$player $salvare/$numetv"_"$data.$format &>/dev/null 
-					killall $procesare
+
+				if [[ "$protocol" = "pls" ]]
+					then
+					list="-playlist"
+				else
+					list=" "
+				fi
+
+				mplayer $list $adr -dumpstream -dumpfile $salvare/$numetv"_"$data.ts &>/dev/null &
+				$DIALOG --infobox "inregistrez, redau inregistrarea in $delay sec" 5 35
+				sleep $delay 
+				$player $salvare/$numetv"_"$data.ts &>/dev/null 
+				killall mplayer
+				
 					stty sane
 			elif [ "$radio" == "tv" ]
 				then

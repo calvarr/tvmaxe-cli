@@ -1,7 +1,8 @@
 #! /bin/bash
 source config
 git="https://raw.github.com/calvarr/tvmaxe-cli/master/"
-lista=`ls|grep -v ^d`
+#lista=`ls|grep -v ^d`
+lista=`wget -qO - https://github.com/calvarr/tvmaxe-cli|grep /blob/master/|sed 's/<[^>]*>//g'`
 fisiere=$(echo $lista)
 nr_fisiere=`echo $fisiere|wc -w`
 i=1;c=1
@@ -10,6 +11,6 @@ do
 nume_fisier=`echo $fisiere|sed 's/ /\n/g'|sed -n "${i}p"`
 url_fisier=`echo $fisiere|sed 's/ /\n/g'|sed -n "${i}p"|awk -v git=$git '{print git$1}'`
 wget -O $HOME/.tvmaxe-cli/$nume_fisier $url_fisier &>/dev/null
-((c+=4));echo $c|$DIALOG --gauge "Actualizez $nume_fisier" 6 50 10
+((c+=3));echo $c|$DIALOG --gauge "Actualizez $nume_fisier" 6 50 10
 sleep 2
 done
