@@ -1,9 +1,11 @@
 Dependinte:
 ----------
-dialog,
+
+dialog
 sed, awk, grep,
 wget, axel,
 sopcast,ffmpeg sau avconv,rtmpdump,youtube-dl,
+livestreamer
 mplayer
 
 Instalare:
