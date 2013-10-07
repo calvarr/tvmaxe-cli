@@ -174,16 +174,16 @@ $DIALOG --infobox "Procesez... \n Protocol $protocol" 5 15
 case "$selectat" in
 01) 
 	if [[ "$protocol" = "sopcast" ]]; then
-		$(sp-sc $adr 8901 9901 &>/dev/null &);sleep 15; wait 
-		$(testpost=`wget --spider http://localhost:9901  -qO -&>/dev/null 2>&1`)
-		if [ $? != 0 ]; then
-			$DIALOG --infobox "Adresa inactiva" 5 35 ;sleep 2
-$procesare -f lavfi -i testsrc -filter_complex "split=4[a][b][c][d];[a]pad=iw*4:ih[w];[b]lutyuv=u=128:v=128[x];[c]lutyuv=y=0:v=128[y];[d]lutyuv=y=0:u=128[z];[w][x]overlay=w:0[wx];[wx][y]overlay=w*2:0[wxy];[wxy][z]overlay=w*3:0" -f nut - | $player -
-killall $procesare
-			sleep 3
-		else
-			$($player http://localhost:9901 &>/dev/null); killall sp-sc ; 
-		fi
+		$(sp-sc $adr 8901 9901 &>/dev/null & )
+		sleep 15
+		wait 
+		#$(testpost=`wget --spider http://localhost:9901  -qO -&>/dev/null 2>&1`)
+		#if [ $? != 0 ]; then
+		#	$DIALOG --infobox "Adresa inactiva" 5 35 ;sleep 2
+		#else
+			$(wget -qO - http://localhost:9901|$player - &>/dev/null)
+			killall sp-sc 
+		#fi
 	elif [[ "$protocol" = "m3u8" ]]; then 
 			$($procesare -y -i "$adr" -acodec libmp3lame -ar 44100 -vcodec copy -f flv - 2>/dev/null|$player - &>/dev/null);stty sane
 
