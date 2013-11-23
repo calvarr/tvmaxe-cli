@@ -3,9 +3,11 @@ source config
 ######################################
 filtrufilm (){
 filtru=`echo $upload|sed 's/\// /g'|awk '{print $2}'`
-if [[ "$filtru" != "fastupload.ro" ]];then
+if [[ "$filtru" = "www.cinemaxx.rs" ]] ;then
 film1=$(echo `cat $HOME/.tvmaxe-cli/.tmp/surse`|awk -v rez=$rez '{print $1"u"$2"/videos/"$3"."rez".mp4"}')
 ext=.flv
+elif [[ "$filtru" = "www.filmeonlinenoi.org" ]];then
+film1=`wget -qO - $etapa1|grep "'file':"|sed "s/'/ /g"|awk '{print $3}'`
 else
 film1=`wget -qO - $upload|grep flv|sed "s/ /_/;s/'/ /g"|awk '{print $4}'`
 export film1
@@ -136,8 +138,8 @@ fi
 			wget -qO - http://cinemaxx.rs/search.php?keywords=$film_cautat|grep 'title="Film '|sed 's/ /_/g;s/"/ /g;s/Film_-_//g'|awk '{print $8,$4,"Gasit_pe:_www.cinemaxx.rs"}'>>$HOME/.tvmaxe-cli/.tmp/filme_gasite1
 
 	$DIALOG --title "Caut pe:" --clear \
-		--infobox "www.filmeonline.org" 5 35
-			wget -qO - http://www.filmeonline.org/search/$film_cautat/|grep bookmark|sed 's/ /_/g;s/"/ /g'|awk '{print $8,$4,"Gasit_pe:_www.filmeonline.org"}'>>$HOME/.tvmaxe-cli/.tmp/filme_gasite1
+		--infobox "www.filmeonlinenoi.org" 5 35
+			wget -qO - http://www.filmeonlinenoi.org/search/$film_cautat/|grep bookmark|sed 's/ /_/g;s/"/ /g;s/Permanent_Link_to_//g'|awk '{print $8,$4,"Gasit_pe:_www.filmeonlinenoi.org"}'>>$HOME/.tvmaxe-cli/.tmp/filme_gasite1
 
 	$DIALOG --infobox "Caut pe www.filmeonlinefree.net" 5 35
 			wget -qO - http://www.filmeonlinefree.net/?s=$film_cautat|sed -n '/content start/,/content end/ p'|grep del.icio|sed 's/ /_/g;s/["=&]/ /g'|awk '{print $5,$3,"Gasit_pe:_www.filmeonlinefree.net"}'>>$HOME/.tvmaxe-cli/.tmp/filme_gasite1
@@ -203,10 +205,13 @@ fi
 	wget -qO - $upload|sed -n '/video_host/,/video_vtag/ p'|sed "s/ /_/g;s/'/ /g"|awk '{print $2}' > $HOME/.tvmaxe-cli/.tmp/surse
 	descriere=`wget -qO - $adresa|sed -n '/Descriere/,/show-more/ p'|sed 's/<[^>]*>/ /g'|sed '1d;$d'`
 
-	elif [[ "$sursa" = "www.filmeonline.org" ]];then
-	upload=`wget -qO - $adresa|grep VK|sed 's/ /_/g;s/"/ /g;s/?/ /g;s/\;/\&/g;s/\#038//g'|sed -n '1p'|awk '{print $3}'`
-	wget -qO - "http://vk.com/video_ext.php?$upload"|sed -n '/video_host/,/video_vtag/ p'|sed "s/ /_/g;s/'/ /g"|awk '{print $2}' > $HOME/.tvmaxe-cli/.tmp/surse
-	descriere=`wget -qO - $adresa|sed -n '/itemprop/,/more-/ p'|sed 's/<[^>]*>/ /g'`
+	elif [[ "$sursa" = "www.filmeonlinenoi.org" ]];then
+	upload=`wget -qO - $adresa|grep Fastupload|sed -n '1p'|sed 's/ /|/g;s/\/http/ http/;s/"/ /g'|awk '{ print $3 }'`
+	etapa1=`wget -qO - "$upload"|grep fastupload.ro|sed 's/ /|/g;s/"/ /g'|awk '{print $2}'`
+	#varianta pentru VK
+	#upload=`wget -qO - $adresa|grep VK|sed 's/ /_/g;s/"/ /g;s/?/ /g;s/\;/\&/g;s/\#038//g'|sed -n '1p'|awk '{print $3}'`
+	#wget -qO - "http://vk.com/video_ext.php?$upload"|sed -n '/video_host/,/video_vtag/ p'|sed "s/ /_/g;s/'/ /g"|awk '{print $2}' > $HOME/.tvmaxe-cli/.tmp/surse
+	descriere=`wget -qO - $adresa|grep clear:both|sed 's/<[^>]*>/ /g'`
 
 	fi
 sleep 3
