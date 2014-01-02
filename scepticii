@@ -1,0 +1,5 @@
+wget -qO - https://itunes.apple.com/us/podcast/sceptici-in-romania/id409088851|sed 's/ /|/g;s/"http/ http/g;s/mp3"/mp3 /g'|grep mp3|awk '{print $2}'|nl
+
+sau
+
+ wget -qO - http://feeds.feedburner.com/sceptici|grep mp3|sed 's/ /|/g;s/"/ /g'|awk '{print $2}'|nl

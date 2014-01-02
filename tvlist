@@ -97,6 +97,16 @@ $DIALOG --infobox "Actualizez liste.. \n Sport" 6 25
 wget -qO - https://raw.github.com/calvarr/tvmaxe-cli/master/playlist/.Sport.tvro > $HOME/.tvmaxe-cli/playlist/.Sport.tvro
 }
 
+Sopcast_xml () {
+$DIALOG --infobox "Actualizez liste.. \n Sopcast_xml" 6 25
+wget -qO - http://www.sopcast.com/chlist.xml|sed 's/<name/\n<name/g;s/<\/item/\n<\/item/g;s/ /_/g;s/</ <  /g;s/>/ > /g'|awk '{print $4,$NF}'|grep sop:// > $HOME/.tvmaxe-cli/playlist/.Sopcast_xml.tvro
+}
+
+SopcastX () {
+	$DIALOG --infobox "Actualizez liste.. \n Sopcast_xml" 6 25
+	wget -qO - http://streams.magazinmixt.ro/xsopcast.xml|sed 's/<name/\n<name/g;s/<\/item/\n<\/item/g;s/ /_/g;s/</ <  /g;s/>/ > /g'|awk '{print $4,$NF}'|grep sop:// > $HOME/.tvmaxe-cli/playlist/.SopcastX.tvro
+}
+
 UK () {
 $DIALOG --infobox "Actualizez liste.. \n UK" 6 25
 wget -qO - https://raw.github.com/calvarr/tvmaxe-cli/master/playlist/.UK.tvro > $HOME/.tvmaxe-cli/playlist/.UK.tvro
@@ -125,13 +135,14 @@ Greece
 Hungary
 International
 Italy
-Moldova
 Music
 Norway
 Romaniatv
 Russia
 Spain
 Sport
+Sopcast_xml
+SopcastX
 UK
 USA
 xxx

@@ -50,9 +50,8 @@ until [ "$selectie0" == "1" ]; do
 	"09" "Teatrul Radiofonic" \
 	"10" "Favorite" \
 	"11" "Captura web_tv" \
-	"12" "Configurare" \
-	"13" "Actualizare" \
-	"14" "Parasiti" 2>$tempfile
+	"12" "Actualizare" \
+	"13" "Parasiti" 2>$tempfile
   selectie0=$?
   selectat=`cat $tempfile`
   
