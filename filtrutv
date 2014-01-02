@@ -205,7 +205,10 @@ case "$selectat" in
 			livestreamer $adr best -Q -o - |$player - &>/dev/null
 		else
 			#exec 2> /dev/null
-			$player "$adr" &> /dev/null & #|tee $HOME/.tvmaxe-cli/.tmp/datehttp &
+			 $($procesare -y -i "$adr" -acodec copy -vcodec copy -f avi - 2>/dev/null|$player - &>/dev/null);stty sane
+
+			
+			#$player "$adr" &> /dev/null & #|tee $HOME/.tvmaxe-cli/.tmp/datehttp &
 			$DIALOG --backtitle "tvmaxe-cli" \
 					--title "| $numetv |" \
 					--msgbox "\nDoriti sa intrerupeti redarea?" 10 50
