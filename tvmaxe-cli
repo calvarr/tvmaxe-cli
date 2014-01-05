@@ -69,9 +69,8 @@ until [ "$selectie0" == "1" ]; do
 	10) echo $format_audio radio > $HOME/.tvmaxe-cli/.tmp/format ; ./teatrul_radiofonic;;
 	11) ./favorite;;
 	12) ./capstream;;
-	13) ./configurare;;
-	14) ./actualizare;;
-	15) killall ceas
+	13) ./actualizare;;
+	14) killall ceas
 		stty sane
 		exit 0
 			;;
