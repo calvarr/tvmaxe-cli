@@ -1,20 +1,7 @@
-Россия_1 rtmp://213.186.127.42:1935/live/|-s|http://kaban.tv/uppod.swf|-p|http://kaban.tv/rossiya-1-online|-y|rus1.stream|--live|true
-Россия_24 rtmp://213.186.127.42:1935/live/|-s|http://kaban.tv/uppod.swf|-p|http://kaban.tv/rossiya-24-online|-y|rus24.stream|--live|true
-Россия_2 rtmp://213.186.127.42:1935/live/|-s|http://kaban.tv/uppod.swf|-p|http://kaban.tv/rossiya-2-online|-y|rus2.stream|--live|true
-ТВ-7 rtmp://213.186.127.42:1935/live/|-s|http://kaban.tv/uppod.swf|-p|http://kaban.tv/7tv-online|-y|7tv.stream|--live|true
-bridge-tv rtmp://213.186.127.42:1935/live/|-s|http://kaban.tv/uppod.swf|-p|http://kaban.tv/bridge-tv-online|-y|bridgetv.stream|--live|true
-mtv rtmp://213.186.127.42:1935/live/|-s|http://kaban.tv/uppod.swf|-p|http://kaban.tv/mtv-online|-y|mtv.stream|--live|true
-peh_tb rtmp://213.186.127.42:1935/live/|-s|http://kaban.tv/uppod.swf|-p|http://kaban.tv/ren-online|-y|ren.stream|--live|true
-Пятый_канал rtmp://213.186.127.42:1935/live/|-s|http://kaban.tv/uppod.swf|-p|http://kaban.tv/5kanal-online|-y|5kanal.stream|--live|true
-Домашний rtmp://213.186.127.42:1935/live/|-s|http://kaban.tv/uppod.swf|-p|http://kaban.tv/domashnii-online|-y|dom.stream|--live|true
-Карусель rtmp://213.186.127.42:1935/live/|-s|http://kaban.tv/uppod.swf|-p|http://kaban.tv/karusel-online|-y|karusel.stream|--live|true
-МУЗ_ТВ rtmp://213.186.127.42:1935/live/|-s|http://kaban.tv/uppod.swf|-p|http://kaban.tv/muz-tv-online|-y|muztv.stream|--live|true
-НТВ rtmp://213.186.127.42:1935/live/|-s|http://kaban.tv/uppod.swf|-p|http://kaban.tv/ntv-online|-y|ntv.stream|--live|true
-перец_тв rtmp://213.186.127.42:1935/live/|-s|http://kaban.tv/uppod.swf|-p|http://kaban.tv/perec-online|-y|dtv.stream|--live|true
-Первый_канал rtmp://213.186.127.42:1935/live/|-s|http://kaban.tv/uppod.swf|-p|http://kaban.tv/pervii-kanal-online|-y|first.stream|--live|true
-Россия_К rtmp://213.186.127.42:1935/live/|-s|http://kaban.tv/uppod.swf|-p|http://kaban.tv/rossiya-k-online|-y|kultura.stream|--live|true
-СТС rtmp://213.186.127.42:1935/live/ -s|http://kaban.tv/uppod.swf|-p|http://kaban.tv/sts-online|-y|sts.stream|--live|true
-ТВЭКС rtmp://213.186.127.42:1935/live/|-s|http://kaban.tv/uppod.swf|-p|http://kaban.tv/tv3-online|-y|tv3.stream|--live|true
-ТВ_Центр rtmp://213.186.127.42:1935/live/|-s|http://kaban.tv/uppod.swf|-p|http://kaban.tv/tvc-online|-y|tvc.stream|--live|true
-Звезда rtmp://213.186.127.42:1935/live/|-s|http://kaban.tv/uppod.swf|-p|http://kaban.tv/zvezda-online|-y|zvezda.stream|--live|true
-ru.tv rtmp://213.186.127.42:1935/live/|-s|http://kaban.tv/uppod.swf|-p|http://kaban.tv/ru-tv-online|-y|rutv.stream|--live|true
+Россия_1 http://i.vgtrk.cdnvideo.ru/rr2/smil:rtp_givc11_rr.smil/playlist.m3u8?auth=vh&cast_id=2961
+Россия_24 http://testlivestream.rfn.ru/live/smil:r24.smil/playlist.m3u8?auth=vh&cast_id=21
+Россия_2 http://i.vgtrk.cdnvideo.ru/rr2/smil:rtp_givc12_rr.smil/playlist.m3u8?auth=vh&cast_id=3465
+m24 http://i.vgtrk.cdnvideo.ru/rr2/smil:rtp_m24_rr.smil/playlist.m3u8?auth=vh&cast_id=1661
+Маяк http://i.vgtrk.cdnvideo.ru/rr2/smil:rtp_mayak_rr.smil/playlist.m3u8?auth=vh&cast_id=81
+Россия_К http://i.vgtrk.cdnvideo.ru/rr2/smil:rtp_russiak_rr.smil/playlist.m3u8?auth=vh&cast_id=19201
+PTP http://i.vgtrk.cdnvideo.ru/rr2/smil:rtp_givc8_rr.smil/playlist.m3u8?auth=vh&cast_id=4941
