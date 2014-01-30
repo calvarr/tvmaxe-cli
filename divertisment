@@ -12,8 +12,16 @@ nume_tv=`cat $HOME/.tvmaxe-cli/.tmp/adr`
 		elif [[ "$testt" = "www.trilulilu.ro" ]];then
 		echo `wget -qO - "$adresa"|grep userid|sed "s/ /_/g;s/,/\n /g"|grep 'server\|type\|source\|hash\|userid\|key'`>$HOME/.tvmaxe-cli/.tmp/divertisment1
 		funny=`cat $HOME/.tvmaxe-cli/.tmp/divertisment1|sed 's/[=:]/ /g'|awk '{print "http://fs"$7".trilulilu.ro/stream.php?type=video&source=site&hash="$5"&username="$3"&key=&format=mp4-360p"}'|sed 's/"//g'`
-		elif [[ "$testt" = "izismile.com" ]];then
-		funny=`cat $HOME/.tvmaxe-cli/.tmp/divertisment|awk '{print $2}'|sed -n "${nr_linie_colectie}p"`;fi
+		elif [[ "$testt" = "izismile.com" ]]
+			then
+			
+		adr_smile=`cat $HOME/.tvmaxe-cli/.tmp/divertisment|awk '{print $2}'|sed -n "${nr_linie_colectie}p"`
+		funny=`wget -qO - $adr_smile|grep file|grep mp4|sed 's/"//g'|awk '{print $3}'`
+	elif [[ "$testt" = "metacafe" ]]
+		then
+		adr_metacafe=`cat $HOME/.tvmaxe-cli/.tmp/divertisment|awk '{print $2}'|sed -n "${nr_linie_colectie}p"`
+		funny=`wget -qO - $adr_metacafe|grep mccont|sed -n '1p'|sed 's/ /_/g;s/vl.mccont/ http:\/\/vl.mccont/;s/mp4/mp4 /g'|awk '{print $2}'|sed 's/\%5C/\//g;s/\%2F//g;s/\%25/\%/g'`
+	fi
 		ext=.mp4
 		}
 listare_divertisment (){
@@ -23,7 +31,9 @@ listare_divertisment (){
 
 		wget -qO - "http://www.trilulilu.ro/video-haioase?cele-mai-tari&azi"|grep '<span class="title"><a href='|sed 's/ /_/g;s/["><]/ /g'|awk '{print $5,$4,"www.trilulilu.ro"}'>>$HOME/.tvmaxe-cli/.tmp/divertisment
 		
-		wget -qO - http://izismile.com/videos/|grep "config: {"|sed 's/ /_/g;s/"/ /g'|awk '{print $2}'|sed 's/\.flv/ /;s/\// /g'|awk '{print $7,$1"//"$2"/"$3"/"$4"/"$5"/"$6"/"$7".flv","izismile.com"}'>>$HOME/.tvmaxe-cli/.tmp/divertisment
+		wget -qO - http://m.izismile.com/videos/|grep m.izismile|grep h2|sed 's/ /_/g;s/["<>]/ /g'|awk '{print $4,$2,"izismile.com"}'>>$HOME/.tvmaxe-cli/.tmp/divertisment
+
+		 wget -qO - http://www.metacafe.com/darwin-award-winners|grep "/watch/"|grep ItemTitle|sed 's/ /_/g;s/"/ /g'|awk '{print $8,"http://www.metacafe.com"$6,"metacafe"}'>>$HOME/.tvmaxe-cli/.tmp/divertisment
 
 colectie=`cat $HOME/.tvmaxe-cli/.tmp/divertisment|awk '{print $1,"off"}'|nl`
 }
@@ -118,5 +128,7 @@ awk '/[.] +[0-9][0-9]?[0-9]?%/ { print substr($0,63,3) }' | $DIALOG --gauge "Des
 ;;
 	06)exit 0;;
 esac
-############################################
 
+############################################
+killall $player
+exit 0
