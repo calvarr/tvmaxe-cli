@@ -104,7 +104,7 @@ if [ ! -f $HOME/.tvmaxe-cli/.tmp/noi ];then
 filme_noi=`wget -qO - http://www.990.ro/|grep test/|sed "s/ /_/;s/'/ /g"|awk '{print "http://www.990.ro/"$2}'|sed -n '1p'`
 		wget -qO - $filme_noi|grep title|sed 's/ /_/g;s/"../ /g;s/[<>]/ /g'|awk '{print $6 " "$2}'>$HOME/.tvmaxe-cli/.tmp/noi
 seriale_noi=`wget -qO - http://www.990.ro/|grep test/|sed "s/ /_/;s/'/ /g"|awk '{print "http://www.990.ro/"$2}'|sed -n '2p'`
-		wget -qO - $seriale_noi|grep title|sed 's/ /_/g;s/"../ /g;s/[<>]/ /g'|awk '{print $6 " "$2}'>>$HOME/.tvmaxe-cli/.tmp/noi
+		wget -qO - $seriale_noi|grep title|sed 's/ /_/g;s/"../ /g;s/[<>]/ /g'|awk '{print $5 " "$3}'>>$HOME/.tvmaxe-cli/.tmp/noi
 fi
 		filmenoi=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print $1,"|"}'`
 
