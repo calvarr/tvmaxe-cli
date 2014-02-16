@@ -1,4 +1,4 @@
-#! /bin/bash -x
+#! /bin/bash
 source config
 
 
@@ -14,10 +14,70 @@ source config
  		despre_film () {
 			$DIALOG --infobox "Procesez..." 5 15
 			$DIALOG --infobox "$descriere" 30 50 ; sleep 5
+
+
 						}
 
 
 
+meniufilm () {
+	
+$DIALOG --backtitle "tvmaxe-cli" \
+	  --title "$nume" --clear \
+          --menu ":::" 30 35 30 \
+	"01" "Redati" \
+	"02" "Inregistrati" \
+	"03" "Descarcati" \
+	"04" "Adaugati la favorite" \
+	"05" "Reveniti" \
+	"06" "Parasiti" 2>$tempfile
+  selectie0=$?
+	abandon
+  selectat=`cat $tempfile`
+
+  case "$selectat" in
+	01)	 
+
+		$player  $nume1 $film1  &>/dev/null
+		$postplay
+		exit 0
+;;
+
+	02)	wget -O $salvare/$nume1$ext $film1 &>/dev/null &
+		sleep $delay ; 
+		$player $salvare/$nume1$ext $postplay  &>/dev/null
+		killall wget 
+		exit 0
+;;
+
+	03)	axel -o $salvare/$nume1$ext $film1 2>&1 |grep "%]"| sed -u -e "s,\.,,g;s/\]//" | awk '{printf("\b\b\b\b%4s", $2)}' 2>&1
+			echo -ne "\b\b\b\b" #|$DIALOG --gauge "Descarc.." 6 50 10
+		exit 0
+;;
+
+	04)	
+			$DIALOG --backtitle "tvmaxe-cli" \
+				--title "Creati o lista sau adaugati postul la o lista existenta: " \
+				--inputbox "Liste existente: \n $liste" 15 75 2>$tempfile
+		selectie0=$?
+		abandon
+		selectat1=`cat $tempfile`
+		if [[ "$selectat1" = "" ]];then
+			$DIALOG --title "Eroare" \
+				--msgbox "\n Introduceti numele listei" 6 50
+		else
+			echo "$nume1 $film1" >> $HOME/'.'tvmaxe-cli/playlist/$selectat1.tv
+		fi
+		if [ "$selectie0" == "255" ]; then
+   			exit 0
+  		fi ;;
+
+	05)	filmnou ;;
+
+	06)	exit 0 ;;
+  esac
+
+ }
 
 
 $DIALOG --backtitle "tvmaxe-cli" \
@@ -102,8 +162,7 @@ $DIALOG --backtitle "tvmaxe-cli" \
 		embed=`wget -qO - $adresa_film|grep pm-embed-code|sed -e 's/^.*\(src=.*\).*$/\1/;s/"/ /g'|awk '{print $2}'`
 		upload=`wget -qO - $embed|grep vk|sed 's/ /_/g;s/"/ /g'|awk '{print $2}'`
 
-echo adresa_film $adresa_film
-echo upload $upload
+
 sleep 5
 		wget -qO - $upload|sed -n '/video_host/,/video_vtag/ p'|sed "s/ /_/g;s/'/ /g"|awk '{print $2}' > $HOME/.tvmaxe-cli/.tmp/surse
 
@@ -115,5 +174,6 @@ film1=$(echo `cat $HOME/.tvmaxe-cli/.tmp/surse`|awk -v rez=$rez '{print $1"u"$2"
 
 despre_film
 
-$player $film1
+#$player $film1
+meniufilm
 exit 0
