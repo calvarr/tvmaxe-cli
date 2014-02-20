@@ -46,13 +46,12 @@ until [ "$selectie0" == "1" ]; do
 	"05" "Shoutcast" \
 	"06" "Filme" \
 	"07" "Youtube" \
-	"08" "Youtube Live" \
-	"09" "Divertisment" \
-	"10" "Teatrul Radiofonic" \
-	"11" "Favorite" \
-	"12" "Captura web_tv" \
-	"13" "Actualizare" \
-	"14" "Parasiti" 2>$tempfile
+	"08" "Divertisment" \
+	"09" "Teatrul Radiofonic" \
+	"10" "Favorite" \
+	"11" "Captura web_tv" \
+	"12" "Actualizare" \
+	"13" "Parasiti" 2>$tempfile
   selectie0=$?
   selectat=`cat $tempfile`
   
@@ -64,13 +63,12 @@ until [ "$selectie0" == "1" ]; do
 	05) echo $format_audio radio > $HOME/.tvmaxe-cli/.tmp/format ; ./shoutcast;;
 	06) ./filme;;
 	07) echo "Youtube" > $HOME/.tvmaxe-cli/.tmp/adr ; ./youtube;;
-	08) ./youtube_tv;;
-	09) echo "Divertisment" > $HOME/.tvmaxe-cli/.tmp/adr ; ./divertisment;;
-	10) echo $format_audio radio > $HOME/.tvmaxe-cli/.tmp/format ; ./teatrul_radiofonic;;
-	11) ./favorite;;
-	12) ./capstream;;
-	13) ./actualizare;;
-	14) killall ceas
+	08) echo "Divertisment" > $HOME/.tvmaxe-cli/.tmp/adr ; ./divertisment;;
+	09) echo $format_audio radio > $HOME/.tvmaxe-cli/.tmp/format ; ./teatrul_radiofonic;;
+	10) ./favorite;;
+	11) ./capstream;;
+	12) ./actualizare;;
+	13) killall ceas
 		stty sane
 		exit 0
 			;;

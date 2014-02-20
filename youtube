@@ -17,19 +17,18 @@ pagini=`wget -qO -  http://www.youtube.com/results?search_query="$titlu"|grep da
 > $HOME/.tvmaxe-cli/.tmp/yt
 c=10
 for a in `seq 1 $pagini` ; do
-wget -qO - "http://www.youtube.com/results?search_query='$titlu'&page=$a"|grep item-title|sed 's/ /%_/g;s/[">]/ /g'|sed "s/\&amp;//g;s/quot;//g;s/#39;/'/g">>$HOME/.tvmaxe-cli/.tmp/yt
+wget -qO - "http://www.youtube.com/results?search_query='$titlu'&page=$a"|sed -n "/pyv-afc-ads-container/,/pyv-afc-ads-container/"p|sed ':a;N;$!ba;s/\n/ /g'|sed 's/ /sp123/g;s/title=/\n/g;s/"/ /g'|grep watch?|awk '{print $1,"http://www.youtube.com"$5}'|sed "s/sp123/_/g;s/\&amp;//g;s/quot;//g;s/#39;/'/g"|sed '/_title_/d'>>$HOME/.tvmaxe-cli/.tmp/yt
 ((c+=10));echo $c|$DIALOG --gauge "Caut.." 6 50 10
 done
-cat $HOME/.tvmaxe-cli/.tmp/yt|sed -e 's/^.*\(title=.*\).*$/\1/'|sed 's/ /%_/g'|sed 's/[="]/ /g'|sed 's/data-/ /g'|sed '/playlist-item-title/d'|awk '{print $2}'>$HOME/.tvmaxe-cli/.tmp/yt1
-cat $HOME/.tvmaxe-cli/.tmp/yt|sed -e 's/^.*\(id=.*\).*$/\1/'|sed 's/ /%_/g'|sed 's/[="]/ /g'|sed 's/data-/ /g'|awk '{print "http://www.youtube.com/watch?v="$2}'|sed 's/%_//g'|sed '/playlist-item-title/d'>$HOME/.tvmaxe-cli/.tmp/yt2
 
-colectie=`cat $HOME/.tvmaxe-cli/.tmp/yt1|sed 's/%_/_/g;s/\&lt;b&gt;//g;s/\#39//g;s/&amp//'|awk '{print $1,"off"}'|nl`
-nr_piese_lista=`cat $HOME/.tvmaxe-cli/.tmp/yt1|wc -l`
+
+colectie=`cat $HOME/.tvmaxe-cli/.tmp/yt|sed 's/%_/_/g;s/\&lt;b&gt;//g;s/\#39//g;s/&amp//'|awk '{print $1,"off"}'|nl`
+nr_piese_lista=`cat $HOME/.tvmaxe-cli/.tmp/yt|wc -l`
 
 
 youtube () {
-adr_yt=`cat $HOME/.tvmaxe-cli/.tmp/yt2|sed -n "${nr_linie_colectie}p"`
-nume=`cat $HOME/.tvmaxe-cli/.tmp/yt1|sed 's/%_/_/g;s/\&lt;b&gt;//g;s/\#39//g;s/&amp//'|sed -n "${nr_linie_colectie}p"`
+adr_yt=`cat $HOME/.tvmaxe-cli/.tmp/yt|awk '{print $2}'|sed -n "${nr_linie_colectie}p"`
+nume=`cat $HOME/.tvmaxe-cli/.tmp/yt|sed 's/%_/_/g;s/\&lt;b&gt;//g;s/\#39//g;s/&amp//'|awk '{print $1}'|sed -n "${nr_linie_colectie}p"`
 #adr_yt_3gp=`echo $adr_yt|sed 's/=/ /'|awk '{print "http://m.youtube.com/watch?v="$2}'`
 #gp3_yt=`curl  http://m.youtube.com/watch?v=0Cnfrg5eh28|grep 'rtsp'|sed -n '1p'|sed 's/"/ /g'|awk '{print $3}'`
 }
@@ -171,7 +170,7 @@ exit 0
 	done
 	exit 0
 ;;
-	10)exit 0;;
+	10) exit 0;;
 esac
 ############################################
 

@@ -93,6 +93,8 @@ $DIALOG --backtitle "tvmaxe-cli" \
 
 	$DIALOG --title "Caut pe:" --clear \
 		--infobox "www.990.ro" 5 35
+
+		#wget -qO - https://www.google.ro/search?q=$film_cautat&sitesearch=990.ro&hl=ro
 			wget -qO - "http://www.990.ro/cauta2.php?text=$film_cautat&submit=Cauta"|sed -n '/content_wrapper/,/post_title/ p'|grep titlu|sed 's/ /_/g;s/[<>"]/ /g'|awk '{print $5,$3,"Gasit_pe:_www.990.ro"}'>$HOME/.tvmaxe-cli/.tmp/filme_gasite1
 
 	$DIALOG --title "Caut pe:" --clear \

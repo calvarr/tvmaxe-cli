@@ -18,7 +18,7 @@ abandon () {
 case "$selectat" in
 01)
 
-		wget -qO - http://www.shoutcast.com/radio/genres|sed -n '/Radio Genres/,/Top genres/ p'|grep href|sed 's/ /_/g;s/["<>]/ /g'|awk '{print $8,"http://www.shoutcast.com"$7}' > $HOME/.tvmaxe-cli/.tmp/shoutcast_genuri
+		wget -qO - "http://www.shoutcast.com/?action=search&string=genres"|grep "href="|grep action|sed '/id=/d'|sed 's/ /_/g;s/[<>"]/ /g'|awk '{print $5,"http://www.shoutcast.com/radiolist.cfm"$4}'|sed '1d' > $HOME/.tvmaxe-cli/.tmp/shoutcast_genuri
 		genuri=`cat $HOME/.tvmaxe-cli/.tmp/shoutcast_genuri|awk '{print $1,"|"}'|sed 's/\&amp;/\&/g'`
 		$DIALOG --backtitle "tvmaxe-cli" \
 		  	--title "Shoutcast-gen" --clear \
@@ -27,9 +27,9 @@ case "$selectat" in
 		abandon
 		nume_gen=`cat $tempfile`
 		nr_gen=`cat $HOME/.tvmaxe-cli/.tmp/shoutcast_genuri|sed -n "/$nume_gen/="`
-		gen=`cat $HOME/.tvmaxe-cli/.tmp/shoutcast_genuri|awk '{print $2}'|sed -n "${nr_gen}p"`
+		gen=`cat $HOME/.tvmaxe-cli/.tmp/shoutcast_genuri|awk '{print $2}'|sed 's/_/ /g'|sed -n "${nr_gen}p"`
 		gen1=`cat $HOME/.tvmaxe-cli/.tmp/shoutcast_genuri|awk '{print $1}'|sed -n "${nr_gen}p"`
-		wget -qO - "$gen"|grep tunein-station|grep  clickabletitle|sed 's/ /_/g;s/["<>]/ /g'|awk '{print $9,$11}'>$HOME/.tvmaxe-cli/.tmp/shoutcast_radio
+		wget -qO - "$gen"|grep yp.shoutcast|sed '/icon-play/d'|sed 's/ /_/g;s/[<>"]/ /g'|awk '{print $8,$7}' >$HOME/.tvmaxe-cli/.tmp/shoutcast_radio
 
 			lista_radio=`cat $HOME/.tvmaxe-cli/.tmp/shoutcast_radio|awk '{print $1,"|"}'|sed 's/\&amp;/\&/g'`
 
@@ -53,22 +53,22 @@ case "$selectat" in
 			abandon
 			radio_cautat=`cat $tempfile`
 
-		wget -qO - http://www.shoutcast.com/Internet-Radio/"$radio_cautat"|grep tunein-station|grep  clickabletitle|sed 's/ /_/g;s/["<>]/ /g'|awk '{print $9,$11}'>$HOME/.tvmaxe-cli/.tmp/radio_cautat
+		wget -qO - "http://www.shoutcast.com/radiolist.cfm?action=search&string="$radio_cautat""|grep yp.shoutcast|sed '/icon-play/d'|sed 's/ /_/g;s/[<>"]/ /g'|awk '{print $8,$7}'>$HOME/.tvmaxe-cli/.tmp/radio_cautat
 
 if [[ -z `cat $HOME/.tvmaxe-cli/.tmp/radio_cautat` ]];then
 	$DIALOG	--title 'Eroare' \
 	--infobox '\n Nu am gasit postul radio' 5 50;sleep 2
 	exit 0
 else
-		radio_gasite=`cat $HOME/.tvmaxe-cli/.tmp/radio_cautat|awk '{print $1}'|sed 's/\&amp;/\&/g'`
+		radio_gasite=`cat $HOME/.tvmaxe-cli/.tmp/radio_cautat|awk '{print $1,"|"}'|sed 's/\&amp;/\&/g'`
 		$DIALOG --backtitle "tvmaxe-cli" \
 		  	--title "Shoutcast-radio" --clear \
-         		--menu ":::" 30 35 30 $radio_gasite  2> $tempfile
+         		--menu ":::" 30 40 30 $radio_gasite  2> $tempfile
       			selectie0=$?
 			abandon
 			nume_radio_gasit=`cat $tempfile`
 			nr_radio_gasit=`cat $HOME/.tvmaxe-cli/.tmp/shoutcast_cautat|sed -n "/$nume_radio_gasit/="`
-			radio_gasit=`cat $HOME/.tvmaxe-cli/.tmp/shoutcast_radio|awk '{print $2}'|sed -n "${nr_radio}p"`
+			radio=`cat $HOME/.tvmaxe-cli/.tmp/shoutcast_radio|awk '{print $2}'|sed -n "${nr_radio}p"`
 			echo $nume_radio_gasit $radio_gasit > $HOME/.tvmaxe-cli/.tmp/adr
 			
 fi
