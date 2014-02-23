@@ -21,6 +21,10 @@ nume_tv=`cat $HOME/.tvmaxe-cli/.tmp/adr`
 		then
 		adr_metacafe=`cat $HOME/.tvmaxe-cli/.tmp/divertisment|awk '{print $2}'|sed -n "${nr_linie_colectie}p"`
 		funny=`wget -qO - $adr_metacafe|grep mccont|sed -n '1p'|sed 's/ /_/g;s/vl.mccont/ http:\/\/vl.mccont/;s/mp4/mp4 /g'|awk '{print $2}'|sed 's/\%5C/\//g;s/\%2F//g;s/\%25/\%/g'`
+	elif [[ "$testt" = "ochevidets" ]]
+		then
+		adr_ochevidets=`cat $HOME/.tvmaxe-cli/.tmp/divertisment|awk '{print $2}'|sed -n "${nr_linie_colectie}p"`
+		funny=`wget -qO - $adr_ochevidets|grep Скачать|sed 's/ /_/g;s/"/ /g'|awk '{print $2}'`
 	fi
 		ext=.mp4
 		}
@@ -33,7 +37,9 @@ listare_divertisment (){
 		
 		wget -qO - http://m.izismile.com/videos/|grep m.izismile|grep h2|sed 's/ /_/g;s/["<>]/ /g'|awk '{print $4,$2,"izismile.com"}'>>$HOME/.tvmaxe-cli/.tmp/divertisment
 
-		 wget -qO - http://www.metacafe.com/darwin-award-winners|grep "/watch/"|grep ItemTitle|sed 's/ /_/g;s/"/ /g'|awk '{print $8,"http://www.metacafe.com"$6,"metacafe"}'>>$HOME/.tvmaxe-cli/.tmp/divertisment
+		wget -qO - http://www.metacafe.com/darwin-award-winners|grep "/watch/"|grep ItemTitle|sed 's/ /_/g;s/"/ /g'|awk '{print $8,"http://www.metacafe.com"$6,"metacafe"}'>>$HOME/.tvmaxe-cli/.tmp/divertisment
+
+		wget -qO - http://www.ochevidets.ru/best/|grep item_title|sed 's/ /_/g;s/["<>]/ /g'|awk '{print $6,"http://www.ochevidets.ru"$5,"ochevidets"}'>>$HOME/.tvmaxe-cli/.tmp/divertisment
 
 colectie=`cat $HOME/.tvmaxe-cli/.tmp/divertisment|awk '{print $1,"off"}'|nl`
 }
