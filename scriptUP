@@ -1,5 +1,6 @@
 #! /bin/bash
 source config
+$DIALOG --infobox "Creez lista fisierelor pentru actualizare" 5 35
 git="https://raw.github.com/calvarr/tvmaxe-cli/master/"
 #lista=`ls|grep -v ^d`
 lista=`wget -qO - https://github.com/calvarr/tvmaxe-cli|grep /blob/master/|sed 's/<[^>]*>//g'`
@@ -14,3 +15,11 @@ wget -O $HOME/.tvmaxe-cli/$nume_fisier $url_fisier &>/dev/null
 ((c+=3));echo $c|$DIALOG --gauge "Actualizez $nume_fisier" 6 50 10
 sleep 2
 done
+
+$DIALOG --infobox "Recreare simlink tvmaxe-cli in /usr/bin aveti nevoie de drepturi administrative" 5 35
+sudo rm /usr/bin/tvmaxe-cli
+cd $HOME/.tvmaxe-cli
+sudo ln -s tvmaxe-cli /usr/bin/tvmaxe-cli
+sudo chmod +x /usr/bin/tvmaxe-cli
+
+$DIALOG --infobox "Actualizare cu succes!" 5 35

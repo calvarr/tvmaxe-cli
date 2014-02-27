@@ -15,6 +15,9 @@ wget -qO - https://raw.github.com/calvarr/tvmaxe-cli/master/scriptUP > scriptUP
 $DIALOG --title "tvmaxe-cli" \
 	--infobox "Actualizare noua... \ncommit: $commit1 \n$mesaj" 30 50
 sleep 5
+else
+	$DIALOG --infobox "Aveti cea mai noua versiune deja instalata" 5 35
+	sleep 3
 fi
 ######################################
 $DIALOG --backtitle "tvmaxe-cli" \
