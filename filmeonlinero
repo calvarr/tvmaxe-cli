@@ -72,41 +72,8 @@ $DIALOG --backtitle "tvmaxe-cli" \
  }
 
 
- $DIALOG --backtitle "tvmaxe-cli" \
-	  --title "Filme 990.ro" --clear \
-          --menu ":::" 25 30 25 \
-	"01" "Filme noi" \
-	"02" "Dupa gen" \
-	"03" "Parasiti"  2>$tempfile
-  selectie0=$?
-abandon
-  selectat=`cat $tempfile`
-case "$selectat" in
 
-	01) 
-
-wget -qO - http://filmeonlinenoi.ro/filme-noi/page/1/|grep 'id="post"'|sed 's/ /_/g;s/[<>"]/ /g'|awk '{print $5,$4}' >$HOME/.tvmaxe-cli/.tmp/noi
-wget -qO - http://filmeonlinenoi.ro/filme-noi/page/2/|grep 'id="post"'|sed 's/ /_/g;s/[<>"]/ /g'|awk '{print $5,$4}' >>$HOME/.tvmaxe-cli/.tmp/noi
-filmenoi=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print $1,"|"}'`
-
-		$DIALOG --backtitle "tvmaxe-cli" \
-		  --title "Noi aparitii" --clear \
-         	 --menu ":::" 30 50 30 $filmenoi  2> $tempfile
-      		selectie0=$?
-		abandon
-		nume_film_nou=`cat $tempfile`
-		nr_film_nou=`cat $HOME/.tvmaxe-cli/.tmp/noi|sed -n "/$nume_film_nou/="`
-		adresa=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print $2}'|sed -n "${nr_film_nou}p"`
-		upload=`wget -qO - $adresa|grep vk.com|sed 's/ /_/g;s/"/ /g'|awk '{print $2}'`
-		nume=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print $1}'|sed 's/_/ /g'|sed -n "${nr_film_nou}p"`
-		nume1=`echo $nume|sed 's/ /_/g'`
-
-		wget -qO - $upload|sed -n '/video_host/,/video_vtag/ p'|sed "s/ /_/g;s/'/ /g"|awk '{print $2}' > $HOME/.tvmaxe-cli/.tmp/surse
-		;;
-
-	02) 
-
-wget -qO - http://filmeonlinenoi.ro/|sed -n "/genres/,/sortmenu/ p"|grep href|sed 's/ /_/g;s/["<>]/ /g'|awk '{print $6,"http://filmeonlinenoi.ro"$3}'>$HOME/.tvmaxe-cli/.tmp/categorii_filmeonlinero
+wget -qO - http://filmeonlinenoi.ro/|sed -n "/genres/,/sortmenu/ p"|grep href|sed 's/ /_/g;s/["<>]/ /g'|sed '1d'|awk '{print $6,"http://filmeonlinenoi.ro"$3}'>$HOME/.tvmaxe-cli/.tmp/categorii_filmeonlinero
 categorii=`cat $HOME/.tvmaxe-cli/.tmp/categorii_filmeonlinero|awk '{print $1,"|"}'`
 
 $DIALOG --backtitle "tvmaxe-cli" \
@@ -144,8 +111,7 @@ $DIALOG --backtitle "tvmaxe-cli" \
 		nume1=`echo $nume|sed 's/ /_/g'`
 
 		wget -qO - $upload|sed -n '/video_host/,/video_vtag/ p'|sed "s/ /_/g;s/'/ /g"|awk '{print $2}' > $HOME/.tvmaxe-cli/.tmp/surse
-;;
-esac
+
 
 film1=$(echo `cat $HOME/.tvmaxe-cli/.tmp/surse`|awk -v rez=$rez '{print $1"u"$2"/videos/"$3"."rez".mp4"}')
 
