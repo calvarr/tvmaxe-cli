@@ -16,5 +16,5 @@ wget -O $HOME/.tvmaxe-cli/$nume_fisier $url_fisier &>/dev/null
 sleep 2
 done
 chmod +x $HOME/.tvmaxe-cli/*
-
-$DIALOG --infobox "Actualizare efectuata cu succes! Reporniti terminalul" 5 35
+wget -qO - https://github.com/calvarr/tvmaxe-cli/commits/master|grep 'class="sha"'|sed -n '1p'|sed 's/ /_/g;s/[><]/ /g'|awk '{print $3}' > $HOME/.tvmaxe-cli/.commit_tv
+$DIALOG --infobox "Actualizare efectuata cu succes!" 5 35

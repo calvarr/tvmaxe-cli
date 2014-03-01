@@ -6,14 +6,15 @@ commit1=`wget -qO - https://github.com/calvarr/tvmaxe-cli/commits/master|grep 'c
 commit2=`cat $HOME/.tvmaxe-cli/.commit_tv`
 
 if [[ "$commit1" != "$commit2" ]]; then 
- wget -qO - https://github.com/calvarr/tvmaxe-cli/commits/master|grep 'class="sha"'|sed -n '1p'|sed 's/ /_/g;s/[><]/ /g'|awk '{print $3}' > $HOME/.tvmaxe-cli/.commit_tv
+ 
  wget -qO - http://github.com/calvarr/tvmaxe-cli/commits/master|sed -n  "/commit-title/,/commit-meta/ p"|sed -n '2p'|sed 's/ /|/g;s/"/ /g'|awk '{print $NF}'|sed 's/|/ /g' >> $HOME/.tvmaxe-cli/mesaj_actualizare
 mesaj=`cat $HOME/.tvmaxe-cli/mesaj_actualizare|sed -n '$p'`
 
+$DIALOG --infobox "Descarc modulul pentru actualizare: scriptUP" 5 35
 wget -qO - https://raw.github.com/calvarr/tvmaxe-cli/master/scriptUP > scriptUP
 
 $DIALOG --title "tvmaxe-cli" \
-	--infobox "Actualizare noua... \ncommit: $commit1 \n$mesaj" 30 50
+	--infobox "Actualizare noua... \ncommit: $commit1 \n$mesaj" 5 50
 sleep 5
 else
 	$DIALOG --infobox "Aveti cea mai noua versiune deja instalata" 5 35

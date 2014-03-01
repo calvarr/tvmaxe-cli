@@ -1,6 +1,9 @@
 #GUI-NoGUI (gui ori nogui)
 interfata=nogui 
 
+#cauta actualizari in mod automat
+actualizare=auto_actualizare
+
 locatia=`pwd`
 rez=360
 

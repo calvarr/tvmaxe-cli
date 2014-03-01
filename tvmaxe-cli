@@ -5,6 +5,20 @@ mkdir -p $HOME/.tvmaxe-cli/.tmp
 touch $HOME/.tvmaxe-cli/.tmp/adr
 source config
 ./ceas &
+auto_actualizare () {
+	$DIALOG --infobox "Caut actualizari disponibile..." 5 20
+	commit1=`wget -qO - https://github.com/calvarr/tvmaxe-cli/commits/master|grep 'class="sha"'|sed -n '1p'|sed 's/ /_/g;s/[><]/ /g'|awk '{print $3}'`
+	commit2=`cat $HOME/.tvmaxe-cli/.commit_tv`
+
+	if [[ "$commit1" != "$commit2" ]]; then 
+		
+		./actualizare
+	else
+		$DIALOG --infobox "Nu au fost gasite actualizari \n $commit1=$commit2" 5 20
+		sleep 2
+	fi
+					}
+
 gui () {
 test_tty=`echo $DISPLAY X|awk '{print $2}'`
 if [[ "$test_tty" = "X" ]];then
@@ -23,6 +37,7 @@ nogui () {
 DIALOG=dialog
 }
 $interfata
+$actualizare
 export DIALOG
 tempfile=`tempfile 2>/dev/null` || tempfile=$HOME/.tvmaxe-cli/.tmp/capclitmp$$
 export tempfile
@@ -33,7 +48,6 @@ echo "tvmaxe-cli $1" > $HOME/.tvmaxe-cli/.tmp/adr
 echo $format_video tv > $HOME/.tvmaxe-cli/.tmp/format
 ./adr_externa
 fi
-
 until [ "$selectie0" == "1" ]; do
 
   $DIALOG --backtitle "tvmaxe-cli" \
