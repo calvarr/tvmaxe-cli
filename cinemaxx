@@ -1,8 +1,5 @@
-#! /bin/bash
+#! /bin/bash -x
 source config
-
-
-
 
 		abandon () {
 		if [ "$selectie0" == "255" ]||[ "$selectie0" == "1" ]; then
@@ -24,7 +21,7 @@ meniufilm () {
 	
 $DIALOG --backtitle "tvmaxe-cli" \
 	  --title "$nume" --clear \
-          --menu ":::" 30 35 30 \
+          --menu "::: $nume1" 30 35 30 \
 	"01" "Redati" \
 	"02" "Inregistrati" \
 	"03" "Descarcati" \
@@ -37,20 +34,25 @@ $DIALOG --backtitle "tvmaxe-cli" \
 
   case "$selectat" in
 	01)	 
-
+$DIALOG --infobox "$nume1" 5 30
 		$player  $nume1 $film1  &>/dev/null
 		$postplay
 		exit 0
 ;;
 
-	02)	wget -O $salvare/$nume1$ext $film1 &>/dev/null &
+	02)	
+
+		wget -O $salvare/$nume1$ext $film1 &>/dev/null &
 		sleep $delay ; 
 		$player $salvare/$nume1$ext $postplay  &>/dev/null
 		killall wget 
 		exit 0
 ;;
 
-	03)	axel -o $salvare/$nume1$ext $film1 2>&1 |grep "%]"| sed -u -e "s,\.,,g;s/\]//" | awk '{printf("\b\b\b\b%4s", $2)}' 2>&1
+	03)
+
+
+		axel -o $salvare/$nume1$ext $film1 2>&1 |grep "%]"| sed -u -e "s,\.,,g;s/\]//" | awk '{printf("\b\b\b\b%4s", $2)}' 2>&1
 			echo -ne "\b\b\b\b" #|$DIALOG --gauge "Descarc.." 6 50 10
 		exit 0
 ;;
@@ -94,16 +96,18 @@ abandon
 case "$selectat" in
 
 	01) 
+$DIALOG --infobox "Procesez..." 5 15
 
 if [ ! -f $HOME/.tvmaxe-cli/.tmp/noi_cinemaxx ];then
-	wget -qO - http://cinemaxx.rs/newvideos.html|sed -n '/pm-ul-browse-videos/,/pagination pagination-centered/ p'|grep pm-title-link|sed 's/ /_/g;s/"/ /g'|awk '{print $8,$4}'>$HOME/.tvmaxe-cli/.tmp/noi_cinemaxx
+	#wget -qO - http://cinemaxx.co/rss.php|sed ':a;N;$!ba;s/\n//g'|sed 's/<title>/\n/g;s/ /_/g;s/[<>]/ /g'|sed '1,2d'|awk '{print $1,$5}'>$HOME/.tvmaxe-cli/.tmp/noi_cinemaxx
+	wget -qO - http://cinemaxx.co/newvideos.html|sed -n "/videolist/,/pagination/ p"|sed ':a;N;$!ba;s/\n//g'|sed 's/href/\n/g;s/ /_/g;s/["<>]/ /g'|sed '1d'|awk '{print $8,$2}'>$HOME/.tvmaxe-cli/.tmp/noi_cinemaxx
 fi
 
 		
 
 filmenoi=`cat $HOME/.tvmaxe-cli/.tmp/noi_cinemaxx|awk '{print $1,"|"}'`
 
-		$DIALOG --backtitle "tvmaxe-cli" \
+$DIALOG --backtitle "tvmaxe-cli" \
 		  --title "Noi aparitii" --clear \
          	 --menu ":::" 30 50 30 $filmenoi  2> $tempfile
       		selectie0=$?
@@ -116,16 +120,19 @@ filmenoi=`cat $HOME/.tvmaxe-cli/.tmp/noi_cinemaxx|awk '{print $1,"|"}'`
 		descriere=`wget -qO - $adresa|sed -n '/description text-exp/,/video-tags/ p'|sed 's/<[^>]*>/ /g'`
 		embed=`wget -qO - $adresa|grep pm-embed-code|sed -e 's/^.*\(src=.*\).*$/\1/;s/"/ /g'|awk '{print $2}'`
 		upload=`wget -qO - $embed|grep vk|sed 's/ /_/g;s/"/ /g'|awk '{print $2}'`
-
+$DIALOG --infobox "Procesez..." 5 15
 		wget -qO - $upload|sed -n '/video_host/,/video_vtag/ p'|sed "s/ /_/g;s/'/ /g"|awk '{print $2}' > $HOME/.tvmaxe-cli/.tmp/surse
-	echo upload $upload
+	
  #film1=$(echo `cat $HOME/.tvmaxe-cli/.tmp/surse`|awk -v rez=$rez '{print $1"u"$2"/videos/"$3"."rez".mp4"}')
+ $DIALOG --infobox "Procesez..." 5 15
 ;;
 
 
 02)
-wget -qO - http://cinemaxx.rs|sed -n '/pm-list-categories/,/pm-video-left/ p'|grep browse|sed 's/ /_/g;s/"/ /g;s/[<>]/ /g'|sed '$d'|awk '{print $5,$3}'>$HOME/.tvmaxe-cli/.tmp/categorii_cinemaxx
-categorii=`cat $HOME/.tvmaxe-cli/.tmp/categorii_cinemaxx|awk '{print $1,"|"}'|sed '$d'`
+$DIALOG --infobox "Procesez..." 5 15
+
+wget -qO - http://cinemaxx.co|sed -n "/>Categoria/,/>Articole/ p"|grep browse-filme|sed 's/ /_/g;s/[<>"]/ /g'|awk '{print $5,$3}'>$HOME/.tvmaxe-cli/.tmp/categorii_cinemaxx
+categorii=`cat $HOME/.tvmaxe-cli/.tmp/categorii_cinemaxx|awk '{print $1,"|"}'`
 
 $DIALOG --backtitle "tvmaxe-cli" \
 		  --title "Categorii" --clear \
@@ -137,13 +144,13 @@ $DIALOG --backtitle "tvmaxe-cli" \
 		adresa_categorie=`cat $HOME/.tvmaxe-cli/.tmp/categorii_cinemaxx|awk '{print $2}'|sed -n "${nr_categorie}p"`
 
 
-nr_pagini=`wget -qO - $adresa_categorie|sed -n '/pagination-centered/,/icon-chevron-up/ p'|grep browse|sed '$d'|sed -n '$p'|sed 's/<[^>]*>/ /g'`
+nr_pagini=`wget -qO - $adresa_categorie|sed -n '/pagination/,/footerwrapper/ p'|grep browse|sed '$d'|sed -n '$p'|sed 's/<[^>]*>/ /g'`
 
 		adresa_categorie_paginare=`echo $adresa_categorie|sed 's/videos-/videos- /'`
 		schelet_paginare=`echo $adresa_categorie_paginare|awk '{print $1}'`
 i=1
 		for p in `seq 1 $nr_pagini` ; do
-			wget -qO - $schelet_paginare$(( i++ ))-date.html|sed -n '/pm-ul-browse-videos/,/pagination pagination-centered/ p'|grep pm-title-link|sed 's/ /_/g;s/"/ /g;s/Film_-_//g'|awk '{print $8,$4}'>>$HOME/.tvmaxe-cli/.tmp/categorie
+			wget -qO - $schelet_paginare$(( i++ ))-date.html|sed -n "/videolist/,/pagination/ p"|sed ':a;N;$!ba;s/\n//g'|sed 's/href/\n/g;s/ /_/g;s/["<>]/ /g'|sed '1d'|awk '{print $8,$2}'>>$HOME/.tvmaxe-cli/.tmp/categorie
 			$DIALOG --infobox "Pagini $(( i++ ))" 5 15;sleep 0.5
 		done
 
@@ -157,13 +164,14 @@ $DIALOG --backtitle "tvmaxe-cli" \
 		film_categorie=`cat $tempfile`
 		nr_film_categorie=`cat $HOME/.tvmaxe-cli/.tmp/categorie|sed -n "/$film_categorie/="`
 		adresa_film=`cat $HOME/.tvmaxe-cli/.tmp/categorie|awk '{print $2}'|sed -n "${nr_film_categorie}p"`
-
-		descriere=`wget -qO - $adresa_film|sed -n '/description text-exp/,/video-tags/ p'|sed 's/<[^>]*>/ /g'`
+		nume=`cat $HOME/.tvmaxe-cli/.tmp/categorie|awk '{print $1}'|sed -n "${nr_film_categorie}p"`
+		nume1=`echo $nume|sed 's/ /_/g'`
+		#descriere=`wget -qO - $adresa_film|sed -n '/description text-exp/,/video-tags/ p'|sed 's/<[^>]*>/ /g'`
 		embed=`wget -qO - $adresa_film|grep pm-embed-code|sed -e 's/^.*\(src=.*\).*$/\1/;s/"/ /g'|awk '{print $2}'`
 		upload=`wget -qO - $embed|grep vk|sed 's/ /_/g;s/"/ /g'|awk '{print $2}'`
 
 
-sleep 5
+$DIALOG --infobox "Procesez..." 5 15
 		wget -qO - $upload|sed -n '/video_host/,/video_vtag/ p'|sed "s/ /_/g;s/'/ /g"|awk '{print $2}' > $HOME/.tvmaxe-cli/.tmp/surse
 
 		 rm $HOME/.tvmaxe-cli/.tmp/categorie
@@ -172,8 +180,7 @@ esac
 
 film1=$(echo `cat $HOME/.tvmaxe-cli/.tmp/surse`|awk -v rez=$rez '{print $1"u"$2"/videos/"$3"."rez".mp4"}')
 
-despre_film
+#despre_film
 
-#$player $film1
 meniufilm
 exit 0

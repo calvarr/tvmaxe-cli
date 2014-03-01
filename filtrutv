@@ -200,7 +200,15 @@ case "$selectat" in
 			rtmpdump -r $adr -o -|$player -
 	elif [[ "$protocol" = "pls" ]]||[[ "$protocol" = "m3u" ]]||[[ "$protocol" = "shoutcast" ]];
 	then
-			$player -playlist $adr
+			
+			$player -playlist $adr 2>/dev/null|grep --line-buffered 'Name\|Genre\|Website\|ICY' #> $HOME/.tvmaxe-cli/.tmp/radio_info &
+			#sleep 3
+			#while read line < $HOME/.tvmaxe-cli/.tmp/radio_info; 
+			#do
+    		#$DIALOG --infobox "$line" 10 60
+    		#sleep 30
+			#done
+			#wait
 	elif [[ "$protocol" = "livestream" ]]; then 
 			livestreamer $adr best -Q -o - |$player - &>/dev/null
 		else

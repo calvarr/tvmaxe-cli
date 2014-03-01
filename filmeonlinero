@@ -18,7 +18,7 @@ meniufilm () {
 	
 $DIALOG --backtitle "tvmaxe-cli" \
 	  --title "$nume" --clear \
-          --menu ":::" 30 35 30 \
+          --menu "::: $nume1" 30 35 30 \
 	"01" "Redati" \
 	"02" "Inregistrati" \
 	"03" "Descarcati" \
@@ -30,7 +30,7 @@ $DIALOG --backtitle "tvmaxe-cli" \
 
   case "$selectat" in
 	01)	 
-
+$DIALOG --infobox "$nume1" 5 30
 		$player  $nume1 $film1  &>/dev/null
 		$postplay
 		exit 0

@@ -15,11 +15,6 @@ wget -O $HOME/.tvmaxe-cli/$nume_fisier $url_fisier &>/dev/null
 ((c+=3));echo $c|$DIALOG --gauge "Actualizez $nume_fisier" 6 50 10
 sleep 2
 done
+chmod +x $HOME/.tvmaxe-cli/*
 
-$DIALOG --infobox "Recreare simlink tvmaxe-cli in /usr/bin aveti nevoie de drepturi administrative" 5 35
-sudo rm /usr/bin/tvmaxe-cli
-cd $HOME/.tvmaxe-cli
-sudo ln -s tvmaxe-cli /usr/bin/tvmaxe-cli
-sudo chmod +x /usr/bin/tvmaxe-cli
-
-$DIALOG --infobox "Actualizare cu succes!" 5 35
+$DIALOG --infobox "Actualizare efectuata cu succes! Reporniti terminalul" 5 35
