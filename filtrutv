@@ -209,18 +209,20 @@ case "$selectat" in
     		#sleep 30
 			#done
 			#wait
-	elif [[ "$protocol" = "livestream" ]]; then 
+	elif [[ "$protocol" = "livestream" ]]
+		then 
 			livestreamer $adr best -Q -o - |$player - &>/dev/null
-		else
+	else
 			#exec 2> /dev/null
-			 $($procesare -y -i "$adr" -acodec copy -vcodec copy -f avi - 2>/dev/null|$player - &>/dev/null);stty sane
+			$player $adr 2>/dev/null|grep --line-buffered 'Name\|Genre\|Website\|ICY'
+			 #$($procesare -y -i "$adr" -acodec copy -vcodec copy -f avi - 2>/dev/null|$player - &>/dev/null);stty sane
 
 			
 			#$player "$adr" &> /dev/null & #|tee $HOME/.tvmaxe-cli/.tmp/datehttp &
-			$DIALOG --backtitle "tvmaxe-cli" \
-					--title "| $numetv |" \
-					--msgbox "\nDoriti sa intrerupeti redarea?" 10 50
-			killall $player1
+			#$DIALOG --backtitle "tvmaxe-cli" \
+			#		--title "| $numetv |" \
+			#		--msgbox "\nDoriti sa intrerupeti redarea?" 10 50
+			#killall $player1
 			#datehttp=`cat $HOME/.tvmaxe-cli/.tmp/datehttp`
 			#$DIALOG --infobox "$datehttp" 30 35
 	fi

@@ -1,16 +1,22 @@
 #!/bin/bash
-
+source config
 cd $HOME/'.'tvmaxe-cli
 mkdir -p $HOME/.tvmaxe-cli/.tmp
 touch $HOME/.tvmaxe-cli/.tmp/adr
-source config
+if [ ! -f $HOME/.tvmaxe-cli/.commit_tv ]; then
+	echo "Lipsa fisier $HOME/.tvmaxe-cli/.commit_tv"
+	echo "creez $HOME/.tvmaxe-cli/.commit_tvcommit_tv"
+    wget -qO - https://github.com/calvarr/tvmaxe-cli/commits/master|grep 'class="sha"'|sed -n '1p'|sed 's/ /_/g;s/[><]/ /g'|awk '{print $3}' > $HOME/.tvmaxe-cli/.commit_tv
+fi
+
 ./ceas &
 auto_actualizare () {
 	$DIALOG --infobox "Caut actualizari disponibile..." 5 20
 	commit1=`wget -qO - https://github.com/calvarr/tvmaxe-cli/commits/master|grep 'class="sha"'|sed -n '1p'|sed 's/ /_/g;s/[><]/ /g'|awk '{print $3}'`
 	commit2=`cat $HOME/.tvmaxe-cli/.commit_tv`
 
-	if [[ "$commit1" != "$commit2" ]]; then 
+	if [[ "$commit1" != "$commit2" ]]
+	then 
 		
 		./actualizare
 	else
@@ -22,7 +28,7 @@ auto_actualizare () {
 gui () {
 test_tty=`echo $DISPLAY X|awk '{print $2}'`
 if [[ "$test_tty" = "X" ]];then
-  if [ `builtin type -p xdialog` ];then DIALOG=xdialog
+  if   [ `builtin type -p xdialog` ];then DIALOG=xdialog
   elif [ `builtin type -p Xdialog` ];then DIALOG=Xdialog
   elif [ `builtin type -p gdialog` ];then DIALOG=gdialog
   elif [ `builtin type -p kdialog` ];then DIALOG=kdialog
@@ -32,13 +38,15 @@ if [[ "$test_tty" = "X" ]];then
 else
   DIALOG=dialog
 fi
+
 }
 nogui () {
 DIALOG=dialog
 }
+export DIALOG
 $interfata
 $actualizare
-export DIALOG
+#export DIALOG
 tempfile=`tempfile 2>/dev/null` || tempfile=$HOME/.tvmaxe-cli/.tmp/capclitmp$$
 export tempfile
 trap "rm -f $tempfile" 0 1 2 5 15
