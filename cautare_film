@@ -5,7 +5,7 @@ filtrufilm () {
 filtru=`echo $upload|sed 's/\// /g'|awk '{print $2}'`
 if [[ "$filtru" = "vk.com" ]] ;then
 film1=$(echo `cat $HOME/.tvmaxe-cli/.tmp/surse`|awk -v rez=$rez '{print $1"u"$2"/videos/"$3"."rez".mp4"}')
-ext=.flv
+ext=.mp4
 elif [[ "$filtru" = "www.filmeonlinenoi.org" ]];then
 film1=`wget -qO - $etapa1|grep "'file':"|sed "s/'/ /g"|awk '{print $3}'`
 else

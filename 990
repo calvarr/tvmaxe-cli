@@ -1,7 +1,7 @@
-#!/bin/bash 
+#!/bin/bash
 source config
 ######################################
-
+ext=.flv
 abandon () {
 if [ "$selectie0" == "255" ]||[ "$selectie0" == "1" ]; then
    
@@ -18,7 +18,7 @@ meniufilm () {
 	
 $DIALOG --backtitle "tvmaxe-cli" \
 	  --title "$nume" --clear \
-          --menu "::: $nume1" 30 35 30 \
+          --menu "::: " 30 35 30 \
 	"01" "Redati" \
 	"02" "Inregistrati" \
 	"03" "Descarcati" \
@@ -110,6 +110,7 @@ case "$selectat" in
 		
 ;;
 02)
+$DIALOG --infobox "Procesez..." 5 15
 wget -qO - http://www.990.ro/|sed -n "/Ultimele episoade/,/Ultimele filme/ p"|grep link|sed "s/ /_/g;s/[<>']/ /g"|awk '{print $5,$4}'>$HOME/.tvmaxe-cli/.tmp/noi
 
 		episoade_noi=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print $1,"|"}'`
@@ -128,7 +129,9 @@ wget -qO - http://www.990.ro/|sed -n "/Ultimele episoade/,/Ultimele filme/ p"|gr
 		nume=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print $1}'|sed 's/_/ /g'|sed -n "${nr_film_nou}p"`
 		nume1=`echo $nume|sed 's/ /_/g'`
 		;;
-03)wget -qO - http://www.990.ro/|sed -n "/Calitate +/,/tabberAutomatic/ p"|grep link|sed "s/ /_/g;s/[<>']/ /g"|awk '{print $5,$4}'>$HOME/.tvmaxe-cli/.tmp/noi
+03)
+$DIALOG --infobox "Procesez..." 5 15
+wget -qO - http://www.990.ro/|sed -n "/Calitate +/,/tabberAutomatic/ p"|grep link|sed "s/ /_/g;s/[<>']/ /g"|awk '{print $5,$4}'>$HOME/.tvmaxe-cli/.tmp/noi
 
 		episoade_noi=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print $1,"|"}'`
 
@@ -147,6 +150,7 @@ wget -qO - http://www.990.ro/|sed -n "/Ultimele episoade/,/Ultimele filme/ p"|gr
 		nume1=`echo $nume|sed 's/ /_/g'`
 		;;
 04)
+			$DIALOG --infobox "Procesez..." 5 15
 			wget -qO - http://www.990.ro|sed -n '/dupa gen/,/\/ul/ p'|sed '1,2d;$d'|sed 's/ /_/g;s/["<>]/ /g'|awk '{print $7,"http://www.990.ro/"$5}'>$HOME/.tvmaxe-cli/.tmp/gen_film
 			gen_film=`cat $HOME/.tvmaxe-cli/.tmp/gen_film|awk '{print $1}'|nl`
 		$DIALOG --backtitle "tvmaxe-cli" \
