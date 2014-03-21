@@ -39,7 +39,7 @@ fi
 
 inregistrare () {
 		if [[ "$protocol" = "sopcast" ]]; then 
-			$(sp-sc $adr 8901 9901 &>/dev/null &)
+			$(sp-sc "$adr 8901 9901" &>/dev/null &)
 			$DIALOG --infobox "incep inregistrarea in 20 sec" 5 35 ; sleep 20; wait 
 #$procesare -y -i "http://localhost:9901 " -acodec copy -vcodec copy -f $format  $salvare/$numetv"_"$data.$format 2>/dev/null &
 #sleep $delay
@@ -174,14 +174,15 @@ $DIALOG --infobox "Procesez... \n Protocol $protocol" 5 15
 case "$selectat" in
 01) 
 	if [[ "$protocol" = "sopcast" ]]; then
-		$(sp-sc $adr 8901 9901 &>/dev/null & )
+		$(sp-sc "$adr 8901 9901" &>/dev/null & )
 		sleep 15
 		wait 
 		#$(testpost=`wget --spider http://localhost:9901  -qO -&>/dev/null 2>&1`)
 		#if [ $? != 0 ]; then
 		#	$DIALOG --infobox "Adresa inactiva" 5 35 ;sleep 2
 		#else
-			$(wget -qO - http://localhost:9901|$player - &>/dev/null)
+			#$(wget -qO - http://localhost:9901|$player - &>/dev/null)
+			$player http://localhost:9901 &>/dev/null
 			killall sp-sc 
 		#fi
 	elif [[ "$protocol" = "m3u8" ]]; then 

@@ -9,7 +9,10 @@ if [ ! -f $HOME/.tvmaxe-cli/.commit_tv ]; then
     wget -qO - https://github.com/calvarr/tvmaxe-cli/commits/master|grep 'class="sha"'|sed -n '1p'|sed 's/ /_/g;s/[><]/ /g'|awk '{print $3}' > $HOME/.tvmaxe-cli/.commit_tv
 fi
 
+ceas () {
 ./ceas &
+}
+
 auto_actualizare () {
 	$DIALOG --infobox "Caut actualizari disponibile..." 5 20
 	commit1=`wget -qO - https://github.com/calvarr/tvmaxe-cli/commits/master|grep 'class="sha"'|sed -n '1p'|sed 's/ /_/g;s/[><]/ /g'|awk '{print $3}'`
