@@ -1,6 +1,7 @@
 #!/bin/bash
 source config
 cd $HOME/'.'tvmaxe-cli
+./ceas &
 mkdir -p $HOME/.tvmaxe-cli/.tmp
 touch $HOME/.tvmaxe-cli/.tmp/adr
 if [ ! -f $HOME/.tvmaxe-cli/.commit_tv ]; then
@@ -9,9 +10,7 @@ if [ ! -f $HOME/.tvmaxe-cli/.commit_tv ]; then
     wget -qO - https://github.com/calvarr/tvmaxe-cli/commits/master|grep 'class="sha"'|sed -n '1p'|sed 's/ /_/g;s/[><]/ /g'|awk '{print $3}' > $HOME/.tvmaxe-cli/.commit_tv
 fi
 
-ceas () {
-./ceas &
-}
+
 
 auto_actualizare () {
 	$DIALOG --infobox "Caut actualizari disponibile..." 5 20
