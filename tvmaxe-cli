@@ -1,6 +1,6 @@
 #!/bin/bash
-source config
 cd $HOME/'.'tvmaxe-cli
+source config
 ./ceas &
 mkdir -p $HOME/.tvmaxe-cli/.tmp
 touch $HOME/.tvmaxe-cli/.tmp/adr
