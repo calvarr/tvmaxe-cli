@@ -10,6 +10,14 @@ nume_tv=`cat $post|awk '{print $1}'`
 format=`cat $HOME/.tvmaxe-cli/.tmp/format|awk '{print $1}'`
 radio=`cat $HOME/.tvmaxe-cli/.tmp/format|awk '{print $2}'`
 
+sopcast_rpi () {
+./qemu-i386 lib/ld-linux.so.2 --library-path lib ./sp-sc-auth $1 $2 $3
+}
+
+sopcast_pc () {
+./sp-sc-auth $1 $2 $3
+}
+
 protocol_tv (){
 soptest=`cat $post|awk '{print $2}'|sed 's/\:/ /g;s/"//g'|awk '{print $1}'`
 m3u8test=`cat $post|awk '{print $2}'|sed 's/?/ /'|sed -e 's/^.*\(m3u8[^ ,]*\).*$/\1/'`
@@ -39,13 +47,13 @@ fi
 
 inregistrare () {
 		if [[ "$protocol" = "sopcast" ]]; then 
-			$(sp-sc "$adr 8901 9901" &>/dev/null &)
+			$( $sopcast "$adr 8901 9901" &>/dev/null &)
 			$DIALOG --infobox "incep inregistrarea in 20 sec" 5 35 ; sleep 20; wait 
 #$procesare -y -i "http://localhost:9901 " -acodec copy -vcodec copy -f $format  $salvare/$numetv"_"$data.$format 2>/dev/null &
 #sleep $delay
 			wget -O $salvare/$numetv"_"$data.$format http://localhost:9901 &>/dev/null &
 			$player $salvare/$numetv"_"$data.$format &>/dev/null 
-			killall wget sp-sc #$procesare
+			killall wget $omoara_sopcast #$procesare
 			#stty sane
 			
 		elif [[ "$protocol" = "m3u8" ]]; then 
@@ -174,7 +182,7 @@ $DIALOG --infobox "Procesez... \n Protocol $protocol" 5 15
 case "$selectat" in
 01) 
 	if [[ "$protocol" = "sopcast" ]]; then
-		$(sp-sc "$adr 8901 9901" &>/dev/null & )
+		$($sopcast "$adr 8901 9901" &>/dev/null & )
 		sleep 15
 		wait 
 		#$(testpost=`wget --spider http://localhost:9901  -qO -&>/dev/null 2>&1`)
@@ -183,7 +191,7 @@ case "$selectat" in
 		#else
 			#$(wget -qO - http://localhost:9901|$player - &>/dev/null)
 			$player http://localhost:9901 &>/dev/null
-			killall sp-sc 
+			killall $omoara_sopcast
 		#fi
 	elif [[ "$protocol" = "m3u8" ]]; then 
 			$($procesare -y -i "$adr" -acodec libmp3lame -ar 44100 -vcodec copy -f flv - 2>/dev/null|$player - &>/dev/null);stty sane

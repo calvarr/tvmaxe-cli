@@ -29,7 +29,7 @@ case "$selectat" in
 		nr_gen=`cat $HOME/.tvmaxe-cli/.tmp/shoutcast_genuri|sed -n "/$nume_gen/="`
 		gen=`cat $HOME/.tvmaxe-cli/.tmp/shoutcast_genuri|awk '{print $2}'|sed 's/_/ /g'|sed -n "${nr_gen}p"`
 		gen1=`cat $HOME/.tvmaxe-cli/.tmp/shoutcast_genuri|awk '{print $1}'|sed -n "${nr_gen}p"`
-		wget -qO - "$gen"|grep yp.shoutcast|sed 's/ /_/g;s/[<>"]/ /g'|awk '{print $23,$22}' >$HOME/.tvmaxe-cli/.tmp/shoutcast_radio
+		wget -qO - "$gen"|grep yp.shoutcast|sed 's/ /_/g;s/[<>"]/ /g'|awk '{print $8,$7}' >$HOME/.tvmaxe-cli/.tmp/shoutcast_radio
 
 			lista_radio=`cat $HOME/.tvmaxe-cli/.tmp/shoutcast_radio|awk '{print $1,"|"}'|sed 's/\&amp;/\&/g'`
 
@@ -53,7 +53,7 @@ case "$selectat" in
 			abandon
 			radio_cautat=`cat $tempfile`
 
-		wget -qO - "http://www.shoutcast.com/radiolist.cfm?action=search&string="$radio_cautat""|grep yp.shoutcast|sed 's/ /_/g;s/[<>"]/ /g'|awk '{print $23,$22}'>$HOME/.tvmaxe-cli/.tmp/radio_cautat
+		wget -qO - "http://www.shoutcast.com/radiolist.cfm?action=search&string="$radio_cautat""|grep yp.shoutcast|sed 's/ /_/g;s/[<>"]/ /g'|awk '{print $8,$7}'|grep "pls?">$HOME/.tvmaxe-cli/.tmp/radio_cautat
 
 if [[ -z `cat $HOME/.tvmaxe-cli/.tmp/radio_cautat` ]];then
 	$DIALOG	--title 'Eroare' \

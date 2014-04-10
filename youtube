@@ -6,6 +6,7 @@ if [ "$selectie0" == "255" ]||[ "$selectie0" == "1" ]; then
   fi
 }
 
+player1=echo "$player"|awk '{print $1}'
 
 		$DIALOG --title "| youtube |" \
 			--backtitle "tvmaxe-cli" \
@@ -33,6 +34,16 @@ nume=`cat $HOME/.tvmaxe-cli/.tmp/yt|sed 's/%_/_/g;s/\&lt;b&gt;//g;s/\#39//g;s/&a
 #gp3_yt=`curl  http://m.youtube.com/watch?v=0Cnfrg5eh28|grep 'rtsp'|sed -n '1p'|sed 's/"/ /g'|awk '{print $3}'`
 }
 
+youtube_rpi () {
+	
+	youtube-dl  --max-quality FORMAT -g $adr_yt 2>/dev/null > $HOME/.tvmaxe-cli/.tmp/adr_yt
+	adr_yt1=`cat $HOME/.tvmaxe-cli/.tmp/adr_yt`
+	$player "$adr_yt1" &>/dev/null
+}
+
+youtube_pc () {
+   			youtube-dl --max-quality FORMAT $adr_yt -o - 2>/dev/null|$player - &>/dev/null
+   		}
 
 $DIALOG --backtitle "tvmaxe-cli" \
           	--checklist ":::" 80 80 80 $colectie 2> $tempfile
@@ -66,10 +77,11 @@ $DIALOG --backtitle "tvmaxe-cli" \
 
 	 youtube
 	
- 	youtube-dl --max-quality FORMAT $adr_yt -o - 2>/dev/null|$player "-" &>/dev/null
-   			
+ 	 $youtube2
+
 		done
-	exit 0
+		#killall $player1
+	#exit 0
 ;;
 
 	02)
@@ -109,7 +121,7 @@ $DIALOG --backtitle "tvmaxe-cli" \
 		
 		youtube
 		
-   			youtube-dl --max-quality FORMAT $adr_yt -o - 2>/dev/null|$player "-" &>/dev/null
+   		$youtube2
    			
 		done
 		exit 0
