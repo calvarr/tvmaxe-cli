@@ -156,6 +156,7 @@ $DIALOG --backtitle "tvmaxe-cli" \
 		abandon
 		nr_serial=`cat $tempfile`
 		#nr_serial=`cat $HOME/.tvmaxe-cli/.tmp/seriale_pagini|sed -n "/$nume_serial/="`
+		nume_serial=`cat $HOME/.tvmaxe-cli/.tmp/seriale_pagini|awk '{print $1}'|sed -n "${nr_serial}p"`
 		adresa_serial=`cat $HOME/.tvmaxe-cli/.tmp/seriale_pagini|awk '{print $2}'|sed -n "${nr_serial}p"`
 
 
@@ -179,7 +180,7 @@ $DIALOG --backtitle "tvmaxe-cli" \
 		server1=`wget -qO - $adresa_epizod --user-agent="Mozilla/5.0 (Windows NT 5.2; rv:2.0.1) Gecko/20100101 Firefox/4.0.1" |grep sfast|sed -n '1p'|sed "s/ /_/g;s/'/ /g"|awk '{print "http://www.990.ro/"$4}'`
 		upload=`wget -qO - $server1 --user-agent="Mozilla/5.0 (Windows NT 5.2; rv:2.0.1) Gecko/20100101 Firefox/4.0.1" |grep fastupload|sed "s/'//g;s/http/ http/g"|awk '{print $4}'`
 		film1=`wget -qO - $upload --user-agent="Mozilla/5.0 (Windows NT 5.2; rv:2.0.1) Gecko/20100101 Firefox/4.0.1" |grep flv|sed "s/ /_/;s/'/ /g"|awk '{print $4}'`
-		nume=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print $1}'|sed 's/_/ /g'|sed -n "${nr_film_nou}p"`
+		nume=`cat $HOME/.tvmaxe-cli/.tmp/epizoade_serial|awk '{print $1}'|sed 's/_/ /g'|sed -n "${nr_epizod}p"`
 		nume1=`echo $nume|sed 's/ /_/g'`
 
 
