@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/bash -x
 source config
 ext=.mp4
 		abandon () {
@@ -35,14 +35,14 @@ $DIALOG --backtitle "tvmaxe-cli" \
   case "$selectat" in
 	01)	 
 $DIALOG --infobox "$nume1" 5 30
-		$player $film1  &>/dev/null
+		$player "$film1"  &>/dev/null
 		$postplay
 		exit 0
 ;;
 
 	02)	
 
-		wget -O $salvare/$nume1$ext $film1 &>/dev/null &
+		wget -O $salvare/$nume1$ext "$film1" &>/dev/null &
 		sleep $delay ; 
 		$player $salvare/$nume1$ext $postplay  &>/dev/null
 		killall wget 
@@ -52,7 +52,7 @@ $DIALOG --infobox "$nume1" 5 30
 	03)
 
 
-		axel -o $salvare/$nume1$ext $film1 2>&1 |grep "%]"| sed -u -e "s,\.,,g;s/\]//" | awk '{printf("\b\b\b\b%4s", $2)}' 2>&1
+		axel -o $salvare/$nume1$ext "$film1" 2>&1 |grep "%]"| sed -u -e "s,\.,,g;s/\]//" | awk '{printf("\b\b\b\b%4s", $2)}' 2>&1
 			echo -ne "\b\b\b\b" #|$DIALOG --gauge "Descarc.." 6 50 10
 		exit 0
 ;;
@@ -177,6 +177,11 @@ $DIALOG --infobox "Procesez..." 5 15
 		 rm $HOME/.tvmaxe-cli/.tmp/categorie
 ;;
 esac
+
+
+#ggle=`wget -qO - $embed|grep preview|sed 's/ /_/g;s/"/ /g'|awk '{print $2}'`
+
+#film1=`wget -qO - "$ggle"|grep DOCS_initializeModules|sed 's/https/\nhttps/g;s/%3A/\:/g;s/%2F/\//g;s/%3F/\?/g;s/%3D/\\/g;s/%26/\&/g;s/\\u003d/=/g;s/\\u0026/\&/g;s/,/ /g'|grep videoplayback|awk '{print $1"&cpn=pDN06fZ4igdJzQZr"}'|sed -n '1p'`
 
 film1=$(echo `cat $HOME/.tvmaxe-cli/.tmp/surse`|awk -v rez=$rez '{print $1"u"$2"/videos/"$3"."rez".mp4"}')
 
