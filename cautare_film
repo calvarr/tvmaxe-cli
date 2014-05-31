@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 source config
 ######################################
 filtrufilm () {
@@ -8,6 +8,8 @@ film1=$(echo `cat $HOME/.tvmaxe-cli/.tmp/surse`|awk -v rez=$rez '{print $1"u"$2"
 ext=.mp4
 elif [[ "$filtru" = "www.filmeonlinenoi.org" ]];then
 film1=`wget -qO - $etapa1|grep "'file':"|sed "s/'/ /g"|awk '{print $3}'`
+elif [[ "$filtru" = "api.video.mail.ru" ]];then
+film1=`wget -qO - $upload|grep videoSrc|sed 's/ /_/g;s/"/ /g'|awk '{print $2}'`
 else
 film1=`wget -qO - $upload|grep flv|sed "s/ /_/;s/'/ /g"|awk '{print $4}'`
 export film1
@@ -106,6 +108,9 @@ $DIALOG --backtitle "tvmaxe-cli" \
 	$DIALOG --infobox "Caut pe: www.filmeonlinenoi.ro" 5 35
 	wget -qO - "http://filmeonlinenoi.ro/index.php?story=$film_cautat&do=search&subaction=search"|grep 'id="post"'|sed '1d'|sed 's/ /_/g;s/[<>"]/ /g'|awk '{print $6,$2,"Gasit_pe:_www.filmeonlinenoi.ro"}'>>$HOME/.tvmaxe-cli/.tmp/filme_gasite1
 
+	$DIALOG --infobox "Caut pe: zfilmeonline.org" 5 35
+	wget -qO - "http://www.zfilmeonline.org/?s=$film_cautat"|grep movief|sed 's/ /_/g;s/["<>]/ /g'|awk '{print $5,$4,"Gasit_pe:_zfilmeonline.org"}'|sed '1d' >>$HOME/.tvmaxe-cli/.tmp/filme_gasite1
+
 cat $HOME/.tvmaxe-cli/.tmp/filme_gasite1|sed 's/ /||/g'|sort -d|sed 's/||/ /g' > $HOME/.tvmaxe-cli/.tmp/filme_gasite
 
 film_gasit=`cat $HOME/.tvmaxe-cli/.tmp/filme_gasite|awk '{print $1,"|"}'`
@@ -176,6 +181,8 @@ fi
 	elif [[ "$sursa" = "www.filmeonlinenoi.ro" ]];then
 		upload=`wget -qO - $adresa|grep vk.com|sed 's/ /_/g;s/"/ /g'|awk '{print $2}'`
 		wget -qO - $upload|sed -n '/video_host/,/video_vtag/ p'|sed "s/ /_/g;s/'/ /g"|awk '{print $2}' > $HOME/.tvmaxe-cli/.tmp/surse
+	elif [[ "$sursa" = "zfilmeonline.org" ]];then
+		upload=`wget -qO - $adresa|grep mail.ru|sed 's/ /_/g;s/"/ /g'|awk '{print $2}'`
 
 	fi
 sleep 3

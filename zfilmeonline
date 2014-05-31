@@ -101,7 +101,7 @@ filmenoi=`cat $HOME/.tvmaxe-cli/.tmp/zfilme_noi|awk '{print $1,"|"}'`
 
 		server1=`wget -qO - $adresa|grep mail.ru|sed 's/ /_/g;s/"/ /g'|awk '{print $2}'`
 		film1=`wget -qO - $server1|grep videoSrc|sed 's/ /_/g;s/"/ /g'|awk '{print $2}'`
-		nume=`cat $HOME/.tvmaxe-cli/.tmp/zfile_noi|awk '{print $1}'|sed 's/_/ /g'|sed -n "${nr_film_nou}p"`
+		nume=`cat $HOME/.tvmaxe-cli/.tmp/zfilme_noi|awk '{print $1}'|sed 's/_/ /g'|sed -n "${nr_film_nou}p"`
 		nume1=`echo $nume|sed 's/ /_/g'`
 		meniufilm
 ;;
@@ -140,7 +140,7 @@ filmenoi=`cat $HOME/.tvmaxe-cli/.tmp/zfilme_noi|awk '{print $1,"|"}'`
 		
 		server1=`wget -qO - $adresa|grep mail.ru|sed 's/ /_/g;s/"/ /g'|awk '{print $2}'`
 		film1=`wget -qO - $server1|grep videoSrc|sed 's/ /_/g;s/"/ /g'|awk '{print $2}'`
-		nume=`cat $HOME/.tvmaxe-cli/.tmp/zfile_noi|awk '{print $1}'|sed 's/_/ /g'|sed -n "${nr_film_nou}p"`
+		nume=`cat $HOME/.tvmaxe-cli/.tmp/zfilme_gen|awk '{print $1}'|sed 's/_/ /g'|sed -n "${nr_film_nou}p"`
 		nume1=`echo $nume|sed 's/ /_/g'`
 		meniufilm
  ;;
