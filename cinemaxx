@@ -119,7 +119,8 @@ $DIALOG --backtitle "tvmaxe-cli" \
 		nume1=`echo $nume|sed 's/ /_/g'`
 		#descriere=`wget -qO - $adresa|sed -n '/description text-exp/,/video-tags/ p'|sed 's/<[^>]*>/ /g'`
 		embed=`wget -qO - $adresa|grep pm-embed-code|sed -e 's/^.*\(src=.*\).*$/\1/;s/"/ /g'|awk '{print $2}'`
-		upload=`wget -qO - $embed|grep vk|sed 's/ /_/g;s/"/ /g'|awk '{print $2}'`
+		wget --post-data "username=tvmaxe-cli&password=tvmaxecli" http://www.cinemaxx.ro/login.php --keep-session-cookies --save-cookies $HOME/.tvmaxe-cli/.tmp/login_cookies_cinemax --delete-after
+		upload=`wget --load-cookie $HOME/.tvmaxe-cli/.tmp/login_cookies_cinemax -qO - $embed|grep vk|sed 's/ /_/g;s/"/ /g'|awk '{print $2}'`
 $DIALOG --infobox "Procesez..." 5 15
 		wget -qO - $upload|sed -n '/video_host/,/video_vtag/ p'|sed "s/ /_/g;s/'/ /g"|awk '{print $2}' > $HOME/.tvmaxe-cli/.tmp/surse
 	
