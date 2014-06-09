@@ -73,7 +73,7 @@ $DIALOG --infobox "$nume1" 5 30
  }
 
 	$DIALOG --backtitle "tvmaxe-cli" \
-	  --title "Filme 990.ro" --clear \
+	  --title "Filme zfilmeonline.org" --clear \
           --menu ":::" 25 30 25 \
 	"01" "Filme noi" \
 	"02" "Dupa gen" \

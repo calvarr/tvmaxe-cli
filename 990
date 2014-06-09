@@ -114,15 +114,16 @@ case "$selectat" in
 $DIALOG --infobox "Procesez..." 5 15
 wget -qO - http://www.990.ro --user-agent="Mozilla/5.0 (Windows NT 5.2; rv:2.0.1) Gecko/20100101 Firefox/4.0.1" |sed -n "/Ultimele episoade/,/Ultimele filme/ p"|grep link|sed "s/ /_/g;s/[<>']/ /g"|awk '{print $5,$4}'>$HOME/.tvmaxe-cli/.tmp/noi
 
-		episoade_noi=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print $1,"|"}'`
+		episoade_noi=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print $1}'|nl`
 
 		$DIALOG --backtitle "tvmaxe-cli" \
 		  --title "Noi aparitii" --clear \
          	 --menu ":::" 30 50 30 $episoade_noi  2> $tempfile
       		selectie0=$?
 		abandon
-		nume_film_nou=`cat $tempfile`
-		nr_film_nou=`cat $HOME/.tvmaxe-cli/.tmp/noi|sed -n "/$nume_film_nou/="`
+		#nume_film_nou=`cat $tempfile`
+		#nr_film_nou=`cat $HOME/.tvmaxe-cli/.tmp/noi|sed -n "/$nume_film_nou/="`
+		nr_film_nou=`cat $tempfile`
 		adresa_serial=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print $2}'|sed -n "${nr_film_nou}p"`
 
 
