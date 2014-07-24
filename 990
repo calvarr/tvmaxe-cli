@@ -300,7 +300,10 @@ mkdir -p $salvare/$nume_serial
 		genul=`cat $HOME/.tvmaxe-cli/.tmp/gen_film|awk '{print $2}'|sed -n "${nr_film_gen}p"`
 		nume_gen=`cat $HOME/.tvmaxe-cli/.tmp/gen_film|awk '{print $1}'|sed -n "${nr_film_gen}p"`
 
-		pagini_gen=`wget -qO - $genul --user-agent="Mozilla/5.0 (Windows NT 5.2; rv:2.0.1) Gecko/20100101 Firefox/4.0.1" |grep "Go to page"|sed '$d'|sed 's/title=/\n/g'|sed -n '$p'|sed 's/ /_/g;s/"/ /g;s/of_/ /g'|awk '{print $2}'`
+		#pagini_gen=`wget -qO - $genul --user-agent="Mozilla/5.0 (Windows NT 5.2; rv:2.0.1) Gecko/20100101 Firefox/4.0.1" |grep "Go to page"|sed '$d'|sed 's/title=/\n/g'|sed -n '$p'|sed 's/ /_/g;s/"/ /g;s/of_/ /g'|awk '{print $2}'`
+
+		pagini_gen=`wget -qO - $genul --user-agent="Mozilla/5.0 (Windows NT 5.2; rv:2.0.1) Gecko/20100101 Firefox/4.0.1" |grep "numarpagini"|sed -n '$p'|sed 's/<[^>]*>/ /g'|awk '{print $NF}'`
+
 		cumulpg=`echo $genul|sed 's/-1.html//'`
 		i=1
 		for p in `seq 1 $pagini_gen` ; do
