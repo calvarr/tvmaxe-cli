@@ -67,7 +67,7 @@ until [ "$selectie0" == "1" ]; do
 	"02" "Streams-magazinmixt" \
 	"03" "Evenimente TV" \
 	"04" "Radio on-line" \
-	"05" "Shoutcast" \
+	"05" "Meteo" \
 	"06" "Filme" \
 	"07" "Youtube" \
 	"08" "Divertisment" \
@@ -84,7 +84,7 @@ until [ "$selectie0" == "1" ]; do
 	02) echo $format_video tv > $HOME/.tvmaxe-cli/.tmp/format    ; ./stream_magazin;;
 	03) echo $format_video tv > $HOME/.tvmaxe-cli/.tmp/format    ; ./evenimente;;
 	04) echo $format_audio radio > $HOME/.tvmaxe-cli/.tmp/format ; ./radio_online;;
-	05) echo $format_audio radio > $HOME/.tvmaxe-cli/.tmp/format ; ./shoutcast;;
+	05) ./meteo ;;
 	06) ./filme;;
 	07) echo "Youtube" > $HOME/.tvmaxe-cli/.tmp/adr ; ./youtube;;
 	08) echo "Divertisment" > $HOME/.tvmaxe-cli/.tmp/adr ; ./divertisment;;

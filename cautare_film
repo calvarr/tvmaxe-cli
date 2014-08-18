@@ -11,7 +11,7 @@ film1=`wget -qO - $etapa1|grep "'file':"|sed "s/'/ /g"|awk '{print $3}'`
 elif [[ "$filtru" = "api.video.mail.ru" ]];then
 film1=`wget -qO - $upload|grep videoSrc|sed 's/ /_/g;s/"/ /g'|awk '{print $2}'`
 else
-film1=`wget -qO - $upload|grep flv|sed "s/ /_/;s/'/ /g"|awk '{print $4}'`
+film1=`wget -qO - $upload|grep file|grep download|sed "s/ /_/;s/'/ /g"|awk '{print $3}'`
 export film1
 ext=.flv
 fi;

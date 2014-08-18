@@ -1,0 +1,36 @@
+#! /bin/bash 
+source config
+#ido.ro - predictii meteo pentru 7 zile;
+
+#localitate (puteti gasi localitatile diponibile pe ido.ro)
+$DIALOG --infobox "Procesez...\n datele meteo pentru $localitate" 8 15
+
+if [ -f $HOME/.tvmaxe-cli/.tmp/.date_meteo ]
+	then
+	rm $HOME/.tvmaxe-cli/.tmp/.date_meteo
+fi
+
+
+#colectare informatii
+
+wget -qO - http://www.ido.ro/$localitate|grep 'day-status\|zi-\|text-tip\|day-temps\|clock\|afisezora'>$HOME/.tvmaxe-cli/.tmp/.tmp_meteo
+
+grep -i 'afisezora' $HOME/.tvmaxe-cli/.tmp/.tmp_meteo|sed 's/<[^>]*>//g;s/ /_/g;s/;/ /g;s/&nbsp//g'|awk '{print $6}'> $HOME/.tvmaxe-cli/.tmp/.date_meteo
+
+i=0
+
+for i in $(seq 1 7)
+	do
+	day_status=$(grep -i 'day-status' $HOME/.tvmaxe-cli/.tmp/.tmp_meteo|sed 's/ /_/g;s/[>"]/ /g'|awk '{print $4}'|sed -n "${i}p")
+	zi=$(grep -i 'zi-' $HOME/.tvmaxe-cli/.tmp/.tmp_meteo|sed 's/ /_/g;s/[<>"]/ /g'|awk '{print $3,$5}'|sed -n "${i}p")
+	text_tip=$(grep -i 'text-tip' $HOME/.tvmaxe-cli/.tmp/.tmp_meteo|sed 's/ /_/g;s/[<>"]/ /g;s/&sup2;/²/g'|awk '{print $3,$5,$7}'|sed -n "${i}p")
+	day_temps=$(grep -i 'day-temps' $HOME/.tvmaxe-cli/.tmp/.tmp_meteo|sed 's/ /_/g;s/[<>"]/ /g;s/&#730;/°/g'|awk '{print "Ziua:"$3,"Noaptea:"$5}'|sed -n "${i}p")
+
+echo "\\n $day_status \\n $zi \\n $text_tip \\n $day_temps"|sed 's/_/ /g' >> $HOME/.tvmaxe-cli/.tmp/.date_meteo
+echo "********************************************************" >> $HOME/.tvmaxe-cli/.tmp/.date_meteo
+done
+
+rm $HOME/.tvmaxe-cli/.tmp/.tmp_meteo
+date_localitete=`cat $HOME/.tvmaxe-cli/.tmp/.date_meteo`
+$DIALOG --title "Meteo $localitate pentru 7 zile" \
+--msgbox "\n $date_localitete" 50 60
