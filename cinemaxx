@@ -17,7 +17,21 @@ ext=.mp4
 
 filtru_film () {
 
-	server_film=`wget -qO - $embed|grep `
+	server_film1=`wget -qO - $embed|grep mail.ru &>/dev/null 2>&1`
+		if [ $? = 0 ]
+			then 
+			server1=`wget -qO - $embed|grep mail.ru|sed 's/ /_/g;s/"/ /g'|awk '{print $2}'`
+			film1=`wget -qO - $server1|grep videoSrc|sed 's/ /_/g;s/"/ /g'|awk '{print $2}'`
+		else
+			upload=`wget -qO - $embed|grep vk|sed 's/ /_/g;s/"/ /g'|awk '{print $2}'`
+
+			wget -qO - $upload|sed -n '/video_host/,/video_vtag/ p'|sed "s/ /_/g;s/'/ /g"|awk '{print $2}' > $HOME/.tvmaxe-cli/.tmp/surse
+
+			film1=$(echo `cat $HOME/.tvmaxe-cli/.tmp/surse`|awk -v rez=$rez '{print $1"u"$2"/videos/"$3"."rez".mp4"}')
+		fi
+#ggle=`wget -qO - $embed|grep preview|sed 's/ /_/g;s/"/ /g'|awk '{print $2}'`
+
+#film1=`wget -qO - "$ggle"|grep DOCS_initializeModules|sed 's/https/\nhttps/g;s/%3A/\:/g;s/%2F/\//g;s/%3F/\?/g;s/%3D/\\/g;s/%26/\&/g;s/\\u003d/=/g;s/\\u0026/\&/g;s/,/ /g'|grep videoplayback|awk '{print $1"&cpn=pDN06fZ4igdJzQZr"}'|sed -n '1p'`
 }
 
 
@@ -125,8 +139,10 @@ $DIALOG --backtitle "tvmaxe-cli" \
 		#descriere=`wget -qO - $adresa|sed -n '/description text-exp/,/video-tags/ p'|sed 's/<[^>]*>/ /g'`
 		embed=`wget -qO - $adresa|grep pm-embed-code|sed -e 's/^.*\(src=.*\).*$/\1/;s/"/ /g'|awk '{print $2}'`
 
-		server1=`wget -qO - $embed|grep mail.ru|sed 's/ /_/g;s/"/ /g'|awk '{print $2}'`
-		film1=`wget -qO - $server1|grep videoSrc|sed 's/ /_/g;s/"/ /g'|awk '{print $2}'`
+		#server1=`wget -qO - $embed|grep mail.ru|sed 's/ /_/g;s/"/ /g'|awk '{print $2}'`
+		#film1=`wget -qO - $server1|grep videoSrc|sed 's/ /_/g;s/"/ /g'|awk '{print $2}'`
+
+		filtru_film
 		#wget --post-data "username=tvmaxe-cli&password=tvmaxecli" http://www.cinemaxx.ro/login.php --keep-session-cookies --save-cookies $HOME/.tvmaxe-cli/.tmp/login_cookies_cinemax --delete-after
 		#upload=`wget --load-cookie $HOME/.tvmaxe-cli/.tmp/login_cookies_cinemax -qO - $embed|grep vk|sed 's/ /_/g;s/"/ /g'|awk '{print $2}'`
 		#upload=`wget -qO - $embed|grep vk|sed 's/ /_/g;s/"/ /g'|awk '{print $2}'`
@@ -181,11 +197,12 @@ $DIALOG --backtitle "tvmaxe-cli" \
 		#descriere=`wget -qO - $adresa_film|sed -n '/description text-exp/,/video-tags/ p'|sed 's/<[^>]*>/ /g'`
 		embed=`wget -qO - $adresa_film|grep pm-embed-code|sed -e 's/^.*\(src=.*\).*$/\1/;s/"/ /g'|awk '{print $2}'`
 		#upload=`wget -qO - $embed|grep vk|sed 's/ /_/g;s/"/ /g'|awk '{print $2}'`
-		server1=`wget -qO - $embed|grep mail.ru|sed 's/ /_/g;s/"/ /g'|awk '{print $2}'`
-		film1=`wget -qO - $server1|grep videoSrc|sed 's/ /_/g;s/"/ /g'|awk '{print $2}'`
+		#server1=`wget -qO - $embed|grep mail.ru|sed 's/ /_/g;s/"/ /g'|awk '{print $2}'`
+		#film1=`wget -qO - $server1|grep videoSrc|sed 's/ /_/g;s/"/ /g'|awk '{print $2}'`
+		filtru_film
 
 $DIALOG --infobox "Procesez..." 5 15
-		wget -qO - $upload|sed -n '/video_host/,/video_vtag/ p'|sed "s/ /_/g;s/'/ /g"|awk '{print $2}' > $HOME/.tvmaxe-cli/.tmp/surse
+		#wget -qO - $upload|sed -n '/video_host/,/video_vtag/ p'|sed "s/ /_/g;s/'/ /g"|awk '{print $2}' > $HOME/.tvmaxe-cli/.tmp/surse
 
 		 rm $HOME/.tvmaxe-cli/.tmp/categorie
 ;;
