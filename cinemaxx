@@ -160,7 +160,7 @@ nr_pagini=`wget -qO - $adresa_categorie|sed -n '/pagination/,/footerwrapper/ p'|
 		schelet_paginare=`echo $adresa_categorie_paginare|awk '{print $1}'`
 i=1
 		for p in `seq 1 $nr_pagini` ; do
-			wget -qO - $schelet_paginare$(( i++ ))-date.html|grep pm-thumb-fix|sed 's/["=<>]/ /g'|sed '1d'|awk '{print $14,$3}'>>$HOME/.tvmaxe-cli/.tmp/categorie
+			wget -qO - $schelet_paginare$(( i++ ))-date.html|grep pm-thumb-fix|sed 's/ /_/g;s/["=<>]/ /g'|awk '{print $10,$2}'>>$HOME/.tvmaxe-cli/.tmp/categorie
 
 
 			$DIALOG --infobox "Pagini $(( i++ ))" 5 15;sleep 0.5
