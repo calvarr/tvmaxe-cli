@@ -54,10 +54,11 @@ format_video=flv
 format_audio=mp3
 
 ########################################################################
+########################################################################
 #Player redare:
 
 #player:
-player='mplayer -msglevel cache=-1 -nojoystick -nolirc -cache 820 -cache-min 20 -prefer-ipv4 -ao alsa,pulse, -vo xv,fbdev2, -xy 720 -zoom -geometry 10:20'
+player='mplayer -msglevel cache=-1 -nojoystick -nolirc -cache 820 -cache-min 20 -prefer-ipv4 -ao alsa,pulse, -vo xv,fbdev2, -xy 720 -zoom -geometry 10:20 '
 
 #player='omxplayer -o hdmi' #necesar pentru raspberry pi, desi exista mplayer nu are aceleasi performante de redare, asteptam performante mai bune..
 

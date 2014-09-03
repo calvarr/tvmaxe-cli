@@ -15,7 +15,7 @@ sopcast_rpi () {
 }
 
 sopcast_pc () {
-./sp-sc-auth $1 $2 $3
+sp-sc-auth $1 $2 $3
 }
 
 protocol_tv (){
