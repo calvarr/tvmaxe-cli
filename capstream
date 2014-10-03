@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash 
 # riprtmp.sh
 #http://seperohacker.blogspot.ro/2012/09/how-to-download-hulu-videos-on-linux.html
 $DIALOG --title "capstream" \
@@ -14,7 +14,7 @@ kill $flash
 $DIALOG --infobox  "deschid portul tcp 1935 pentru a redirectiona fluxul flash\nnecesara parola\napasati ENTER dupa ce icepe redarea web_tv" 10 40
 sleep 1
 sudo iptables -t nat -A OUTPUT -p tcp --dport 1935 -j REDIRECT
-sudo iptables -t nat -F
+#sudo iptables -t nat -F
 xdg-open $url &>/dev/null
 sleep 1
 exec 2> /dev/null # Comment out this line if having problems.
