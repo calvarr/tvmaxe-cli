@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 source config
 ######################################
 ext=.flv
@@ -102,7 +102,7 @@ case "$selectat" in
 
 	 wget -qO - http://www.990.ro --user-agent="Mozilla/5.0 (Windows NT 5.2; rv:2.0.1) Gecko/20100101 Firefox/4.0.1" |sed -n "/Ultimele filme/,/Filme calitate/ p"|grep link|sed "s/ /_/g;s/[<>']/ /g"|awk '{print $5,$4}'|grep "filme-">$HOME/.tvmaxe-cli/.tmp/noi
 
-		filmenoi=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print $1,"|"}'`
+		filmenoi=`cat $HOME/.tvmaxe-cli/.tmp/noi|sed "s/&#039;/'/g"|awk '{print $1,"|"}'`
 
 		$DIALOG --backtitle "tvmaxe-cli" \
 		  --title "Noi aparitii" --clear \
@@ -130,7 +130,7 @@ case "$selectat" in
 $DIALOG --infobox "Procesez..." 5 15
 wget -qO - http://www.990.ro --user-agent="Mozilla/5.0 (Windows NT 5.2; rv:2.0.1) Gecko/20100101 Firefox/4.0.1" |sed -n "/Ultimele episoade/,/cu subtitra/ p"|grep link|sed "s/ /_/g;s/[<>']/ /g"|awk '{print $5,$4}'>$HOME/.tvmaxe-cli/.tmp/noi
 
-		episoade_noi=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print $1}'|nl`
+		episoade_noi=`cat $HOME/.tvmaxe-cli/.tmp/noi|sed "s/&#039;/'/g"|awk '{print $1}'|nl`
 
 		$DIALOG --backtitle "tvmaxe-cli" \
 		  --title "Noi aparitii" --clear \
@@ -157,7 +157,7 @@ wget -qO - http://www.990.ro --user-agent="Mozilla/5.0 (Windows NT 5.2; rv:2.0.1
 $DIALOG --infobox "Procesez..." 5 15
 wget -qO - http://www.990.ro --user-agent="Mozilla/5.0 (Windows NT 5.2; rv:2.0.1) Gecko/20100101 Firefox/4.0.1" |sed -n "/cu subtitra/,/Ultimele filme/ p"|grep link|sed "s/ /_/g;s/[<>']/ /g"|awk '{print $5,$4}'>$HOME/.tvmaxe-cli/.tmp/noi
 
-		episoade_noi=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print $1}'|nl`
+		episoade_noi=`cat $HOME/.tvmaxe-cli/.tmp/noi|sed "s/&#039;/'/g"|awk '{print $1}'|nl`
 
 		$DIALOG --backtitle "tvmaxe-cli" \
 		  --title "Noi aparitii" --clear \
@@ -196,7 +196,7 @@ i=1
 $DIALOG --infobox "Procesez..." 5 15
 
 		
-		seriale2=`cat $HOME/.tvmaxe-cli/.tmp/seriale_pagini|awk '{print $1,"|"}'`
+		seriale2=`cat $HOME/.tvmaxe-cli/.tmp/seriale_pagini|sed "s/&#039;/'/g"|awk '{print $1,"|"}'`
 
 $DIALOG --backtitle "tvmaxe-cli" \
 		  --title "Seriale" --clear \
@@ -214,7 +214,7 @@ $DIALOG --infobox "Procesez..." 5 15
 
 		wget -qO - "$adresa_serial"  --user-agent="Mozilla/5.0 (Windows NT 5.2; rv:2.0.1) Gecko/20100101 Firefox/4.0.1" |grep seriale2|grep position:relative|sed "s/ /_/g;s/[<>']/ /g"|awk '{print $7,"http://www.990.ro/"$4}' >$HOME/.tvmaxe-cli/.tmp/epizoade_serial
 
-		epizoade2=`cat $HOME/.tvmaxe-cli/.tmp/epizoade_serial|awk '{print $1,"off"}'|nl`
+		epizoade2=`cat $HOME/.tvmaxe-cli/.tmp/epizoade_serial|sed "s/&#039;/'/g"|awk '{print $1,"off"}'|nl`
 
 $DIALOG --backtitle "tvmaxe-cli" \
 		  --title "Epizoade $nume_serial" --clear \
