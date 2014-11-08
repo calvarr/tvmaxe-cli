@@ -78,7 +78,7 @@ $DIALOG --infobox "$nume1" 5 30
 	03)
 
 
-		axel -o $salvare/$nume1$ext -H Cookie:$HOME/.tvmaxe-cli/.tmp/cookies.txt "$film1" 2>&1 |grep "%]"| sed -u -e "s,\.,,g;s/\]//" | awk '{printf("\b\b\b\b%4s", $2)}' 2>&1
+		axel -o $salvare/$nume1$ext -H Cookie:$HOME/.tvmaxe-cli/.tmp/cookies.txt -H Referer:$json "$film1" 2>&1 |grep "%]"| sed -u -e "s,\.,,g;s/\]//" | awk '{printf("\b\b\b\b%4s", $2)}' 2>&1
 			echo -ne "\b\b\b\b" #|$DIALOG --gauge "Descarc.." 6 50 10
 		exit 0
 ;;
@@ -164,7 +164,7 @@ $DIALOG --infobox "Procesez..." 5 15
 02)
 $DIALOG --infobox "Procesez..." 5 15
 
-wget -qO - http://cinemaxx.ro|sed -n "/>Categoria/,/>Articole/ p"|grep browse-filme|sed 's/ /_/g;s/[<>"]/ /g'|awk '{print $5,$3}'>$HOME/.tvmaxe-cli/.tmp/categorii_cinemaxx
+wget -qO - http://cinemaxx.ro|sed -n "/pm-browse-ul-subcats/,/pm-slide-control/ p"|grep browse-filme|grep '"active"'|sed 's/ /_/g;s/[<>"]/ /g;s/_//g'|awk '{print $5,$4}'>$HOME/.tvmaxe-cli/.tmp/categorii_cinemaxx
 categorii=`cat $HOME/.tvmaxe-cli/.tmp/categorii_cinemaxx|awk '{print $1,"|"}'`
 
 $DIALOG --backtitle "tvmaxe-cli" \
@@ -174,10 +174,10 @@ $DIALOG --backtitle "tvmaxe-cli" \
 		abandon
 		nume_categorie=`cat $tempfile`
 		nr_categorie=`cat $HOME/.tvmaxe-cli/.tmp/categorii_cinemaxx|sed -n "/$nume_categorie/="`
-		adresa_categorie=`cat $HOME/.tvmaxe-cli/.tmp/categorii_cinemaxx|awk '{print $2}'|sed -n "${nr_categorie}p"`
+		adresa_categorie=`cat $HOME/.tvmaxe-cli/.tmp/categorii_cinemaxx|awk '{print "http://www.cinemaxx.ro"$2}'|sed -n "${nr_categorie}p"`
 
 
-nr_pagini=`wget -qO - $adresa_categorie|sed -n '/pagination/,/footerwrapper/ p'|grep browse|sed '$d'|sed -n '$p'|sed 's/<[^>]*>/ /g'`
+nr_pagini=`wget -qO - $adresa_categorie|sed -n '/pagination/,/pre-footer/ p'|grep browse|sed '$d'|sed -n '$p'|sed 's/<[^>]*>/ /g'`
 
 		adresa_categorie_paginare=`echo $adresa_categorie|sed 's/videos-/videos- /'`
 		schelet_paginare=`echo $adresa_categorie_paginare|awk '{print $1}'`
