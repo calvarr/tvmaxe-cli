@@ -20,8 +20,15 @@ filtru_film () {
 	server_film1=`wget -qO - $embed|grep mail.ru &>/dev/null 2>&1`
 		if [ $? = 0 ]
 			then 
-			server1=`wget -qO - $embed|grep mail.ru|sed 's/ /_/g;s/"/ /g'|awk '{print $2}'`
-			film1=`wget -qO - $server1|grep videoSrc|sed 's/ /_/g;s/"/ /g'|awk '{print $2}'`
+			videoapi=`wget -qO - $embed|grep videoapi|sed 's/"/ /g'|awk '{print $3}'`
+			json=`wget -qO - $videoapi|grep metadataUrl|sed 's/ /|/g;s/"/ /g'|awk '{print $8}'`
+			cookie=`wget --save-cookies $HOME/.tvmaxe-cli/.tmp/cookies.txt -qO - $json|sed 's/ /|/g;s/url/\n/g;s/"/ /g'|sed -n '$'p|awk '{print $2}'|sed 's/%2F/\//g;s/%3A/\:/g'`
+			film1=`wget -qO - $json|sed 's/ /|/g;s/url/\n/g;s/"/ /g'|sed -n '$'p|awk '{print $2}'|sed 's/%2F/\//g;s/%3A/\:/g'`
+
+
+			
+			#server1=`wget -qO - $embed|grep mail.ru|sed 's/ /_/g;s/"/ /g'|awk '{print $2}'`
+			#film1=`wget -qO - $server1|grep videoSrc|sed 's/ /_/g;s/"/ /g'|awk '{print $2}'`
 		else
 			upload=`wget -qO - $embed|grep vk|sed 's/ /_/g;s/"/ /g'|awk '{print $2}'`
 
@@ -54,14 +61,14 @@ $DIALOG --backtitle "tvmaxe-cli" \
   case "$selectat" in
 	01)	 
 $DIALOG --infobox "$nume1" 5 30
-		$player "$film1"  &>/dev/null
+		$player -cookies -cookies-file $HOME/.tvmaxe-cli/.tmp/cookies.txt "$film1"  &>/dev/null
 		$postplay
 		exit 0
 ;;
 
 	02)	
 
-		wget -O $salvare/$nume1$ext "$film1" &>/dev/null &
+		wget -O $salvare/$nume1$ext --cookies=on --keep-session-cookies --load-cookies=$HOME/.tvmaxe-cli/.tmp/cookies.txt "$film1" &>/dev/null &
 		sleep $delay ; 
 		$player $salvare/$nume1$ext $postplay  &>/dev/null
 		killall wget 
@@ -71,7 +78,7 @@ $DIALOG --infobox "$nume1" 5 30
 	03)
 
 
-		axel -o $salvare/$nume1$ext "$film1" 2>&1 |grep "%]"| sed -u -e "s,\.,,g;s/\]//" | awk '{printf("\b\b\b\b%4s", $2)}' 2>&1
+		axel -o $salvare/$nume1$ext -H Cookie:$HOME/.tvmaxe-cli/.tmp/cookies.txt "$film1" 2>&1 |grep "%]"| sed -u -e "s,\.,,g;s/\]//" | awk '{printf("\b\b\b\b%4s", $2)}' 2>&1
 			echo -ne "\b\b\b\b" #|$DIALOG --gauge "Descarc.." 6 50 10
 		exit 0
 ;;
