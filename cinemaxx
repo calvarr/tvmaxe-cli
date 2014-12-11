@@ -61,13 +61,15 @@ $DIALOG --backtitle "tvmaxe-cli" \
   case "$selectat" in
 	01)	 
 $DIALOG --infobox "$nume1" 5 30
+$DIALOG --infobox "$film1 /n/n cookies $HOME/.tvmaxe-cli/.tmp/cookies.txt" 10 60
 		$player $cookies1 "$film1"  &>/dev/null
 		$postplay
 		exit 0
 ;;
 
 	02)	
-
+$DIALOG --infobox "$film1" 10 60
+$DIALOG --infobox "$film1 /n/n cookies $HOME/.tvmaxe-cli/.tmp/cookies.txt" 10 60
 		wget -O $salvare/$nume1$ext  $cookies2 "$film1" &>/dev/null &
 		sleep $delay ; 
 		$player $salvare/$nume1$ext $postplay  &>/dev/null
@@ -76,7 +78,7 @@ $DIALOG --infobox "$nume1" 5 30
 ;;
 
 	03)
-
+$DIALOG --infobox "Axel nu accepta cookies ... $film1" 10 60
 
 		axel -o $salvare/$nume1$ext  "$film1" 2>&1 |grep "%]"| sed -u -e "s,\.,,g;s/\]//" | awk '{printf("\b\b\b\b%4s", $2)}' 2>&1
 			echo -ne "\b\b\b\b" #|$DIALOG --gauge "Descarc.." 6 50 10

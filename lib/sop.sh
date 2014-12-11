@@ -1,1 +1,0 @@
-./qemu-i386 lib/ld-linux.so.2 --library-path $HOME/sopcast/lib ./sp-sc-auth $1

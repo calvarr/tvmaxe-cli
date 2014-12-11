@@ -65,37 +65,25 @@ until [ "$selectie0" == "1" ]; do
           --menu ":::" 25 30 25 \
 	"01" "TV on-line" \
 	"02" "Streams-magazinmixt" \
-	"03" "Evenimente TV" \
-	"04" "Radio on-line" \
-	"05" "Meteo" \
-	"06" "Filme" \
-	"07" "Youtube" \
-	"08" "Divertisment" \
-	"09" "Teatrul Radiofonic" \
-	"10" "Favorite" \
-	"11" "Captura web_tv" \
-	"12" "Actualizare" \
-	"13" "Parasiti" 2>$tempfile
+	"03" "Radio on-line" \
+	"04" "Meteo" \
+	"05" "Filme" \
+	"06" "Youtube" \
+	"07" "Divertisment" \
+	"08" "Favorite"  2>$tempfile
   selectie0=$?
   selectat=`cat $tempfile`
   
   case "$selectat" in
 	01) echo $format_video tv > $HOME/.tvmaxe-cli/.tmp/format    ; ./TV_online;;
 	02) echo $format_video tv > $HOME/.tvmaxe-cli/.tmp/format    ; ./stream_magazin;;
-	03) echo $format_video tv > $HOME/.tvmaxe-cli/.tmp/format    ; ./evenimente;;
-	04) echo $format_audio radio > $HOME/.tvmaxe-cli/.tmp/format ; ./radio_online;;
-	05) ./meteo ;;
-	06) ./filme;;
-	07) echo "Youtube" > $HOME/.tvmaxe-cli/.tmp/adr ; ./youtube;;
-	08) echo "Divertisment" > $HOME/.tvmaxe-cli/.tmp/adr ; ./divertisment;;
-	09) echo $format_audio radio > $HOME/.tvmaxe-cli/.tmp/format ; ./teatrul_radiofonic;;
-	10) ./favorite;;
-	11) ./capstream;;
-	12) ./actualizare;;
-	13) killall ceas
-		stty sane
-		exit 0
-			;;
+	03) echo $format_audio radio > $HOME/.tvmaxe-cli/.tmp/format ; ./radio_online;;
+	04) ./meteo ;;
+	05) ./filme;;
+	06) echo "Youtube" > $HOME/.tvmaxe-cli/.tmp/adr ; ./youtube;;
+	07) echo "Divertisment" > $HOME/.tvmaxe-cli/.tmp/adr ; ./divertisment;;
+	08) ./favorite;;
+			
   esac
 
   if [ "$selectie0" == "255" ]||[ "$selectie0" == "1" ]; then

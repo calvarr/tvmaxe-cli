@@ -33,14 +33,16 @@ $DIALOG --backtitle "tvmaxe-cli" \
 
   case "$selectat" in
 	01)	 
-$DIALOG --infobox "$nume1" 5 30
+$DIALOG --infobox "$nume1" 10 60
 		subtitrare
+		$DIALOG --infobox "$film1 \n\n$subtitrare1" 10 60
 		$player $film1  -sub $subtitrare1 &>/dev/null
 		$postplay
 		exit 0
 ;;
 
 	02)	subtitrare
+		$DIALOG --infobox "$film1 \n\n$subtitrare1" 10 60
 		wget -O $salvare/$nume1.srt $subtitrare1 &>/dev/null 
 		wget -O $salvare/$nume1$ext $film1 &>/dev/null &
 		sleep $delay ; 
@@ -50,6 +52,7 @@ $DIALOG --infobox "$nume1" 5 30
 ;;
 
 	03)	subtitrare
+		$DIALOG --infobox "$film1 \n\n$subtitrare1" 10 60
 		wget -O $salvare/$nume1.srt $subtitrare1 &>/dev/null 
 		sleep 0.5
 		axel -o $salvare/$nume1$ext $film1 2>&1 |grep "%]"| sed -u -e "s,\.,,g;s/\]//" | awk '{printf("\b\b\b\b%4s", $2)}' 2>&1
@@ -114,7 +117,7 @@ case "$selectat" in
 		nr_film_nou=`cat $HOME/.tvmaxe-cli/.tmp/noi|sed -n "/$nume_film_nou/="`
 		adresa=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print $2}'|sed -n "${nr_film_nou}p"`
 		server1=`wget -qO - www.990.ro/$adresa --user-agent="Mozilla/5.0 (Windows NT 5.2; rv:2.0.1) Gecko/20100101 Firefox/4.0.1" |grep sfast|sed -n '1p'|sed "s/ /_/g;s/'/ /g"|awk '{print "http://www.990.ro/"$4}'`
-		upload=`wget -qO - $server1 --user-agent="Mozilla/5.0 (Windows NT 5.2; rv:2.0.1) Gecko/20100101 Firefox/4.0.1" |grep fastupload|sed "s/'//g;s/http/ http/g;s/[<>]/ /g"|awk '{print $4}'`
+		upload=`wget -qO - $server1 --user-agent="Mozilla/5.0 (Windows NT 5.2; rv:2.0.1) Gecko/20100101 Firefox/4.0.1" |grep superweb|sed "s/'//g;s/http/ http/g;s/[<>]/ /g"|awk '{print $4}'`
 		film1=`wget -qO - $upload --user-agent="Mozilla/5.0 (Windows NT 5.2; rv:2.0.1) Gecko/20100101 Firefox/4.0.1" |grep "'file': '"|sed "s/ /_/;s/'/ /g"|awk '{print $3}'`
 		echo film1 $film1
 		nume=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print $1}'|sed 's/_/ /g;s/[\/\;\:\?]//g'|sed -n "${nr_film_nou}p"`
@@ -145,7 +148,7 @@ wget -qO - http://www.990.ro --user-agent="Mozilla/5.0 (Windows NT 5.2; rv:2.0.1
 
 
 		server1=`wget -qO - www.990.ro/$adresa_serial --user-agent="Mozilla/5.0 (Windows NT 5.2; rv:2.0.1) Gecko/20100101 Firefox/4.0.1" |grep sfast|sed -n '1p'|sed "s/ /_/g;s/'/ /g"|awk '{print "http://www.990.ro/"$4}'`
-		upload=`wget -qO - $server1 --user-agent="Mozilla/5.0 (Windows NT 5.2; rv:2.0.1) Gecko/20100101 Firefox/4.0.1" |grep fastupload|sed "s/'//g;s/http/ http/g;s/[<>]/ /g"|awk '{print $4}'`
+		upload=`wget -qO - $server1 --user-agent="Mozilla/5.0 (Windows NT 5.2; rv:2.0.1) Gecko/20100101 Firefox/4.0.1" |grep superweb|sed "s/'//g;s/http/ http/g;s/[<>]/ /g"|awk '{print $4}'`
 		film1=`wget -qO - $upload --user-agent="Mozilla/5.0 (Windows NT 5.2; rv:2.0.1) Gecko/20100101 Firefox/4.0.1" |grep "'file': '"|sed "s/ /_/;s/'/ /g"|awk '{print $3}'`
 		nume=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print $1}'|sed 's/_/ /g;s/[\/\;\:\?]//g'|sed -n "${nr_film_nou}p"`
 		nume1=`echo $nume|sed 's/ /_/g'`
@@ -172,7 +175,7 @@ wget -qO - http://www.990.ro --user-agent="Mozilla/5.0 (Windows NT 5.2; rv:2.0.1
 
 
 		server1=`wget -qO - www.990.ro/$adresa_serial --user-agent="Mozilla/5.0 (Windows NT 5.2; rv:2.0.1) Gecko/20100101 Firefox/4.0.1" |grep sfast|sed -n '1p'|sed "s/ /_/g;s/'/ /g"|awk '{print "http://www.990.ro/"$4}'`
-		upload=`wget -qO - $server1 --user-agent="Mozilla/5.0 (Windows NT 5.2; rv:2.0.1) Gecko/20100101 Firefox/4.0.1" |grep fastupload|sed "s/'//g;s/http/ http/g;s/[<>]/ /g"|awk '{print $4}'`
+		upload=`wget -qO - $server1 --user-agent="Mozilla/5.0 (Windows NT 5.2; rv:2.0.1) Gecko/20100101 Firefox/4.0.1" |grep superweb|sed "s/'//g;s/http/ http/g;s/[<>]/ /g"|awk '{print $4}'`
 		film1=`wget -qO - $upload --user-agent="Mozilla/5.0 (Windows NT 5.2; rv:2.0.1) Gecko/20100101 Firefox/4.0.1" |grep "'file': '"|sed "s/ /_/;s/'/ /g"|awk '{print $3}'`
 		nume=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print $1}'|sed 's/_/ /g;s/[\/\;\:\?]//g'|sed -n "${nr_film_nou}p"`
 		nume1=`echo $nume|sed 's/ /_/g'`
@@ -246,7 +249,7 @@ $DIALOG --backtitle "tvmaxe-cli" \
 		do
 		adresa_epizod=`cat $HOME/.tvmaxe-cli/.tmp/epizoade_serial|awk '{print $2}'|sed -n "${nr_linie_colectie}p"`
 		server1=`wget -qO - $adresa_epizod --user-agent="Mozilla/5.0 (Windows NT 5.2; rv:2.0.1) Gecko/20100101 Firefox/4.0.1" |grep sfast|sed -n '1p'|sed "s/ /_/g;s/'/ /g"|awk '{print "http://www.990.ro/"$4}'`
-		upload=`wget -qO - $server1 --user-agent="Mozilla/5.0 (Windows NT 5.2; rv:2.0.1) Gecko/20100101 Firefox/4.0.1" |grep fastupload|sed "s/'//g;s/http/ http/g;s/\\r//g;s/[<>]/ /g"|awk '{print $4}'`
+		upload=`wget -qO - $server1 --user-agent="Mozilla/5.0 (Windows NT 5.2; rv:2.0.1) Gecko/20100101 Firefox/4.0.1" |grep superweb|sed "s/'//g;s/http/ http/g;s/\\r//g;s/[<>]/ /g"|awk '{print $4}'`
 		film1=`wget -qO - $upload|grep "'file': '"|sed "s/ /_/;s/'/ /g"|awk '{print $3}'`
 		nume=`cat $HOME/.tvmaxe-cli/.tmp/epizoade_serial|awk -v var="$nr_linie_colectie" '{print var,$1}'|sed 's/_/ /g;s/[\/\;\:\?]//g'|sed -n "${nr_linie_colectie}p"`
 		nume1=`echo $nume|sed 's/ /_/g'`
@@ -276,7 +279,7 @@ mkdir -p $salvare/$nume_serial
 		do
 		adresa_epizod=`cat $HOME/.tvmaxe-cli/.tmp/epizoade_serial|awk '{print $2}'|sed -n "${nr_linie_colectie}p"`
 		server1=`wget -qO - $adresa_epizod --user-agent="Mozilla/5.0 (Windows NT 5.2; rv:2.0.1) Gecko/20100101 Firefox/4.0.1" |grep sfast|sed -n '1p'|sed "s/ /_/g;s/'/ /g"|awk '{print "http://www.990.ro/"$4}'`
-		upload=`wget -qO - $server1 --user-agent="Mozilla/5.0 (Windows NT 5.2; rv:2.0.1) Gecko/20100101 Firefox/4.0.1" |grep fastupload|sed "s/'//g;s/http/ http/g;s/\\r//g;s/[<>]/ /g"|awk '{print $4}'`
+		upload=`wget -qO - $server1 --user-agent="Mozilla/5.0 (Windows NT 5.2; rv:2.0.1) Gecko/20100101 Firefox/4.0.1" |grep superweb|sed "s/'//g;s/http/ http/g;s/\\r//g;s/[<>]/ /g"|awk '{print $4}'`
 		film1=`wget -qO - $upload|grep "'file': '"|sed "s/ /_/;s/'/ /g"|awk '{print $3}'`
 		nume=`cat $HOME/.tvmaxe-cli/.tmp/epizoade_serial|awk -v var="$nr_linie_colectie" '{print var,$1}'|sed 's/_/ /g;s/[\/\;\:\?]//g'|sed -n "${nr_linie_colectie}p"`
 		nume1=`echo $nume|sed 's/ /_/g'`
@@ -294,7 +297,7 @@ mkdir -p $salvare/$nume_serial
 		do
 		adresa_epizod=`cat $HOME/.tvmaxe-cli/.tmp/epizoade_serial|awk '{print $2}'|sed -n "${nr_linie_colectie}p"`
 		server1=`wget -qO - $adresa_epizod --user-agent="Mozilla/5.0 (Windows NT 5.2; rv:2.0.1) Gecko/20100101 Firefox/4.0.1" |grep sfast|sed -n '1p'|sed "s/ /_/g;s/'/ /g"|awk '{print "http://www.990.ro/"$4}'`
-		upload=`wget -qO - $server1 --user-agent="Mozilla/5.0 (Windows NT 5.2; rv:2.0.1) Gecko/20100101 Firefox/4.0.1" |grep fastupload|sed "s/'//g;s/http/ http/g;s/\\r//g;s/[<>]/ /g"|awk '{print $4}'`
+		upload=`wget -qO - $server1 --user-agent="Mozilla/5.0 (Windows NT 5.2; rv:2.0.1) Gecko/20100101 Firefox/4.0.1" |grep superweb|sed "s/'//g;s/http/ http/g;s/\\r//g;s/[<>]/ /g"|awk '{print $4}'`
 		film1=`wget -qO - $upload|grep "'file': '"|sed "s/ /_/;s/'/ /g"|awk '{print $3}'`
 		nume=`cat $HOME/.tvmaxe-cli/.tmp/epizoade_serial|awk -v var="$nr_linie_colectie" '{print var,$1}'|sed 's/_/ /g;s/[\/\;\:\?]//g'|sed -n "${nr_linie_colectie}p"`
 		nume1=`echo $nume|sed 's/ /_/g'`
@@ -323,7 +326,7 @@ mkdir -p $salvare/$nume_serial
 		nr_film_nou=`cat $HOME/.tvmaxe-cli/.tmp/noi|sed -n "/$nume_film_nou/="`
 		adresa=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print $2}'|sed -n "${nr_film_nou}p"`
 		server1=`wget -qO - www.990.ro/$adresa --user-agent="Mozilla/5.0 (Windows NT 5.2; rv:2.0.1) Gecko/20100101 Firefox/4.0.1" |grep sfast|sed -n '1p'|sed "s/ /_/g;s/'/ /g"|awk '{print "http://www.990.ro/"$4}'`
-		upload=`wget -qO - $server1 --user-agent="Mozilla/5.0 (Windows NT 5.2; rv:2.0.1) Gecko/20100101 Firefox/4.0.1" |grep fastupload|sed "s/'//g;s/http/ http/g;s/[<>]/ /g"|awk '{print $4}'`
+		upload=`wget -qO - $server1 --user-agent="Mozilla/5.0 (Windows NT 5.2; rv:2.0.1) Gecko/20100101 Firefox/4.0.1" |grep superweb|sed "s/'//g;s/http/ http/g;s/[<>]/ /g"|awk '{print $4}'`
 		film1=`wget -qO - $upload --user-agent="Mozilla/5.0 (Windows NT 5.2; rv:2.0.1) Gecko/20100101 Firefox/4.0.1" |grep "'file': '"|grep download|sed "s/ /_/;s/'/ /g"|awk '{print $3}'`
 		nume=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print $1}'|sed 's/_/ /g;s/[\/\;\:\?]//g'|sed -n "${nr_film_nou}p"`
 		nume1=`echo $nume|sed 's/ /_/g'`
@@ -350,7 +353,7 @@ $DIALOG --infobox "Procesez..." 5 15
 		nr_film_nou=`cat $HOME/.tvmaxe-cli/.tmp/noi|sed -n "/$nume_film_nou/="`
 		adresa=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print $2}'|sed -n "${nr_film_nou}p"`
 		server1=`wget -qO - www.990.ro/$adresa --user-agent="Mozilla/5.0 (Windows NT 5.2; rv:2.0.1) Gecko/20100101 Firefox/4.0.1" |grep sfast|sed -n '1p'|sed "s/ /_/g;s/'/ /g"|awk '{print "http://www.990.ro/"$4}'`
-		upload=`wget -qO - $server1 --user-agent="Mozilla/5.0 (Windows NT 5.2; rv:2.0.1) Gecko/20100101 Firefox/4.0.1" |grep fastupload|sed "s/'//g;s/http/ http/g;s/[<>]/ /g"|awk '{print $4}'`
+		upload=`wget -qO - $server1 --user-agent="Mozilla/5.0 (Windows NT 5.2; rv:2.0.1) Gecko/20100101 Firefox/4.0.1" |grep superweb|sed "s/'//g;s/http/ http/g;s/[<>]/ /g"|awk '{print $4}'`
 		film1=`wget -qO - $upload --user-agent="Mozilla/5.0 (Windows NT 5.2; rv:2.0.1) Gecko/20100101 Firefox/4.0.1" |grep "'file': '"|sed "s/ /_/;s/'/ /g"|awk '{print $3}'`
 		nume=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print $1}'|sed 's/_/ /g;s/[\/\;\:\?]//g'|sed -n "${nr_film_nou}p"`
 		nume1=`echo $nume|sed 's/ /_/g'`
@@ -389,7 +392,7 @@ $DIALOG --infobox "Procesez..." 5 15
 		nr_film_gen1=`cat $tempfile`
 		adresa=`cat $HOME/.tvmaxe-cli/.tmp/filme_gen|awk '{print $2}'|sed -n "${nr_film_gen1}p"`
 		server1=`wget -qO - $adresa --user-agent="Mozilla/5.0 (Windows NT 5.2; rv:2.0.1) Gecko/20100101 Firefox/4.0.1" |grep sfast|sed -n '1p'|sed "s/ /_/g;s/'/ /g"|awk '{print "http://www.990.ro/"$4}'`
-		upload=`wget -qO - $server1 --user-agent="Mozilla/5.0 (Windows NT 5.2; rv:2.0.1) Gecko/20100101 Firefox/4.0.1" |grep fastupload|sed "s/'//g;s/http/ http/g;s/[<>]/ /g"|awk '{print $4}'`
+		upload=`wget -qO - $server1 --user-agent="Mozilla/5.0 (Windows NT 5.2; rv:2.0.1) Gecko/20100101 Firefox/4.0.1" |grep superweb|sed "s/'//g;s/http/ http/g;s/[<>]/ /g"|awk '{print $4}'`
 		film1=`wget -qO - $upload --user-agent="Mozilla/5.0 (Windows NT 5.2; rv:2.0.1) Gecko/20100101 Firefox/4.0.1" |grep "'file': '"|sed "s/ /_/;s/'/ /g"|awk '{print $3}'`
 		nume=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print $1}'|sed 's/_/ /g;s/[\/\;\:\?]//g'|sed -n "${nr_film_nou}p"`
 		nume1=`echo $nume|sed 's/ /_/g'`
