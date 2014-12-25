@@ -229,7 +229,7 @@ $DIALOG --infobox "Procesez..." 5 15
 13)		gen_serial=mister;;
 14)		gen_serial=razboi;;
 15)		gen_serial=thriller;;
-16)		gen_serial=gen=sf;;
+16)		gen_serial=gen=SF;;
 17)		gen_serial=sport;;
 18)		gen_serial=western;;
 	esac
@@ -293,7 +293,7 @@ $DIALOG --backtitle "tvmaxe-cli" \
  	case "$selectat" in
 	01)	 
 
-		$DIALOG --infobox "$nume" 5 30
+		$DIALOG --infobox "$nume1" 5 30
 
 		for nr_linie_colectie in  $nr_linie 
 		do
