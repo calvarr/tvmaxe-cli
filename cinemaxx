@@ -61,7 +61,7 @@ $DIALOG --backtitle "tvmaxe-cli" \
   case "$selectat" in
 	01)	 
 $DIALOG --infobox "$nume1" 5 30
-$DIALOG --infobox "$film1 /n/n cookies $HOME/.tvmaxe-cli/.tmp/cookies.txt" 10 60
+$DIALOG --infobox "$film1 \n\n cookies $HOME/.tvmaxe-cli/.tmp/cookies.txt" 10 60
 		$player $cookies1 "$film1"  &>/dev/null
 		$postplay
 		exit 0
@@ -69,7 +69,7 @@ $DIALOG --infobox "$film1 /n/n cookies $HOME/.tvmaxe-cli/.tmp/cookies.txt" 10 60
 
 	02)	
 $DIALOG --infobox "$film1" 10 60
-$DIALOG --infobox "$film1 /n/n cookies $HOME/.tvmaxe-cli/.tmp/cookies.txt" 10 60
+$DIALOG --infobox "$film1 \n\n cookies $HOME/.tvmaxe-cli/.tmp/cookies.txt" 10 60
 		wget -O $salvare/$nume1$ext  $cookies2 "$film1" &>/dev/null &
 		sleep $delay ; 
 		$player $salvare/$nume1$ext $postplay  &>/dev/null

@@ -18,7 +18,7 @@ pagini=`wget -qO -  http://www.youtube.com/results?search_query="$titlu"|grep da
 > $HOME/.tvmaxe-cli/.tmp/yt
 c=10
 for a in `seq 1 $pagini` ; do
-wget -qO - "http://www.youtube.com/results?search_query='$titlu'&page=$a"|grep yt-lockup-title|sed '/yt-lockup-playlist/d;1,2d'|sed 's/ /_/g;s/[<>"]/ /g'|awk '{print $19,"http://www.youtube.com"$8}'>>$HOME/.tvmaxe-cli/.tmp/yt
+wget -qO - "http://www.youtube.com/results?search_query='$titlu'&page=$a"|grep yt-lockup-title|sed '/yt-lockup-playlist/d;1,2d'|sed 's/ /_/g;s/[<>"]/ /g'|awk '{print $21,"http://www.youtube.com"$8}'>>$HOME/.tvmaxe-cli/.tmp/yt
 ((c+=10));echo $c|$DIALOG --gauge "Caut.." 6 50 10
 done
 

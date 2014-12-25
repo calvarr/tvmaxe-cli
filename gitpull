@@ -1,0 +1,5 @@
+#! /bin/bash
+		cd $HOME/.tvmaxe-cli
+		git pull
+ 		cd
+ 		exit
