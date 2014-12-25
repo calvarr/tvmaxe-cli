@@ -214,8 +214,8 @@ $DIALOG --infobox "Procesez..." 5 15
 
   
   case "$selectat" in
-01)		gen_serial="";;
-02) 	gen_serial="actiune";;
+01)		gen_serial= ;;
+02) 	gen_serial=actiune;;
 03)		gen_serial=animatie;;	 
 04)		gen_serial=aventura;;
 05)		gen_serial=comedie;;
@@ -235,11 +235,12 @@ $DIALOG --infobox "Procesez..." 5 15
 	esac
  
 #################3
+$DIALOG --infobox "Procesez..." 5 15
 
 if [ ! -f $HOME/.tvmaxe-cli/.tmp/seriale_pagini ]
 	then
 
-pagini_seriale=`wget -qO - "http://www.990.ro/seriale.php?afisare=grid&gen=$gen_serial&data=&order=ci&pagina=1" --user-agent="Mozilla/5.0 (Windows NT 5.2; rv:2.0.1) Gecko/20100101 Firefox/4.0.1" |grep "numarpagini"|sed '$d'|sed 's/<[^>]*>/ /g'|awk '{print $NF}'`
+pagini_seriale=`wget -qO - "http://www.990.ro/seriale.php?afisare=grid&gen=$gen_serial&data=&order=ci&pagina=1" --user-agent="Mozilla/5.0 (Windows NT 5.2; rv:2.0.1) Gecko/20100101 Firefox/4.0.1" |grep "numarpagini"|sed '$d'|sed 's/<[^>]*>/ /g;s/[A-Za-z]*//g;s/[&;]//g'|awk '{print $NF}'`
 i=1
 		for p in `seq 1 $pagini_seriale` ; do
 			wget -qO - "http://www.990.ro/seriale.php?afisare=grid&gen=$gen_serial&data=&order=ci&pagina=$(( i++ ))" --user-agent="Mozilla/5.0 (Windows NT 5.2; rv:2.0.1) Gecko/20100101 Firefox/4.0.1"| sed -n "/numarpagini/,/numarpagini/ p"|grep link|sed "s/ /_/g;s/[<>']/ /g"|awk '{print $7,"http://www.990.ro/"$2}'>>$HOME/.tvmaxe-cli/.tmp/seriale_pagini
