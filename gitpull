@@ -2,4 +2,4 @@
 		cd $HOME/.tvmaxe-cli
 		git pull
  		cd
- 		exit
+ exit 0

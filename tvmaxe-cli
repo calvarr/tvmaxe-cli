@@ -20,7 +20,7 @@ auto_actualizare () {
 	if [[ "$commit1" != "$commit2" ]]
 	then 
 		
-		./actualizare
+		./gitpull
 	else
 		$DIALOG --infobox "Nu au fost gasite actualizari \n $commit1=$commit2" 5 20
 		sleep 2

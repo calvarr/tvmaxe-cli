@@ -1,9 +1,11 @@
 #! /bin/bash
 $DIALOG --infobox "Procesez baza de date streams.magazinmixt" 3 50
 
- 	wget -qO - http://streams.magazinmixt.ro/modules/channels/channels_store.php|sed 's/ /|/g;s/","/ /g;s/name/\nname/g;s/\\//g'|awk '{print $1,$3}'|sed 's/name":"//g;s/addr":"//g'|sed '1d'|sed 's/swfUrl/\-\-swfUrl/;s/pageUrl/\-\-pageUrl/;s/playpath/\-\-playpath/;s/token/\-\-token/;s/live=1/\-\-live/'> $HOME/.tvmaxe-cli/.tmp/liste_stream
+ 	
+wget -qO - http://streams.magazinmixt.ro/ro/streams.json|sed 's/name/\nname/g;s/ /_/g;s/","/ /g;s/,"/ /g'|grep protocol > $HOME/.tvmaxe-cli/.tmp/liste_stream
 
-streams_magazin=`cat $HOME/.tvmaxe-cli/.tmp/liste_stream|awk '{print $1}'|sed 's/|/_/g'|nl`
+
+streams_magazin=`cat $HOME/.tvmaxe-cli/.tmp/liste_stream|sed -e 's/^.*\(name[^ ,]*\).*$/\1/'|sed 's/name":"//g'|nl`
 
 
 $DIALOG --backtitle "tvmaxe-cli" \
@@ -15,5 +17,7 @@ $DIALOG --backtitle "tvmaxe-cli" \
  	fi
 
 		nr_post_tv=`cat $tempfile`
- 		cat $HOME/.tvmaxe-cli/.tmp/liste_stream|awk '{print $1,$2}'|sed -n "${nr_post_tv}p"> $HOME/.tvmaxe-cli/.tmp/adr
+		nume_tv=`cat $HOME/.tvmaxe-cli/.tmp/liste_stream|sed -e 's/^.*\(name[^ ,]*\).*$/\1/'|sed 's/name":"//g'|sed '1d'|sed -n "${nr_post_tv}p"`
+		adresa_tv=`cat $HOME/.tvmaxe-cli/.tmp/liste_stream|sed -e 's/^.*\(address[^ ,]*\).*$/\1/'|sed 's/address":"//g'|sed '1d'|sed -n "${nr_post_tv}p"`
+ 		echo $nume_tv $adresa_tv> $HOME/.tvmaxe-cli/.tmp/adr
 ./filtrutv

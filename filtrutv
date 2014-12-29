@@ -17,6 +17,7 @@ sopcast_rpi () {
 sopcast_pc () {
 sp-sc-auth $1 $2 $3
 }
+cat $post|awk '{print $2}'|sed 's/\// /g;s/\./ /g'|awk '{print $2}'
 
 protocol_tv (){
 soptest=`cat $post|awk '{print $2}'|sed 's/\:/ /g;s/"//g'|awk '{print $1}'`
@@ -25,7 +26,7 @@ m3u8test=`cat $post|awk '{print $2}'|sed 's/?/ /'|sed -e 's/^.*\(m3u8[^ ,]*\).*$
 numetv=`cat $post|awk '{print $1}'`
 pls=`cat $post|awk '{print $2}'|sed 's/\./ /g'|awk '{ print $NF }'`
 pls3=`cat $post|awk '{print $2}'|sed 's/\./ /g'|awk '{print $2}'`
-
+superweb=`cat $post|awk '{print $2}'|sed 's/\// /g;s/\./ /g'|awk '{print $2}'`
 if [[ "$soptest" = "sop" ]]; then protocol=sopcast
 	elif [[ "$soptest" = "rtsp" ]]; then protocol=rtsp
 	elif [[ "$soptest" = "rtmp" ]]; then protocol=rtmp
@@ -40,6 +41,8 @@ if [[ "$soptest" = "sop" ]]; then protocol=sopcast
 	elif [[ "$pls3" = "shoutcast" ]]; then protocol=shoutcast
 	elif [[ "$pls3" = "youtube" ]]; then protocol=youtube
 	elif [[ "$pls3" = "livestream" ]]; then protocol=livestream
+	elif [[ "$superweb" = "superweb" ]]; then protocol=superweb
+	elif [[ "$superweb" = "vk" ]]; then protocol=vk
 else 
 	protocol=http
 fi
@@ -86,15 +89,29 @@ inregistrare () {
 			stty sane
 			killall rtmpdump
 		elif [[ "$protocol" = "livestream" ]]; then 
-			#livestreamer $adr best -Q -f -o $salvare/$numetv"_"$data.$format
-
+			
 			livestreamer $adr best -Q -f -o $salvare/$numetv"_"$data.mp4 &
 			$DIALOG --infobox "inregistrez..." 5 35 
-			#sleep 30
-			#wait
-			#$player $salvare/$numetv"_"$data.mp4 &>/dev/null
-			#killall livestreamer
-			#exit 0 
+			
+		elif [[ "$protocol" = "superweb" ]]; then
+			film1=`wget -qO - $adr|grep "'file': '"|sed "s/ /_/;s/'/ /g"|awk '{print $3}'|sed '$d'`
+			key=`echo $adr|sed 's/[\/.html]/ /g'| awk '{print $NF}'`
+			subtitrare1=`echo http://superweb.rol.ro/video/jw6/$key.srt`
+			wget -O $salvare/$numetv.srt
+			wget -O $salvare/$numetv.mp4 $film1 &
+			$DIALOG --infobox "inregistrez..." 5 35 
+			sleep $delay
+			$player $salvare/$numetv.mp4 &>/dev/null
+
+		elif [[ "$protocol" = "vk" ]]; then
+			wget -qO - $adr|sed -n '/video_host/,/video_vtag/ p'|sed "s/ /_/g;s/'/ /g"|awk '{print $2}' > $HOME/.tvmaxe-cli/.tmp/surse
+			film1=$(echo `cat $HOME/.tvmaxe-cli/.tmp/surse`|awk -v rez=$rez '{print $1"u"$2"/videos/"$3"."rez".mp4"}')
+			wget -O $salvare/$numetv.mp4 $film1 &
+			$DIALOG --infobox "inregistrez..." 5 35 
+			sleep $delay
+			$player $salvare/$numetv.mp4 &>/dev/null
+
+
 		else
 			if [ "$radio" == "radio" ]
 				then
@@ -123,8 +140,8 @@ inregistrare () {
 					sleep 20
 					$player $salvare/$numetv"_"$data.$format &>/dev/null 
 					killall wget
-					#killall $procesare
-					#stty sane	
+						
+
 			fi		
 
 		fi
@@ -220,7 +237,19 @@ case "$selectat" in
 			#wait
 	elif [[ "$protocol" = "livestream" ]]
 		then 
-			livestreamer $adr best -Q -o - |$player - &>/dev/null
+			livestreamer $adr best -Q -O |$player - &>/dev/null
+	elif [[ "$protocol" = "superweb" ]]
+		then
+		film1=`wget -qO - $adr|grep "'file': '"|sed "s/ /_/;s/'/ /g"|awk '{print $3}'|sed '$d'`
+		key=`echo $adr|sed 's/[\/.html]/ /g'| awk '{print $NF}'`
+		subtitrare1=`echo http://superweb.rol.ro/video/jw6/$key.srt`
+		$player $film1 -sub $subtitrare1
+
+	elif [[ "$protocol" = "vk" ]]; then
+			wget -qO - $adr|sed -n '/video_host/,/video_vtag/ p'|sed "s/ /_/g;s/'/ /g"|awk '{print $2}' > $HOME/.tvmaxe-cli/.tmp/surse
+
+			film1=$(echo `cat $HOME/.tvmaxe-cli/.tmp/surse`|awk -v rez=$rez '{print $1"u"$2"/videos/"$3"."rez".mp4"}')
+			$player $film1
 	else
 			#exec 2> /dev/null
 			$player $adr 2>/dev/null|grep --line-buffered 'Name\|Genre\|Website\|ICY'
