@@ -18,20 +18,26 @@ pagini=`wget -qO -  http://www.youtube.com/results?search_query="$titlu"|grep da
 > $HOME/.tvmaxe-cli/.tmp/yt
 c=10
 for a in `seq 1 $pagini` ; do
-wget -qO - "http://www.youtube.com/results?search_query='$titlu'&page=$a"|grep yt-lockup-title|sed '/yt-lockup-playlist/d;1,2d'|sed 's/ /_/g;s/[<>"]/ /g'|awk '{print $21,"http://www.youtube.com"$8}'>>$HOME/.tvmaxe-cli/.tmp/yt
+	
+wget -qO - "http://www.youtube.com/results?search_query='$titlu'&page=$a"|grep yt-lockup-title >> $HOME/.tvmaxe-cli/.tmp/yt_temp
+
 ((c+=10));echo $c|$DIALOG --gauge "Caut.." 6 50 10
 done
 
+grep -i "watch?" $HOME/.tvmaxe-cli/.tmp/yt_temp |sed 's/ /_/g;s/"_/ /g;s/_"/ /g'|sed -e 's/^.*\(title=[^ ,]*\).*$/\1/'|sed 's/title="//g' > $HOME/.tvmaxe-cli/.tmp/title_yt
 
-colectie=`cat $HOME/.tvmaxe-cli/.tmp/yt|sed 's/%_/_/g;s/\&lt;b&gt;//g;s/\#39//g;s/&amp//'|awk '{print $1,"off"}'|nl`
-nr_piese_lista=`cat $HOME/.tvmaxe-cli/.tmp/yt|wc -l`
+grep -i "watch?" $HOME/.tvmaxe-cli/.tmp/yt_temp |sed 's/ /_/g;s/"_/ /g;s/_"/ /g'|sed -e 's/^.*\(watch?[^ ,]*\).*$/\1/'|awk '{print "https://www.youtube.com/"$1}' > $HOME/.tvmaxe-cli/.tmp/adresa_yt
+
+paste $HOME/.tvmaxe-cli/.tmp/title_yt $HOME/.tvmaxe-cli/.tmp/adresa_yt | column -s $'\t' -t > $HOME/.tvmaxe-cli/.tmp/yt
+
+
+colectie=`cat $HOME/.tvmaxe-cli/.tmp/title_yt|awk '{print $1,"off"}'|nl`
+nr_piese_lista=`cat $HOME/.tvmaxe-cli/.tmp/title_yt|wc -l`
 
 
 youtube () {
 adr_yt=`cat $HOME/.tvmaxe-cli/.tmp/yt|awk '{print $2}'|sed -n "${nr_linie_colectie}p"`
 nume=`cat $HOME/.tvmaxe-cli/.tmp/yt|sed 's/%_/_/g;s/\&lt;b&gt;//g;s/\#39//g;s/&amp//'|awk '{print $1}'|sed -n "${nr_linie_colectie}p"`
-#adr_yt_3gp=`echo $adr_yt|sed 's/=/ /'|awk '{print "http://m.youtube.com/watch?v="$2}'`
-#gp3_yt=`curl  http://m.youtube.com/watch?v=0Cnfrg5eh28|grep 'rtsp'|sed -n '1p'|sed 's/"/ /g'|awk '{print $3}'`
 }
 
 youtube_rpi () {
