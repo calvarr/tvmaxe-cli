@@ -21,15 +21,19 @@ filtru_film () {
 		if [ $? = 0 ]
 			then 
 			videoapi=`wget -qO - $embed|grep videoapi|sed 's/"/ /g'|awk '{print $3}'`
-			json=`wget -qO - $videoapi|grep metadataUrl|sed 's/ /|/g;s/"/ /g'|awk '{print $8}'`
-			cookie=`wget --save-cookies $HOME/.tvmaxe-cli/.tmp/cookies.txt -qO - $json|sed 's/ /|/g;s/url/\n/g;s/"/ /g'|sed -n '$'p|awk '{print $2}'|sed 's/%2F/\//g;s/%3A/\:/g'`
-			film1=`wget -qO - $json|sed 's/ /|/g;s/url/\n/g;s/"/ /g'|sed -n '$'p|awk '{print $2}'|sed 's/%2F/\//g;s/%3A/\:/g'`
-cookies1=`echo "-cookies -cookies-file $HOME/.tvmaxe-cli/.tmp/cookies.txt"`
-cookies2=`echo "--cookies=on --keep-session-cookies --load-cookies=$HOME/.tvmaxe-cli/.tmp/cookies.txt"`
-#cookies3=-H Cookie:$HOME/.tvmaxe-cli/.tmp/cookies.txt -H Referer:$json			
+			rmail=`wget -qO - $videoapi|grep r.mail|sed 's/"/ /g'|awk '{print $3}'`
+
+
+
+			#json=`wget -qO - $rmail|grep requestURL|grep requestURL|sed 's/"/ /g'|awk '{print $3}'`
+			#cookie=`wget --save-cookies $HOME/.tvmaxe-cli/.tmp/cookies.txt -qO - $json|sed 's/ /|/g;s/url/\n/g;s/"/ /g'|sed -n '$'p|awk '{print $2}'|sed 's/%2F/\//g;s/%3A/\:/g'`
+			#film1=`wget -qO - $json|sed 's/ /|/g;s/url/\n/g;s/"/ /g'|sed -n '$'p|awk '{print $2}'|sed 's/%2F/\//g;s/%3A/\:/g'`
+#cookies1=`echo "-cookies -cookies-file $HOME/.tvmaxe-cli/.tmp/cookies.txt"`
+#cookies2=`echo "--cookies=on --keep-session-cookies --load-cookies=$HOME/.tvmaxe-cli/.tmp/cookies.txt"`
+		
 		else
-			cookies1=""
-			cookies2=""
+			#cookies1=""
+			#cookies2=""
 			upload=`wget -qO - $embed|grep vk|sed 's/ /_/g;s/"/ /g'|awk '{print $2}'`
 
 			wget -qO - $upload|sed -n '/video_host/,/video_vtag/ p'|sed "s/ /_/g;s/'/ /g"|awk '{print $2}' > $HOME/.tvmaxe-cli/.tmp/surse
@@ -48,10 +52,10 @@ $DIALOG --backtitle "tvmaxe-cli" \
           --menu "::: " 30 35 30 \
 	"01" "Redati" \
 	"02" "Inregistrati" \
-	"03" "Descarcati" \
-	"04" "Adaugati la favorite" \
-	"05" "Reveniti" \
-	"06" "Parasiti" 2>$tempfile
+	#"03" "Descarcati" \
+	"03" "Adaugati la favorite" \
+	"04" "Reveniti" \
+	"05" "Parasiti" 2>$tempfile
   selectie0=$?
 	abandon
   selectat=`cat $tempfile`
@@ -59,31 +63,32 @@ $DIALOG --backtitle "tvmaxe-cli" \
   case "$selectat" in
 	01)	 
 $DIALOG --infobox "$nume1" 5 30
-$DIALOG --infobox "$film1 \n\n cookies $HOME/.tvmaxe-cli/.tmp/cookies.txt" 10 60
-		$player $cookies1 "$film1"  &>/dev/null
-		$postplay
+#$DIALOG --infobox "$film1 \n\n cookies $HOME/.tvmaxe-cli/.tmp/cookies.txt" 10 60
+		#$player $cookies1 "$film1"  &>/dev/null
+		youtube-dl --max-quality FORMAT $rmail -o - | $player -
+		killall youtube-dl
 		exit 0
 ;;
 
 	02)	
 $DIALOG --infobox "$film1" 10 60
-$DIALOG --infobox "$film1 \n\n cookies $HOME/.tvmaxe-cli/.tmp/cookies.txt" 10 60
-		wget -O $salvare/$nume1$ext  $cookies2 "$film1" &>/dev/null &
+#$DIALOG --infobox "$film1 \n\n cookies $HOME/.tvmaxe-cli/.tmp/cookies.txt" 10 60
+		#wget -O $salvare/$nume1$ext  $cookies2 "$film1" &>/dev/null &
+		youtube-dl --max-quality FORMAT $adr_yt -o $salvare/$nume$ext &>/dev/null &
 		sleep $delay ; 
 		$player $salvare/$nume1$ext $postplay  &>/dev/null
 		killall wget 
 		exit 0
 ;;
 
-	03)
-$DIALOG --infobox "Axel nu accepta cookies ... $film1" 10 60
+	
+	#03)
+#$DIALOG --infobox "Axel nu accepta cookies ... $film1" 10 60
 
-		axel -o $salvare/$nume1$ext  "$film1" 2>&1 |grep "%]"| sed -u -e "s,\.,,g;s/\]//" | awk '{printf("\b\b\b\b%4s", $2)}' 2>&1
-			echo -ne "\b\b\b\b" #|$DIALOG --gauge "Descarc.." 6 50 10
-		exit 0
-;;
-
-	04)	
+#			echo -ne "\b\b\b\b" #|$DIALOG --gauge "Descarc.." 6 50 10
+#		exit 0
+#;
+	03)	
 			$DIALOG --backtitle "tvmaxe-cli" \
 				--title "Creati o lista sau adaugati postul la o lista existenta: " \
 				--inputbox "Liste existente: \n $liste" 15 75 2>$tempfile
@@ -100,9 +105,9 @@ $DIALOG --infobox "Axel nu accepta cookies ... $film1" 10 60
    			exit 0
   		fi ;;
 
-	05)	filmnou ;;
+	04)	filmnou ;;
 
-	06)	exit 0 ;;
+	05)	exit 0 ;;
   esac
 
  }
