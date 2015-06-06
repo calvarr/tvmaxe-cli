@@ -21,18 +21,27 @@ filtru_film () {
 		if [ $? = 0 ]
 			then 
 			videoapi=`wget -qO - $embed|grep videoapi|sed 's/"/ /g'|awk '{print $3}'`
-			rmail=`wget -qO - $videoapi|grep r.mail|sed 's/"/ /g'|awk '{print $3}'`
+			film1=`wget -qO - $videoapi|grep r.mail|sed 's/"/ /g'|awk '{print $3}'`
 
-
-
+		fi 
 			
-		else
+	server_film1=`wget -qO - $embed|grep videomega &>/dev/null 2>&1`
+
+			if [ $? = 0 ]
+			then 
 			
-			upload=`wget -qO - $embed|grep vk|sed 's/ /_/g;s/"/ /g'|awk '{print $2}'`
+			film1=`wget -qO - $embed|grep videomega|sed 's/ /_/g;s/["&]/ /g'|sed -e 's/^.*\(http:\/\/videomega[^ ,]*\).*$/\1/'`
+		fi
+	
+		
+		 server_film1=`wget -qO - $embed|grep vk.com &>/dev/null 2>&1`
+		 if [ $? = 0 ]
+			then 
+		upload=`wget -qO - $embed|grep vk|sed 's/ /_/g;s/"/ /g'|awk '{print $2}'|sed 's/https\:\/\/href.li\/?//'`
 
-			wget -qO - $upload|sed -n '/video_host/,/video_vtag/ p'|sed "s/ /_/g;s/'/ /g"|awk '{print $2}' > $HOME/.tvmaxe-cli/.tmp/surse
+		wget -qO - $upload|sed -n '/video_host/,/video_vtag/ p'|sed "s/ /_/g;s/'/ /g"|awk '{print $2}' > $HOME/.tvmaxe-cli/.tmp/surse
 
-			film1=$(echo `cat $HOME/.tvmaxe-cli/.tmp/surse`|awk -v rez=$rez '{print $1"u"$2"/videos/"$3"."rez".mp4"}')
+		film1=$(echo `cat $HOME/.tvmaxe-cli/.tmp/surse`|awk -v rez=$rez '{print $1"u"$2"/videos/"$3"."rez".mp4"}')
 		fi
 
 }
@@ -57,7 +66,8 @@ $DIALOG --backtitle "tvmaxe-cli" \
 	01)	 
 $DIALOG --infobox "$nume1" 5 30
 
-		youtube-dl "$rmail" -o - | $player -
+		youtube-dl "$film1" -o - | $player - || $player $film1
+		$postplay
 		killall youtube-dl
 		exit 0
 ;;
@@ -65,7 +75,7 @@ $DIALOG --infobox "$nume1" 5 30
 	02)	
 $DIALOG --infobox "$film1" 10 60
 
-		youtube-dl "$rmail" -o $salvare/$nume$ext &>/dev/null &
+		youtube-dl "$film1" -o $salvare/$nume$ext &>/dev/null & || wget -O $salvare/$nume$ext $film1
 		sleep $delay ; 
 		$player $salvare/$nume1$ext $postplay  &>/dev/null
 		killall youtube-dl

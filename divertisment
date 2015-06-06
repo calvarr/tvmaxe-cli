@@ -8,19 +8,19 @@ nume_tv=`cat $HOME/.tvmaxe-cli/.tmp/adr`
 		adresa=`cat $HOME/.tvmaxe-cli/.tmp/divertisment|awk '{print $2}'|sed -n "${nr_linie_colectie}p"`
 		testt=`cat $HOME/.tvmaxe-cli/.tmp/divertisment|awk '{print $3}'|sed -n "${nr_linie_colectie}p"`
 		if [[ "$testt" = "www.220.ro" ]];then
-		funny=`wget -qO - $adresa|grep source|sed "s/ /_/g;s/'/ /g"|awk '{print $2}'`
-		elif [[ "$testt" = "www.trilulilu.ro" ]];then
-		echo `wget -qO - "$adresa"|grep userid|sed "s/ /_/g;s/,/\n /g"|grep 'server\|type\|source\|hash\|userid\|key'`>$HOME/.tvmaxe-cli/.tmp/divertisment1
-		funny=`cat $HOME/.tvmaxe-cli/.tmp/divertisment1|sed 's/[=:]/ /g'|awk '{print "http://fs"$7".trilulilu.ro/stream.php?type=video&source=site&hash="$5"&username="$3"&key=&format=mp4-360p"}'|sed 's/"//g'`
+		funny=$adresa
+		#elif [[ "$testt" = "www.trilulilu.ro" ]];then
+		#echo `wget -qO - "$adresa"|grep userid|sed "s/ /_/g;s/,/\n /g"|grep 'server\|type\|source\|hash\|userid\|key'`>$HOME/.tvmaxe-cli/.tmp/divertisment1
+		#funny=`cat $HOME/.tvmaxe-cli/.tmp/divertisment1|sed 's/[=:]/ /g'|awk '{print "http://fs"$7".trilulilu.ro/stream.php?type=video&source=site&hash="$5"&username="$3"&key=&format=mp4-360p"}'|sed 's/"//g'`
 		elif [[ "$testt" = "izismile.com" ]]
 			then
 			
 		adr_smile=`cat $HOME/.tvmaxe-cli/.tmp/divertisment|awk '{print $2}'|sed -n "${nr_linie_colectie}p"`
-		funny=`wget -qO - $adr_smile|grep file|grep mp4|sed 's/"//g'|awk '{print $3}'`
-	elif [[ "$testt" = "metacafe" ]]
-		then
-		adr_metacafe=`cat $HOME/.tvmaxe-cli/.tmp/divertisment|awk '{print $2}'|sed -n "${nr_linie_colectie}p"`
-		funny=`wget -qO - $adr_metacafe|grep mccont|sed -n '1p'|sed 's/ /_/g;s/vl.mccont/ http:\/\/vl.mccont/;s/mp4/mp4 /g'|awk '{print $2}'|sed 's/\%5C/\//g;s/\%2F//g;s/\%25/\%/g'`
+		funny=`wget -qO - $adr_smile|grep youtube|sed 's/"/ /g'|sed -e 's/^.*\(youtube[^ ,]*\).*$/\1/'|awk '{print "https://youtube.com/"$1}'`
+	#elif [[ "$testt" = "metacafe" ]]
+		#then
+		#adr_metacafe=`cat $HOME/.tvmaxe-cli/.tmp/divertisment|awk '{print $2}'|sed -n "${nr_linie_colectie}p"`
+		#funny=`wget -qO - $adr_metacafe|grep mccont|sed -n '1p'|sed 's/ /_/g;s/vl.mccont/ http:\/\/vl.mccont/;s/mp4/mp4 /g'|awk '{print $2}'|sed 's/\%5C/\//g;s/\%2F//g;s/\%25/\%/g'`
 	elif [[ "$testt" = "ochevidets" ]]
 		then
 		adr_ochevidets=`cat $HOME/.tvmaxe-cli/.tmp/divertisment|awk '{print $2}'|sed -n "${nr_linie_colectie}p"`
@@ -29,16 +29,16 @@ nume_tv=`cat $HOME/.tvmaxe-cli/.tmp/adr`
 		ext=.mp4
 		}
 listare_divertisment (){
-
+$DIALOG --infobox "220.ro" 5 20
 		wget -qO - http://st.220.t1.ro/rss/top|sed 's/<title>/\n/g;s/ /_/g;s/[<"?]/ /g'|grep href|awk '{print $1,$4,"www.220.ro"}'>$HOME/.tvmaxe-cli/.tmp/divertisment
 
-
-		wget -qO - "http://www.trilulilu.ro/video-haioase?cele-mai-tari&azi"|grep '<span class="title"><a href='|sed 's/ /_/g;s/["><]/ /g'|awk '{print $5,$4,"www.trilulilu.ro"}'>>$HOME/.tvmaxe-cli/.tmp/divertisment
-		
+#$DIALOG --infobox "trilulilu.ro" 5 20
+		#wget -qO - "http://www.trilulilu.ro/video-haioase?cele-mai-tari&azi"|grep '<span class="title"><a href='|sed 's/ /_/g;s/["><]/ /g'|awk '{print $5,$4,"www.trilulilu.ro"}'>>$HOME/.tvmaxe-cli/.tmp/divertisment
+$DIALOG --infobox "izismile.com" 5 20		
 		wget -qO - http://m.izismile.com/videos/|grep m.izismile|grep h2|sed 's/ /_/g;s/["<>]/ /g'|awk '{print $4,$2,"izismile.com"}'>>$HOME/.tvmaxe-cli/.tmp/divertisment
-
-		wget -qO - http://www.metacafe.com/darwin-award-winners|grep "/watch/"|grep ItemTitle|sed 's/ /_/g;s/"/ /g'|awk '{print $8,"http://www.metacafe.com"$6,"metacafe"}'>>$HOME/.tvmaxe-cli/.tmp/divertisment
-
+#$DIALOG --infobox "metacafe.com" 5 20
+		#wget -qO - http://www.metacafe.com/darwin-award-winners|grep "/watch/"|grep ItemTitle|sed 's/ /_/g;s/"/ /g'|awk '{print $8,"http://www.metacafe.com"$6,"metacafe"}'>>$HOME/.tvmaxe-cli/.tmp/divertisment
+$DIALOG --infobox "ochevidets.ru" 5 20
 		wget -qO - http://www.ochevidets.ru/best/|grep item_title|sed 's/ /_/g;s/["<>]/ /g'|awk '{print $6,"http://www.ochevidets.ru"$5,"ochevidets"}'>>$HOME/.tvmaxe-cli/.tmp/divertisment
 
 colectie=`cat $HOME/.tvmaxe-cli/.tmp/divertisment|awk '{print $1,"off"}'|nl`
@@ -47,7 +47,7 @@ colectie=`cat $HOME/.tvmaxe-cli/.tmp/divertisment|awk '{print $1,"off"}'|nl`
 $DIALOG --infobox "\nCaut divertisment" 5 30
 listare_divertisment
 	$DIALOG --backtitle "tvmaxe-cli" \
-          	--checklist ":::" 80 50 80 $colectie 2> $tempfile
+          	--checklist ":::" 80 80 80 $colectie 2> $tempfile
       	selectie0=$?
 	if [ "$selectie0" == "255" ]||[ "$selectie0" == "1" ]; then
    		exit 0
@@ -57,7 +57,7 @@ nr_alese=`echo $tempfile|wc -w`
 ############################################
 	$DIALOG --backtitle "tvmaxe-cli" \
 	 	--title "| Divertisment |" --clear \
-          	--menu ":::" 25 30 25 \
+          	--menu ":::" 25 60 25 \
 	"01" "Reda selectia" \
 	"02" "Adauga la favorite*" \
 	"03" "Descarca selectia" \
@@ -75,8 +75,10 @@ selectie0=$?
 		for nr_linie_colectie in  $nr_linie ; do
 
 	divertisment
-
-   			$player "$funny" $postplay &>/dev/null
+echo Funny $funny
+   			youtube-dl "$funny" -o -|$player - &>/dev/null
+   			$postplay 
+   			killall youtube-dl
 
 		done
 		exit 0
@@ -108,8 +110,7 @@ done
 
 	divertisment
 		
-wget -O $salvare/$nume$ext $funny 2>&1 | \
-awk '/[.] +[0-9][0-9]?[0-9]?%/ { print substr($0,63,3) }' | $DIALOG --gauge "Descarc..." 6 50 1
+youtube-dl $funny  -o $salvare/$nume$ext 
 	done
 	exit 0
 ;;
@@ -118,7 +119,8 @@ awk '/[.] +[0-9][0-9]?[0-9]?%/ { print substr($0,63,3) }' | $DIALOG --gauge "Des
 		for nr_linie_colectie in `seq 1 $piesepl` ; do
 		divertisment
 		
-   			$player "$funny" $postplay &>/dev/null
+   			youtube-dl "$funny" -o - $player -  &>/dev/null
+   			$postplay
 
 		done
 		exit 0
@@ -127,14 +129,15 @@ awk '/[.] +[0-9][0-9]?[0-9]?%/ { print substr($0,63,3) }' | $DIALOG --gauge "Des
 		
 		for nr_linie_colectie in `seq 1 $piesepl` ; do
 		divertisment
-		wget -O $salvare/$nume$ext $funny 2>&1 | \
-		awk '/[.] +[0-9][0-9]?[0-9]?%/ { print substr($0,63,3) }' | $DIALOG --gauge "Descarc..." 6 50 1
+		youtube-dl $funny -o $salvare/$nume$ext
 		done
 		exit 0
 ;;
-	06)exit 0;;
+	06)exit 0
+;;
+
 esac
 
 ############################################
-killall $player
+killall $player youtube-dl
 exit 0

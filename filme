@@ -6,20 +6,13 @@ $DIALOG --backtitle "tvmaxe-cli" \
 	  --title "Filme" --clear \
           --menu ":::" 25 30 25 \
 	"01" "990.ro" \
-	"02" "cinemaxx.rs" \
-	"03" "zfilmeonline.org" \
-	"04" "filmeonlinenoi.ro" \
-	"05" "cautare film" \
-	"06" "redati din favorite" 2>$tempfile
+	"02" "cinemaxx.rs"  2>$tempfile
   selectie0=$?
 
   selectat=`cat $tempfile`
 case "$selectat" in
 	01) ./990 ;;
 	02) ./cinemaxx ;;
-	03) ./zfilmeonline ;;
-	04) ./filmeonlinero ;;
-	05) ./cautare_film ;;
-	06) echo "in lucru" ;;
+	
 esac
 exit 0

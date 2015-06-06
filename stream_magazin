@@ -6,7 +6,7 @@ wget -qO - http://streams.magazinmixt.ro/ro/streams.json|sed 's/name/\nname/g;s/
 
 
 streams_magazin=`cat $HOME/.tvmaxe-cli/.tmp/liste_stream|sed -e 's/^.*\(name[^ ,]*\).*$/\1/'|sed 's/name":"//g'|nl`
-
+#awk '{ print $0, NR }'
 
 $DIALOG --backtitle "tvmaxe-cli" \
 	  --title "| Streams-magazinmixt |" --clear \
