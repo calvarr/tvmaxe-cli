@@ -68,7 +68,7 @@ $DIALOG --backtitle "tvmaxe-cli" \
 		$DIALOG --infobox "Adresa Film: \n$film1 \n\nAdresa Subtitrare: \n$subtitrare1" 10 80
 		echo $film1
 		echo $subtitrae1
-		$player $film1  -sub $subtitrare1 &>/dev/null
+		$player $film1  -sub $subtitrare1 -sub $subtitrare2 &>/dev/null
 		$postplay
 		exit 0
 		;;
@@ -92,7 +92,7 @@ mkdir -p $salvare/$nume_serial
 
 		subtitrare
 
-		wget -O $salvare/$nume_serial/$nume1.srt
+		wget -O $salvare/$nume_serial/$nume1.srt || wget -O $salvare/$nume1.srt $subtitrare2 &>/dev/null 
 		wget -O $salvare/$nume_serial/$nume1$ext $film1 &>/dev/null &
 
 		sleep $delay ; 
@@ -109,7 +109,7 @@ mkdir -p $salvare/$nume_serial
 		
 		functie_seriale_2
 		subtitrare
-		wget -O $salvare/$nume_serial/$nume1.srt
+		wget -O $salvare/$nume_serial/$nume1.srt || wget -O $salvare/$nume1.srt $subtitrare2 &>/dev/null 
 		axel -o $salvare/$nume_serial/$nume1$ext $film1 2>&1 |grep "%]"| sed -u -e "s,\.,,g;s/\]//" | awk '{printf("\b\b\b\b%4s", $2)}' 2>&1
 			echo -ne "\b\b\b\b" |$DIALOG --gauge "Descarc.." 6 50 10
 		done
@@ -121,8 +121,12 @@ mkdir -p $salvare/$nume_serial
 }
 
 subtitrare () {
+
 		key=`echo $upload|sed 's/[\/.html]/ /g'| awk '{print $NF}'`
+
 		subtitrare1=`echo http://superweb.rol.ro/video/jw6/$key.srt`
+		
+		subtitrare2=`echo http://superweb.rol.ro/video/$key.vtt`
 }
 meniufilm () {
 $DIALOG --infobox "Procesez...$nume1" 5 15
@@ -145,14 +149,14 @@ $DIALOG --infobox "$nume1" 10 60
 		subtitrare
 		$DIALOG --infobox "Adresa Film: \n$film1 \n\nAdresa Subtitrare: \n$subtitrare1" 10 80
 		echo $film1
-		$player $film1  -sub $subtitrare1 &>/dev/null
+		$player $film1  -sub $subtitrare1 -sub $subtitrare2 &>/dev/null
 		$postplay
 		exit 0
 ;;
 
 	02)	subtitrare
 		$DIALOG --infobox "Adresa Film: \n$film1 \n\nAdresa Subtitrare: \n$subtitrare1" 10 80
-		wget -O $salvare/$nume1.srt $subtitrare1 &>/dev/null
+		wget -O $salvare/$nume1.srt $subtitrare1 &>/dev/null || wget -O $salvare/$nume1.srt $subtitrare2 &>/dev/null 
 		wait 
 		wget -O $salvare/$nume1$ext $film1 &>/dev/null &
 		sleep $delay
@@ -163,7 +167,7 @@ $DIALOG --infobox "$nume1" 10 60
 
 	03)	subtitrare
 		$DIALOG --infobox "Adresa Film: \n$film1 \n\nAdresa Subtitrare: \n$subtitrare1" 10 80
-		wget -O $salvare/$nume1.srt $subtitrare1 &>/dev/null 
+		wget -O $salvare/$nume1.srt $subtitrare1 &>/dev/null || wget -O $salvare/$nume1.srt $subtitrare2 &>/dev/null 
 		wait
 		axel -o $salvare/$nume1$ext $film1 2>&1 |grep "%]"| sed -u -e "s,\.,,g;s/\]//" | awk '{printf("\b\b\b\b%4s", $2)}' 2>&1
 			num=`echo -ne "\b\b\b\b"` 
