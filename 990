@@ -70,7 +70,6 @@ $DIALOG --backtitle "tvmaxe-cli" \
 		echo $subtitrae1
 		$player $film1  -sub $subtitrare1 -sub $subtitrare2 &>/dev/null
 		$postplay
-		exit 0
 		;;
   		 1) exit 0 
 		;;
@@ -158,7 +157,7 @@ $DIALOG --infobox "$nume1" 10 60
 		$DIALOG --infobox "Adresa Film: \n$film1 \n\nAdresa Subtitrare: \n$subtitrare1" 10 80
 		wget -O $salvare/$nume1.srt $subtitrare1 &>/dev/null || wget -O $salvare/$nume1.srt $subtitrare2 &>/dev/null 
 		wait 
-		wget -O $salvare/$nume1$ext $film1 &>/dev/null &
+		wget -bqc -O $salvare/$nume1$ext $film1  
 		sleep $delay
 		$player $salvare/$nume1$ext $postplay &>/dev/null
 		killall wget 
@@ -171,7 +170,7 @@ $DIALOG --infobox "$nume1" 10 60
 		wait
 		axel -o $salvare/$nume1$ext $film1 2>&1 |grep "%]"| sed -u -e "s,\.,,g;s/\]//" | awk '{printf("\b\b\b\b%4s", $2)}' 2>&1
 			num=`echo -ne "\b\b\b\b"` 
-			echo $num|$DIALOG --gauge "Descarc.." 6 50 10
+			echo $num |$DIALOG --gauge "Descarc.." 6 50 10
 		exit 0
 		
 ;;
