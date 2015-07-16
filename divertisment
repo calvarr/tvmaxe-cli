@@ -74,9 +74,10 @@ selectie0=$?
 		./abandon &
 		for nr_linie_colectie in  $nr_linie ; do
 
-	divertisment
-echo Funny $funny
-   			youtube-dl "$funny" -o -|$player - &>/dev/null
+		divertisment
+
+   			youtube-dl "$funny" -o - &>/dev/null
+   			$player - &>/dev/null
    			$postplay 
    			killall youtube-dl
 
@@ -115,7 +116,7 @@ youtube-dl $funny  -o $salvare/$nume$ext
 	exit 0
 ;;
 	04)
-		./abandon &
+		#./abandon &
 		for nr_linie_colectie in `seq 1 $piesepl` ; do
 		divertisment
 		

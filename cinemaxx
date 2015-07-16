@@ -39,9 +39,13 @@ filtru_film () {
 			then 
 		upload=`wget -qO - $embed|grep vk|sed 's/ /_/g;s/"/ /g'|awk '{print $2}'|sed 's/https\:\/\/href.li\/?//'`
 
-		wget -qO - $upload|sed -n '/video_host/,/video_vtag/ p'|sed "s/ /_/g;s/'/ /g"|awk '{print $2}' > $HOME/.tvmaxe-cli/.tmp/surse
+		#rezolutie prin schimbarea numarului de rand (sed -n "2p") pentru 1p=240, 2p=360, 3p=480
 
-		film1=$(echo `cat $HOME/.tvmaxe-cli/.tmp/surse`|awk -v rez=$rez '{print $1"u"$2"/videos/"$3"."rez".mp4"}')
+		film1=`wget -qO - "$upload"| grep "var vars"|sed 's/["?]/ /g;s/http/\nhttp/g;s/[\]//g'|grep videos|awk '{print $1}'|sed -n "2p"`
+
+		#wget -qO - $upload|sed -n '/video_host/,/video_vtag/ p'|sed "s/ /_/g;s/'/ /g"|awk '{print $2}' > $HOME/.tvmaxe-cli/.tmp/surse
+
+		#film1=$(echo `cat $HOME/.tvmaxe-cli/.tmp/surse`|awk -v rez=$rez '{print $1"8/u"$2"/videos/"$3"."rez".mp4"}')
 		fi
 
 }
@@ -75,8 +79,8 @@ $DIALOG --infobox "$nume1" 5 30
 	02)	
 $DIALOG --infobox "$film1" 10 60
 
-		youtube-dl "$film1" -o $salvare/$nume$ext &>/dev/null & || wget -O $salvare/$nume$ext $film1
-		sleep $delay ; 
+		youtube-dl "$film1" -o $salvare/$nume$ext &>/dev/null & #|| wget -O $salvare/$nume$ext $film1 &>/dev/null &
+		sleep $delay
 		$player $salvare/$nume1$ext $postplay  &>/dev/null
 		killall youtube-dl
 		exit 0

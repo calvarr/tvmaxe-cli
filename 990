@@ -1,4 +1,5 @@
 #!/bin/bash
+
 source config
 ######################################
 ext=.mp4
@@ -91,8 +92,8 @@ mkdir -p $salvare/$nume_serial
 
 		subtitrare
 
-		wget -O $salvare/$nume_serial/$nume1.srt || wget -O $salvare/$nume1.srt $subtitrare2 &>/dev/null 
-		wget -O $salvare/$nume_serial/$nume1$ext $film1 &>/dev/null &
+		wget -O $salvare/$nume_serial/$nume1.srt  $subtitrare1 || wget -O $salvare/$nume1.srt $subtitrare2 &>/dev/null 
+		wget -bqc -O $salvare/$nume_serial/$nume1$ext $film1 
 
 		sleep $delay ; 
 	$player $film1 &>/dev/null
@@ -108,7 +109,7 @@ mkdir -p $salvare/$nume_serial
 		
 		functie_seriale_2
 		subtitrare
-		wget -O $salvare/$nume_serial/$nume1.srt || wget -O $salvare/$nume1.srt $subtitrare2 &>/dev/null 
+		wget -O $salvare/$nume_serial/$nume1.srt $subtitrare1 || wget -O $salvare/$nume1.srt $subtitrare2 &>/dev/null 
 		axel -o $salvare/$nume_serial/$nume1$ext $film1 2>&1 |grep "%]"| sed -u -e "s,\.,,g;s/\]//" | awk '{printf("\b\b\b\b%4s", $2)}' 2>&1
 			echo -ne "\b\b\b\b" |$DIALOG --gauge "Descarc.." 6 50 10
 		done

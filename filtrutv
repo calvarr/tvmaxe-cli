@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash 
 source config
 ########################################
 player1=`echo $player|awk '{print $1}'`
@@ -31,6 +31,7 @@ if [[ "$soptest" = "sop" ]]; then protocol=sopcast
 	elif [[ "$soptest" = "rtsp" ]]; then protocol=rtsp
 	elif [[ "$soptest" = "rtmp" ]]; then protocol=rtmp
 	elif [[ "$soptest" = "mms" ]]; then protocol=mms
+	elif [[ "$soptest" = "acestream" ]]; then protocol=acestream
 	elif [[ "$m3u8test" = "m3u8" ]]; then protocol=m3u8
 	elif [[ "$pls" = "m3u8" ]]; then protocol=m3u8
 	elif [[ "$pls" = "asf" ]]; then protocol=asf
@@ -58,6 +59,14 @@ inregistrare () {
 			$player $salvare/$numetv"_"$data.$format &>/dev/null 
 			killall wget $omoara_sopcast #$procesare
 			#stty sane
+		elif [[ "$protocol" = "acestream" ]]; then
+		pid=`echo $adr|sed 's/\/\// /'|awk '{print $2}'`
+		acestreamengine --client-console $adr &
+		$DIALOG --infobox "incep inregistrarea in 20 sec" 5 35 ; sleep 20; wait 
+
+			wget -O $salvare/$numetv"_"$data.$format http://localhost:6878/LOAD/PID=$pid &>/dev/null &
+			$player $salvare/$numetv"_"$data.$format &>/dev/null 
+			killall wget acestream #$procesare
 			
 		elif [[ "$protocol" = "m3u8" ]]; then 
 			$procesare -y -i "$adr" -acodec libmp3lame -ar 44100 -vcodec copy -f $format  $salvare/$numetv"_"$data.$format 2>/dev/null & 
@@ -171,7 +180,7 @@ if [[ "$protocol" = "youtube" ]]; then
 
 			case "$selectat" in
 				01) youtube-dl $adr -o -|$player - &>/dev/null || livestreamer $adr best -Q -o - |$player - &>/dev/null;exit 0 ;;
-				02) cd $salvare;youtube-dl --max-quality FORMAT $adr;exit 0;;
+				02) cd $salvare;youtube-dl $adr;exit 0;;
 				03) youtube-dl $adr -o -|$procesare -i "-" -vn -acodec pcm_s16le -ar 16000 -ac 1 -f wav $salvare/youtube$$.wav;exit 0;;
 				04) youtube-dl $adr -o -|$procesare -i "-" -acodec libmp3lame -ac 2 -ab 128 -vn -y $salvare/youtube$$.mp3;exit 0;;
 				05) exit 0;;
@@ -210,6 +219,14 @@ case "$selectat" in
 			$player http://localhost:9901 &>/dev/null
 			killall $omoara_sopcast
 		#fi
+
+	elif [[ "$protocol" = "acestream" ]]; then
+		pid=`echo $adr|sed 's/\/\// /'|awk '{print $2}'`
+		acestreamengine --client-console $adr &
+		sleep 15
+		wait
+		$player http://localhost:6878/LOAD/PID=$pid
+		killall acestreamengine
 	elif [[ "$protocol" = "m3u8" ]]; then 
 			$($procesare -y -i "$adr" -acodec libmp3lame -ar 44100 -vcodec copy -f flv - 2>/dev/null|$player - &>/dev/null);stty sane
 
@@ -250,6 +267,7 @@ case "$selectat" in
 
 			film1=$(echo `cat $HOME/.tvmaxe-cli/.tmp/surse`|awk -v rez=$rez '{print $1"u"$2"/videos/"$3"."rez".mp4"}')
 			$player $film1
+
 	else
 			#exec 2> /dev/null
 			$player $adr 2>/dev/null|grep --line-buffered 'Name\|Genre\|Website\|ICY'
