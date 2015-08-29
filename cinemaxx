@@ -58,7 +58,7 @@ $DIALOG --backtitle "tvmaxe-cli" \
 	  --title "$nume" --clear \
           --menu "::: " 30 35 30 \
 	"01" "Redati" \
-	"02" "Inregistrati" \
+	"02" "Descarcati" \
 	"03" "Adaugati la favorite" \
 	"04" "Reveniti" \
 	"05" "Parasiti" 2>$tempfile
@@ -77,13 +77,13 @@ $DIALOG --infobox "$nume1" 5 30
 ;;
 
 	02)	
-$DIALOG --infobox "$film1" 10 60
+$DIALOG --infobox "$film1 descarc..." 10 60
 
-		youtube-dl "$film1" -o $salvare/$nume$ext &>/dev/null & #|| wget -O $salvare/$nume$ext $film1 &>/dev/null &
-		sleep $delay
-		$player $salvare/$nume1$ext $postplay  &>/dev/null
-		killall youtube-dl
-		exit 0
+		youtube-dl "$film1" -o $salvare/$nume1$ext &>/dev/null & #|| wget -O $salvare/$nume$ext $film1 &>/dev/null &
+		#sleep $delay
+		#$player $salvare/$nume1$ext $postplay  &>/dev/null
+		#killall youtube-dl
+		#exit 0
 ;;
 
 	

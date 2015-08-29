@@ -1,0 +1,22 @@
+KANAL_7_HD http://livetr.gostream.nl/kanal7hq/kanal7hq/chunklist_w1106540671.m3u8
+ATV_HD http://hls.turkuvazgroup.net/atv-hls/smil:atv.smil/chunklist_w314793428_b396000.m3u8
+TRT_HD http://si.trtcdn.com/tv/trthd/mp4:trthd_3/chunklist_w1940192687.m3u8
+SEMERKANT_HD http://semerkandglb.mediatriple.net/semerkandliveedge/semerkand3/sansar.m3u8
+CINE5  http://62.112.54.4/hls/cine5.m3u8
+TAKSIM http://212.224.108.80/S1/HLS_LIVE/taksim/1000/prog_index.m3u8?b?b*t$
+SANSAR_ÜLKE_TV http://livetr.gostream.nl/ulketvhq/ulketvhq/radyodelisi.m3u8
+SANSAR_HD_CNN_TURK http://live.netd.com.tr/S1/HLS_LIVE/cnn_turk/1000/prog_index.m3u8
+TV_2 http://live.netd.com.tr/S1/HLS_LIVE/tv2/1000/prog_index.m3u8
+KANAL_A http://nl-1-ms-origin.noccdn.com/cdn/53bf0e7156a37/playlist.m3u8
+TRT_BELGESEL http://sol.trtcdn.com/tv/trtbelgesel/smil:trtbelgesel.smil/chunklist_w1363029797_b665600.m3u8
+ON_4_TV http://yayin.netradyom.com:1935/live/on4/sansar.m3u8
+DREAM_TV http://live.netd.com.tr/S1/HLS_LIVE/dreamtv/1000/prog_index.m3u8
+DREAM_TURK http://live.netd.com.tr/S1/HLS_LIVE/dreamturktv/1000/prog_index.m3u8
+DISNEY_CHANEL http://live.netd.com.tr/S1/HLS_LIVE/disney/1000/prog_index.m3u8
+PLANET_TURK http://77.223.146.117:1935/live/planett/sansar.m3u8
+PLANET_PEMBE http://77.223.146.117:1935/live/planetp/sansar.m3u8
+A_HABER http://rtmp.turkuvazgroup.net/ahaber/ahaber3/sansar.m3u8
+NTV_SPOR http://93.155.252.136:12349/udp/239.1.2.42:4000
+2000_TV http://origin.live.web.tv.streamprovider.net/streams/1a4d50ea1292157a0d9d2e5ca25d2f7f_live_0_0/index.m3u8
+
+
