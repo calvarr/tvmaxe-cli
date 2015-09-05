@@ -5,6 +5,11 @@ interfata=nogui
 
 ########################################################################
 
+# --user-agent pentru wget necesar pntru 990
+agent='--user-agent="Mozilla/5.0 (Windows NT 6.0) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.97 Safari/537.11"'
+
+########################################################################
+
 #cauta actualizari in mod automat
 #actualizare=auto_actualizare
 

@@ -10,8 +10,9 @@ if [ "$selectie0" == "255" ]||[ "$selectie0" == "1" ]; then
 exit 0
   fi
   stream_video () {
+  	#sed -e 's/^.*\(title=[^ ,]*\).*$/\1/'
 
-  		upload=`wget -qO - $server1 --user-agent="Mozilla/5.0 (Windows NT 6.0) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.97 Safari/537.11"|grep "superweb"|sed '1d'|sed "s/ /_/g;s/http/ http/g;s/'/ /g"|awk '{print $4}'`
+  		upload=`wget -qO - $server1 $agent|grep "superweb"|sed '1d'|sed "s/ /_/g;s/http/ http/g;s/'/ /g"|sed -e 's/^.*\(superweb[^ ,]*\).*$/\1/'`
 
 		film1=`wget -qO - $upload|grep "'file': '"|sed '1p'|sed "s/ /_/;s/'/ /g"|awk '{print $3}'|sed '$d'`
 
@@ -19,7 +20,7 @@ exit 0
 }
 functie_seriale () {
 
-		wget -qO - "$adresa_serial"  --user-agent="Mozilla/5.0 (Windows NT 6.0) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.97 Safari/537.11" |grep seriale2|grep position:relative|sed "s/ /_/g;s/[<>']/ /g"|awk '{print $7,"http://www.990.ro/"$4}' >$HOME/.tvmaxe-cli/.tmp/epizoade_serial
+		wget -qO - "$adresa_serial"  $agent |grep seriale2|grep position:relative|sed "s/ /_/g;s/[<>']/ /g"|awk '{print $7,"http://www.990.ro/"$4}' >$HOME/.tvmaxe-cli/.tmp/epizoade_serial
 
 		epizoade2=`cat $HOME/.tvmaxe-cli/.tmp/epizoade_serial|sed "s/&#039;/'/g"|awk '{print $1,"off"}'|nl`
 
@@ -36,7 +37,7 @@ $DIALOG --infobox "Procesez..." 5 15
 functie_seriale_2 () {
 
 		adresa_epizod=`cat $HOME/.tvmaxe-cli/.tmp/epizoade_serial|awk '{print $2}'|sed -n "${nr_linie_colectie}p"`
-		server1=`wget -qO - $adresa_epizod --user-agent="Mozilla/5.0 (Windows NT 5.2; rv:2.0.1) Gecko/20100101 Firefox/4.0.1" |grep sfast.html|sed -n '1p'|sed "s/ /_/g;s/'/ /g"|awk '{print "http://www.990.ro/"$4}'`
+		server1=`wget -qO - $adresa_epizod $agent|grep sfast.html|sed -n '1p'|sed "s/ /_/g;s/'/ /g"|awk '{print "http://www.990.ro/"$4}'`
 		stream_video
 		nume=`cat $HOME/.tvmaxe-cli/.tmp/epizoade_serial|awk -v var="$nr_linie_colectie" '{print var,$1}'|sed 's/_/ /g;s/[\/\;\:\?]//g'|sed -n "${nr_linie_colectie}p"`
 		nume1=`echo $nume|sed 's/ /_/g'`
@@ -219,7 +220,7 @@ case "$selectat" in
 	01) #filme noi
 	$DIALOG --infobox "Procesez..." 5 15
 
-	 wget -qO - http://www.990.ro --user-agent="Mozilla/5.0 (Windows NT 6.0) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.97 Safari/537.11"|sed -n "/Ultimele filme/,/Filme calitate/ p"|grep link|sed "s/ /_/g;s/[<>']/ /g"|awk '{print $5,$4}'|grep "filme-">$HOME/.tvmaxe-cli/.tmp/noi
+	 wget -qO - http://www.990.ro $agent|sed -n "/Ultimele filme/,/Filme calitate/ p"|grep link|sed "s/ /_/g;s/[<>']/ /g"|awk '{print $5,$4}'|grep "filme-">$HOME/.tvmaxe-cli/.tmp/noi
 
 		filmenoi=`cat $HOME/.tvmaxe-cli/.tmp/noi|sed "s/&#039;/'/g"|awk '{print $1,"|"}'`
 
@@ -232,7 +233,7 @@ case "$selectat" in
 		nume_film_nou=`cat $tempfile`
 		nr_film_nou=`cat $HOME/.tvmaxe-cli/.tmp/noi|sed -n "/$nume_film_nou/="`
 		adresa=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print $2}'|sed -n "${nr_film_nou}p"`
-		server1=`wget -qO - www.990.ro/$adresa --user-agent="Mozilla/5.0 (Windows NT 6.0) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.97 Safari/537.11" |grep sfast.html|sed -n '1p'|sed "s/ /_/g;s/'/ /g"|awk '{print "http://www.990.ro/"$4}'`
+		server1=`wget -qO - www.990.ro/$adresa $agent |grep sfast.html|sed -n '1p'|sed "s/ /_/g;s/'/ /g"|awk '{print "http://www.990.ro/"$4}'`
 		stream_video
 		nume=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print $1}'|sed 's/_/ /g;s/[\/\;\:\?]//g'|sed -n "${nr_film_nou}p"`
 		nume1=`echo $nume|sed 's/ /_/g'`
@@ -244,7 +245,7 @@ case "$selectat" in
 ;;
 02) #Episoade Fsub
 $DIALOG --infobox "Procesez..." 5 15
-wget -qO - http://www.990.ro --user-agent="Mozilla/5.0 (Windows NT 6.0) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.97 Safari/537.11" |sed -n "/Ultimele episoade/,/cu subtitra/ p"|grep link|sed "s/ /_/g;s/[<>']/ /g"|awk '{print $5,$4}'>$HOME/.tvmaxe-cli/.tmp/noi
+wget -qO - http://www.990.ro $agent |sed -n "/Ultimele episoade/,/cu subtitra/ p"|grep link|sed "s/ /_/g;s/[<>']/ /g"|awk '{print $5,$4}'>$HOME/.tvmaxe-cli/.tmp/noi
 
 		episoade_noi=`cat $HOME/.tvmaxe-cli/.tmp/noi|sed "s/&#039;/'/g"|awk '{print $1}'|nl`
 
@@ -259,7 +260,7 @@ wget -qO - http://www.990.ro --user-agent="Mozilla/5.0 (Windows NT 6.0) AppleWeb
 
 
 
-		server1=`wget -qO - www.990.ro/$adresa_serial --user-agent="Mozilla/5.0 (Windows NT 6.0) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.97 Safari/537.11" |grep sfast.html|sed -n '1p'|sed "s/ /_/g;s/'/ /g"|awk '{print "http://www.990.ro/"$4}'`
+		server1=`wget -qO - www.990.ro/$adresa_serial $agent|grep sfast.html|sed -n '1p'|sed "s/ /_/g;s/'/ /g"|awk '{print "http://www.990.ro/"$4}'`
 		stream_video
 		nume=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print $1}'|sed 's/_/ /g;s/[\/\;\:\?]//g'|sed -n "${nr_film_nou}p"`
 		nume1=`echo $nume|sed 's/ /_/g'`
@@ -269,7 +270,7 @@ wget -qO - http://www.990.ro --user-agent="Mozilla/5.0 (Windows NT 6.0) AppleWeb
 
 03) #Episoade Sub
 $DIALOG --infobox "Procesez..." 5 15
-wget -qO - http://www.990.ro --user-agent="Mozilla/5.0 (Windows NT 6.0) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.97 Safari/537.11" |sed -n "/cu subtitra/,/Ultimele filme/ p"|grep link|sed "s/ /_/g;s/[<>']/ /g"|awk '{print $5,$4}'>$HOME/.tvmaxe-cli/.tmp/noi
+wget -qO - http://www.990.ro $agent |sed -n "/cu subtitra/,/Ultimele filme/ p"|grep link|sed "s/ /_/g;s/[<>']/ /g"|awk '{print $5,$4}'>$HOME/.tvmaxe-cli/.tmp/noi
 
 		episoade_noi=`cat $HOME/.tvmaxe-cli/.tmp/noi|sed "s/&#039;/'/g"|awk '{print $1}'|nl`
 
@@ -284,7 +285,7 @@ wget -qO - http://www.990.ro --user-agent="Mozilla/5.0 (Windows NT 6.0) AppleWeb
 
 
 
-		server1=`wget -qO - www.990.ro/$adresa_serial --user-agent="Mozilla/5.0 (Windows NT 6.0) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.97 Safari/537.11" |grep sfast.html|sed -n '1p'|sed "s/ /_/g;s/'/ /g"|awk '{print "http://www.990.ro/"$4}'`
+		server1=`wget -qO - www.990.ro/$adresa_serial $agent |grep sfast.html|sed -n '1p'|sed "s/ /_/g;s/'/ /g"|awk '{print "http://www.990.ro/"$4}'`
 		stream_video
 		nume=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print $1}'|sed 's/_/ /g;s/[\/\;\:\?]//g'|sed -n "${nr_film_nou}p"`
 		nume1=`echo $nume|sed 's/ /_/g'`
@@ -348,13 +349,13 @@ $DIALOG --infobox "Procesez..." 5 15
 if [ ! -f $HOME/.tvmaxe-cli/.tmp/seriale_pagini ]
 	then
 
-pagini_seriale=`wget -qO - "http://www.990.ro/seriale.php?afisare=grid&gen=$gen_serial&data=&order=ci&pagina=1" --user-agent="Mozilla/5.0 (Windows NT 6.0) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.97 Safari/537.11" |grep "numarpagini"|sed '$d'|sed 's/<[^>]*>/ /g;s/[A-Za-z]*//g;s/[&;]//g'|awk '{print $NF}'`
+pagini_seriale=`wget -qO - "http://www.990.ro/seriale.php?afisare=grid&gen=$gen_serial&data=&order=ci&pagina=1"$agent |grep "numarpagini"|sed '$d'|sed 's/<[^>]*>/ /g;s/[A-Za-z]*//g;s/[&;]//g'|awk '{print $NF}'`
 
 $DIALOG --infobox "Am gasit $pagini_seriale pagini. Incep paginarea lor" 5 50
 sleep 2
 i=1
 		for p in `seq 1 $pagini_seriale` ; do
-			wget -qO - "http://www.990.ro/seriale.php?afisare=grid&gen=$gen_serial&data=&order=ci&pagina=$(( i++ ))" --user-agent="Mozilla/5.0 (Windows NT 6.0) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.97 Safari/537.11"| sed -n "/numarpagini/,/numarpagini/ p"|grep link|sed "s/ /_/g;s/[<>']/ /g"|awk '{print $7,"http://www.990.ro/"$2}'>>$HOME/.tvmaxe-cli/.tmp/seriale_pagini
+			wget -qO - "http://www.990.ro/seriale.php?afisare=grid&gen=$gen_serial&data=&order=ci&pagina=$(( i++ ))" $agent| sed -n "/numarpagini/,/numarpagini/ p"|grep link|sed "s/ /_/g;s/[<>']/ /g"|awk '{print $7,"http://www.990.ro/"$2}'>>$HOME/.tvmaxe-cli/.tmp/seriale_pagini
 		$DIALOG --infobox "Pagini $(( i++ ))/$pagini_seriale" 5 15;sleep 0.5
 		done
 	fi
@@ -382,7 +383,7 @@ functie_seriale
 04)
 
 		$DIALOG --infobox "Procesez..." 5 15
-		wget -qO - http://www.990.ro --user-agent="Mozilla/5.0 (Windows NT 6.0) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.97 Safari/537.11" |sed -n "/Filme calitate/,/tabberAutomatic/ p"|grep link|sed "s/ /_/g;s/[<>']/ /g"|awk '{print $5,$4}'>$HOME/.tvmaxe-cli/.tmp/noi
+		wget -qO - http://www.990.ro $agent |sed -n "/Filme calitate/,/tabberAutomatic/ p"|grep link|sed "s/ /_/g;s/[<>']/ /g"|awk '{print $5,$4}'>$HOME/.tvmaxe-cli/.tmp/noi
 
 		episoade_noi=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print $1,"|"}'`
 
@@ -394,7 +395,7 @@ functie_seriale
 		nume_film_nou=`cat $tempfile`
 		nr_film_nou=`cat $HOME/.tvmaxe-cli/.tmp/noi|sed -n "/$nume_film_nou/="`
 		adresa=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print $2}'|sed -n "${nr_film_nou}p"`
-		server1=`wget -qO - www.990.ro/$adresa --user-agent="Mozilla/5.0 (Windows NT 6.0) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.97 Safari/537.11" |grep sfast.html|sed -n '1p'|sed "s/ /_/g;s/'/ /g"|awk '{print "http://www.990.ro/"$4}'`
+		server1=`wget -qO - www.990.ro/$adresa $agent |grep sfast.html|sed -n '1p'|sed "s/ /_/g;s/'/ /g"|awk '{print "http://www.990.ro/"$4}'`
 		stream_video
 		nume=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print $1}'|sed 's/_/ /g;s/[\/\;\:\?]//g'|sed -n "${nr_film_nou}p"`
 		nume1=`echo $nume|sed 's/ /_/g'`
@@ -407,7 +408,7 @@ functie_seriale
 
 $DIALOG --infobox "Procesez..." 5 15
 
-	 wget -qO - http://www.990.ro --user-agent="Mozilla/5.0 (Windows NT 6.0) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.97 Safari/537.11"|sed -n "/Filme calitate/,/tabberAutomatic/ p"|grep link|sed "s/ /_/g;s/[<>']/ /g"|awk '{print $5,$4}'|grep "filme-">$HOME/.tvmaxe-cli/.tmp/noi
+	 wget -qO - http://www.990.ro $agent|sed -n "/Filme calitate/,/tabberAutomatic/ p"|grep link|sed "s/ /_/g;s/[<>']/ /g"|awk '{print $5,$4}'|grep "filme-">$HOME/.tvmaxe-cli/.tmp/noi
 
 		filmenoi=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print $1,"|"}'`
 
@@ -420,7 +421,7 @@ $DIALOG --infobox "Procesez..." 5 15
 		nume_film_nou=`cat $tempfile`
 		nr_film_nou=`cat $HOME/.tvmaxe-cli/.tmp/noi|sed -n "/$nume_film_nou/="`
 		adresa=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print $2}'|sed -n "${nr_film_nou}p"`
-		server1=`wget -qO - www.990.ro/$adresa --user-agent="Mozilla/5.0 (Windows NT 6.0) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.97 Safari/537.11" |grep sfast.html|sed -n '1p'|sed "s/ /_/g;s/'/ /g"|awk '{print "http://www.990.ro/"$4}'`
+		server1=`wget -qO - www.990.ro/$adresa $agent |grep sfast.html|sed -n '1p'|sed "s/ /_/g;s/'/ /g"|awk '{print "http://www.990.ro/"$4}'`
 		stream_video
 		nume=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print $1}'|sed 's/_/ /g;s/[\/\;\:\?]//g'|sed -n "${nr_film_nou}p"`
 		nume1=`echo $nume|sed 's/ /_/g'`
@@ -478,12 +479,12 @@ $DIALOG --infobox "Procesez..." 5 15
 #################
 $DIALOG --infobox "Procesez..." 5 15
 
-	pagini_gen=`wget -qO - "http://www.990.ro/toate-filmele.php?afisare=grid&gen=$gen_film&data=&order=ci&pagina=1"--user-agent="Mozilla/5.0 (Windows NT 6.0) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.97 Safari/537.11" |grep "numarpagini"|sed '$d'|sed 's/<[^>]*>/ /g;s/[A-Za-z]*//g;s/[&;]//g'|awk '{print $NF}'`
+	pagini_gen=`wget -qO - "http://www.990.ro/toate-filmele.php?afisare=grid&gen=$gen_film&data=&order=ci&pagina=1"$agent|grep "numarpagini"|sed '$d'|sed 's/<[^>]*>/ /g;s/[A-Za-z]*//g;s/[&;]//g'|awk '{print $NF}'`
 	$DIALOG --infobox "Am gasit $pagini_gen pagini. Incep paginarea lor" 5 50		
 sleep 2
 		i=1
 		for p in `seq 1 $pagini_gen` ; do
-			wget -qO - "http://www.990.ro/toate-filmele.php?afisare=grid&gen=$gen_film&data=&order=ci&pagina=$(( i++ ))" --user-agent="Mozilla/5.0 (Windows NT 6.0) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.97 Safari/537.11"|sed -n "/numarpagini/,/numarpagini/ p"|grep link|sed "s/ /_/g;s/[<>']/ /g"|awk '{print $7,"http://www.990.ro/"$2}'>>$HOME/.tvmaxe-cli/.tmp/filme_gen
+			wget -qO - "http://www.990.ro/toate-filmele.php?afisare=grid&gen=$gen_film&data=&order=ci&pagina=$(( i++ ))" $agent|sed -n "/numarpagini/,/numarpagini/ p"|grep link|sed "s/ /_/g;s/[<>']/ /g"|awk '{print $7,"http://www.990.ro/"$2}'>>$HOME/.tvmaxe-cli/.tmp/filme_gen
 		$DIALOG --infobox "Pagini $(( i++ ))" 5 15;sleep 0.5
 		done
 		filme_gen=`cat $HOME/.tvmaxe-cli/.tmp/filme_gen|awk '{print $1}'|nl`
@@ -494,7 +495,7 @@ sleep 2
 		abandon
 		nr_film_gen1=`cat $tempfile`
 		adresa=`cat $HOME/.tvmaxe-cli/.tmp/filme_gen|awk '{print $2}'|sed -n "${nr_film_gen1}p"`
-		server1=`wget -qO - $adresa --user-agent="Mozilla/5.0 (Windows NT 6.0) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.97 Safari/537.11" |grep sfast.html|sed -n '1p'|sed "s/ /_/g;s/'/ /g"|awk '{print "http://www.990.ro/"$4}'`
+		server1=`wget -qO - $adresa $agent |grep sfast.html|sed -n '1p'|sed "s/ /_/g;s/'/ /g"|awk '{print "http://www.990.ro/"$4}'`
 		stream_video
 		nume=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print $1}'|sed 's/_/ /g;s/[\/\;\:\?]//g'|sed -n "${nr_film_nou}p"`
 		nume1=`echo $nume|sed 's/ /_/g'`
@@ -510,7 +511,7 @@ sleep 2
 			film_cautat=`cat $tempfile`
 
 	$DIALOG --infobox "Caut filmul..." 5 35
-			wget --post-data="kw=$film_cautat" --user-agent="Mozilla/5.0 (Windows NT 6.0) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.97 Safari/537.11" http://www.990.ro/functions/search3/live_search_using_jquery_ajax/search.php -qO -|sed "s/href/\n/g;s/ /_/g;s/['<>]/ /g"|sed '1,2d'|awk '{print $18,$2,"990"}'>$HOME/.tvmaxe-cli/.tmp/filme_gasite1
+			wget --post-data="kw=$film_cautat" $agent http://www.990.ro/functions/search3/live_search_using_jquery_ajax/search.php -qO -|sed "s/href/\n/g;s/ /_/g;s/['<>]/ /g"|sed '1,2d'|awk '{print $18,$2,"990"}'>$HOME/.tvmaxe-cli/.tmp/filme_gasite1
 
 			cat $HOME/.tvmaxe-cli/.tmp/filme_gasite1|sed 's/ /||/g'|sort -d|sed 's/||/ /g' > $HOME/.tvmaxe-cli/.tmp/filme_gasite
 
@@ -543,7 +544,7 @@ else
 		selectie=`echo $adresa|sed 's/[-\/]/ /g'|awk '{print $3}'`
 		if [[ "$selectie" = "filme" ]]; then
 
-		server1=`wget -qO - $adresa --user-agent="Mozilla/5.0 (Windows NT 6.0) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.97 Safari/537.11" |grep sfast.html|sed -n '1p'|sed "s/ /_/g;s/'/ /g"|awk '{print "http://www.990.ro/"$4}'`
+		server1=`wget -qO - $adresa $agent|grep sfast.html|sed -n '1p'|sed "s/ /_/g;s/'/ /g"|awk '{print "http://www.990.ro/"$4}'`
 		stream_video
 		meniufilm
 		
