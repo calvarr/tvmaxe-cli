@@ -103,6 +103,7 @@ procinema sop://broker.sopcast.com:3912/148249
 pro_tv_chişinău rtmp://93.116.255.2/live|-a|live|-f|lnx|11,2,202,235|-w|http://m.protv.md/design/mediaplayer/player_embed.swf|-p|http://live.protv.md/|-c|s:protv|-c|s:_wzxq_|-y|direct|--live
 pro_tv sop://broker.sopcast.com:3912/122831
 pro_tv_2 sop://broker.sopcast.com:3912/148081
+pro_tv_3 sop://broker.sopcast.com:3912/151380
 pro_tv_news http://85.204.233.120:1935/news/1.stream/***ylist.m3u8
 pro_tv_news_2 rtmp://live.protv.ro/news/|--playpath=mp4:live1.mp4|--swfUrl=http://d1.a4w.ro/customFlow/flowplayer-3.2.12.swf|--pageUrl=http://stirileprotv.ro/protvnews|--live
 radauti_tv http://46.214.146.86:8080/tvrd

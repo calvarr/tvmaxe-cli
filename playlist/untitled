@@ -1,8 +1,0 @@
-desene_recente=`wget -qO - http://deseneledublate.blogspot.ro/|sed -n "/'posts'/,/'hierarchy'/ p"|sed "s/ /_/g;s/['<>]/ /g"|awk '{print $4,$3}'`
-
-adresa_desen=
-
- film1=`wget -qO - $adresa_desen|grep ok.ru|sed 's/ /_/g;s/"/ /g;s/^.*\(http:\/\/ok.ru[^ ,]*\).*$/\1/;s/videoembed/video/'`
-
-
- 
