@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash 
 
 source config
 ######################################
@@ -12,7 +12,9 @@ exit 0
   stream_video () {
   	#sed -e 's/^.*\(title=[^ ,]*\).*$/\1/'
 
-  		upload=`wget -qO - $server1 $agent|grep "superweb"|sed '1d'|sed "s/ /_/g;s/http/ http/g;s/'/ /g"|sed -e 's/^.*\(superweb[^ ,]*\).*$/\1/'`
+  	
+
+  		upload=`wget -qO - $server1 $agent|grep "superweb"|sed "s/ /_/g;s/http/ http/g;s/'/ /g"|sed -e 's/^.*\(superweb[^ ,]*\).*$/\1/'|awk '{print "http://"$1}'`
 
 		film1=`wget -qO - $upload|grep "'file': '"|sed '1p'|sed "s/ /_/;s/'/ /g"|awk '{print $3}'|sed '$d'`
 
