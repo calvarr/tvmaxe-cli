@@ -247,7 +247,7 @@ case "$selectat" in
 ;;
 02) #Episoade Fsub
 $DIALOG --infobox "Procesez..." 5 15
-wget -qO - http://www.990.ro $agent |sed -n "/Ultimele episoade/,/cu subtitra/ p"|grep link|sed "s/ /_/g;s/[<>']/ /g"|awk '{print $7,$6}'>$HOME/.tvmaxe-cli/.tmp/noi
+wget -qO - http://www.990.ro $agent |sed -n "/cu subtitra/,/Ultimele filme/ p"|grep link|sed -e "s/ /_/g;s/^.*\(href[^ ,]*\).*$/\1/;s/[<>']/ /g"|awk '{print $3,$2}'>$HOME/.tvmaxe-cli/.tmp/noi
 
 		episoade_noi=`cat $HOME/.tvmaxe-cli/.tmp/noi|sed "s/&#039;/'/g"|awk '{print $1}'|nl`
 
@@ -272,7 +272,7 @@ wget -qO - http://www.990.ro $agent |sed -n "/Ultimele episoade/,/cu subtitra/ p
 
 03) #Episoade Sub
 $DIALOG --infobox "Procesez..." 5 15
-wget -qO - http://www.990.ro $agent |sed -n "/cu subtitra/,/Ultimele filme/ p"|grep link|sed "s/ /_/g;s/[<>']/ /g"|awk '{print $7,$6}'>$HOME/.tvmaxe-cli/.tmp/noi
+wget -qO - http://www.990.ro $agent |sed -n "/cu subtitra/,/Ultimele filme/ p"|grep link|sed -e "s/ /_/g;s/^.*\(href[^ ,]*\).*$/\1/;s/[<>']/ /g"|awk '{print $3,$2}'>$HOME/.tvmaxe-cli/.tmp/noi
 
 		episoade_noi=`cat $HOME/.tvmaxe-cli/.tmp/noi|sed "s/&#039;/'/g"|awk '{print $1}'|nl`
 
