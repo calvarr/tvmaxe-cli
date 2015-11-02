@@ -1,5 +1,11 @@
 #! /bin/bash 
-source config
+
+if [ -f /$HOME/.config_tvmaxe-cli ]
+then
+    source $HOME/.config_tvmaxe-cli
+else
+	source config
+fi
 #ido.ro - predictii meteo pentru 7 zile;
 
 #localitate (puteti gasi localitatile diponibile pe ido.ro)

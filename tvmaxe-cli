@@ -1,6 +1,11 @@
 #!/bin/bash
 cd $HOME/'.'tvmaxe-cli
-source config
+if [ -f /$HOME/.config_tvmaxe-cli ]
+then
+    source $HOME/.config_tvmaxe-cli
+else
+	source config
+fi
 #./ceas &
 mkdir -p $HOME/.tvmaxe-cli/.tmp
 touch $HOME/.tvmaxe-cli/.tmp/adr

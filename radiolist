@@ -1,5 +1,12 @@
 #! /bin/bash
 
+if [ -f /$HOME/.config_tvmaxe-cli ]
+then
+    source $HOME/.config_tvmaxe-cli
+else
+	source config
+fi
+
 Romania () {
 $DIALOG --infobox "Actualizez liste radio.. \n Romania" 6 25
 wget -qO - https://raw.github.com/calvarr/tvmaxe-cli/master/playlist/.Romania.raddio  > $HOME/.tvmaxe-cli/playlist/.Romania.raddio

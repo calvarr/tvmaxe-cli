@@ -1,4 +1,11 @@
 #! /bin/bash
+
+if [ -f /$HOME/.config_tvmaxe-cli ]
+then
+    source $HOME/.config_tvmaxe-cli
+else
+  source config
+fi
 liste_radio=`ls -a $HOME/.tvmaxe-cli/playlist|grep "raddio"|sed 's/\.raddio//g;s/\.//g'|awk '{print $1,"|"}'`
 
 $DIALOG --backtitle "tvmaxe-cli" \

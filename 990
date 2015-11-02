@@ -1,6 +1,12 @@
 #!/bin/bash
+if [ -f /$HOME/.config_tvmaxe-cli ]
+then
+    source $HOME/.config_tvmaxe-cli
+else
+	source config
+fi
 
-source config
+#source config
 ######################################
 ext=.mp4
 
@@ -74,6 +80,7 @@ $DIALOG --backtitle "tvmaxe-cli" \
 		echo $film1
 		echo $subtitrae1
 		$player $film1  -sub $subtitrare1 -sub $subtitrare2 &>/dev/null
+		
 		$postplay
 		;;
   		 1) exit 0 
@@ -126,11 +133,11 @@ mkdir -p $salvare/$nume_serial
 
 subtitrare () {
 
-		key=`echo $upload|sed 's/[\/.html]/ /g'| awk '{print $NF}'`
+	key=`echo $upload|sed 's/[\/.html]/ /g'| awk '{print $NF}'`
 
-		subtitrare1=`echo http://superweb.rol.ro/video/jw6/$key.srt`
+	subtitrare1=`echo http://superweb.rol.ro/video/jw6/$key.srt`
 		
-		subtitrare2=`echo http://superweb.rol.ro/video/$key.vtt`
+	subtitrare2=`echo http://superweb.rol.ro/video/$key.vtt`
 }
 meniufilm () {
 $DIALOG --infobox "Procesez...$nume1" 5 15
@@ -154,6 +161,7 @@ $DIALOG --infobox "$nume1" 10 60
 		$DIALOG --infobox "Adresa Film: \n$film1 \n\nAdresa Subtitrare: \n$subtitrare1" 10 80
 		echo $film1
 		$player $film1  -sub $subtitrare1 -sub $subtitrare2 &>/dev/null
+		
 		$postplay
 		exit 0
 ;;
@@ -247,7 +255,7 @@ case "$selectat" in
 ;;
 02) #Episoade Fsub
 $DIALOG --infobox "Procesez..." 5 15
-wget -qO - http://www.990.ro $agent |sed -n "/cu subtitra/,/Ultimele filme/ p"|grep link|sed -e "s/ /_/g;s/^.*\(href[^ ,]*\).*$/\1/;s/[<>']/ /g"|awk '{print $3,$2}'>$HOME/.tvmaxe-cli/.tmp/noi
+wget -qO - http://www.990.ro $agent |sed -n "/Ultimele episoade/,/cu subtitra/ p"|grep link|sed -e "s/ /_/g;s/^.*\(href[^ ,]*\).*$/\1/;s/[<>']/ /g"|awk '{print $3,$2}'>$HOME/.tvmaxe-cli/.tmp/noi
 
 		episoade_noi=`cat $HOME/.tvmaxe-cli/.tmp/noi|sed "s/&#039;/'/g"|awk '{print $1}'|nl`
 

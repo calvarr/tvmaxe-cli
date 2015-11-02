@@ -1,6 +1,12 @@
 #! /bin/bash 
 
-source config
+
+if [ -f /$HOME/.config_tvmaxe-cli ]
+then
+    source $HOME/.config_tvmaxe-cli
+else
+	source config
+fi
 
 $DIALOG --backtitle "tvmaxe-cli" \
 	  --title "Filme" --clear \
