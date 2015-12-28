@@ -73,11 +73,8 @@ until [ "$selectie0" == "1" ]; do
 	"03" "Radio on-line" \
 	"04" "Meteo" \
 	"05" "Filme" \
-	"06" "Animatie" \
-	"07" "Youtube" \
-	"08" "Divertisment" \
-	"09" "Favorite"  \
-	"10" "git_pull" 2>$tempfile
+	"06" "Youtube" \
+	"07" "git_pull" 2>$tempfile
   selectie0=$?
   selectat=`cat $tempfile`
   
@@ -87,11 +84,8 @@ until [ "$selectie0" == "1" ]; do
 	03) echo $format_audio radio > $HOME/.tvmaxe-cli/.tmp/format ; ./radio_online;;
 	04) ./meteo ;;
 	05) ./filme;;
-	06) ./animatie;;
-	07) echo "Youtube" > $HOME/.tvmaxe-cli/.tmp/adr ; ./youtube;;
-	08) echo "Divertisment" > $HOME/.tvmaxe-cli/.tmp/adr ; ./divertisment;;
-	09) ./favorite;;
-	10) ./gitpull;;
+	06) echo "Youtube" > $HOME/.tvmaxe-cli/.tmp/adr ; ./youtube;;
+	07) ./gitpull;;
 			
   esac
 

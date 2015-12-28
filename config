@@ -63,10 +63,20 @@ format_audio=mp3
 ########################################################################
 #Player redare:
 
-#player:
-player='mplayer -msglevel cache=-1 -nojoystick -nolirc -cache 820 -cache-min 20 -subcp enca:cs:latin2 -prefer-ipv4 -ao alsa,pulse, -vo xv,fbdev2, -xy 720 -zoom -geometry 10:20 '
+#player filme, youtube, divertisment:
+player2='mplayer -msglevel cache=-1 -nojoystick -nolirc -cache 820 -cache-min 20 -subcp enca:cs:latin2 -prefer-ipv4 -ao alsa,pulse, -vo xv,fbdev2, -xy 720 -zoom -geometry 10:20 '
 
 #player='omxplayer -o hdmi' #necesar pentru raspberry pi, desi exista mplayer nu are aceleasi performante de redare, asteptam performante mai bune..
+
+########################################################################
+#player sopcast:
+player3='mplayer -msglevel cache=-1 -nojoystick -nolirc -cache 820 -cache-min 20 -subcp enca:cs:latin2 -prefer-ipv4 -ao alsa,pulse, -vo xv,fbdev2, -xy 720 -zoom -geometry 10:20 '
+
+########################################################################
+#player liste radio:
+player4='mplayer'
+
+
 
 ########################################################################
 #meteo

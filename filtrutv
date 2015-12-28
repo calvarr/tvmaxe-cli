@@ -7,7 +7,7 @@ else
 	source config
 fi
 ########################################
-player1=`echo $player|awk '{print $1}'`
+player1=`echo $player3|awk '{print $1}'`
 data=`date +%F_%R`
 liste=`ls $HOME/.tvmaxe-cli/playlist|sed 's/\./ /'|grep " tv"|awk '{print $1}'`
 post=$HOME/.tvmaxe-cli/.tmp/adr
@@ -62,7 +62,7 @@ inregistrare () {
 #$procesare -y -i "http://localhost:9901 " -acodec copy -vcodec copy -f $format  $salvare/$numetv"_"$data.$format 2>/dev/null &
 #sleep $delay
 			wget -O $salvare/$numetv"_"$data.$format http://localhost:9901 &>/dev/null &
-			$player $salvare/$numetv"_"$data.$format &>/dev/null 
+			$player3 $salvare/$numetv"_"$data.$format &>/dev/null 
 			killall wget $omoara_sopcast #$procesare
 			#stty sane
 		elif [[ "$protocol" = "acestream" ]]; then
@@ -71,35 +71,35 @@ inregistrare () {
 		$DIALOG --infobox "incep inregistrarea in 20 sec" 5 35 ; sleep 20; wait 
 
 			wget -O $salvare/$numetv"_"$data.$format http://localhost:6878/LOAD/PID=$pid &>/dev/null &
-			$player $salvare/$numetv"_"$data.$format &>/dev/null 
+			$player3 $salvare/$numetv"_"$data.$format &>/dev/null 
 			killall wget acestream #$procesare
 			
 		elif [[ "$protocol" = "m3u8" ]]; then 
 			$procesare -y -i "$adr" -acodec libmp3lame -ar 44100 -vcodec copy -f $format  $salvare/$numetv"_"$data.$format 2>/dev/null & 
 			$DIALOG --infobox "inregistrez, redau inregistrarea in $delay sec" 5 35
 			sleep $delay
-			$player $salvare/$numetv"_"$data.$format &>/dev/null 
+			$player3 $salvare/$numetv"_"$data.$format &>/dev/null 
 			killall $procesare
 			stty sane
 		elif [[ "$protocol" = "asf" ]]; then 
 			$procesare -i "$adr" -acodec copy -vcodec copy -f $format $salvare/$numetv"_"$data.$format 2>/dev/null &
 			$DIALOG --infobox "inregistrez, redau inregistrarea in $delay sec" 5 35
 			sleep $delay
-			$player $salvare/$numetv"_"$data.$format &>/dev/null 
+			$player3 $salvare/$numetv"_"$data.$format &>/dev/null 
 			killall $procesare
 			stty sane
 		elif [[ "$protocol" = "rtsp" ]];then 
 			$procesare -y -i "$adr" -acodec copy -vcodec copy -r 20 -f $format $salvare/$numetv"_"$data.$format 2>/dev/null & 
 			$DIALOG --infobox "inregistrez, redau inregistrarea in $delay sec" 5 35 
 			sleep $delay
-			$player $salvare/$numetv"_"$data.$format &>/dev/null 
+			$player3 $salvare/$numetv"_"$data.$format &>/dev/null 
 			killall procesare
 			stty sane
 		elif [[ "$protocol" = "rtmp" ]]; then 
 			$(rtmpdump -r $adr -o -|$procesare -y -i "-" -acodec copy -vcodec copy -r 20 -f $format $salvare/$numetv"_"$data.$format 2>/dev/null) & 
 			$DIALOG --infobox "inregistrez, redau inregistrarea in $delay sec" 5 35 
 			sleep $delay
-			$player $salvare/$numetv"_"$data.$format &>/dev/null
+			$player3 $salvare/$numetv"_"$data.$format &>/dev/null
 			killall $procesare 
 			stty sane
 			killall rtmpdump
@@ -109,14 +109,14 @@ inregistrare () {
 			$DIALOG --infobox "inregistrez..." 5 35 
 			
 		elif [[ "$protocol" = "superweb" ]]; then
-			film1=`wget -qO - $adr|grep "'file': '"|sed "s/ /_/;s/'/ /g"|awk '{print $3}'|sed '$d'`
+			film1=`wget -qO - $upload|grep "'file': '"|sed '1p'|sed "s/ /_/;s/'/ /g"|awk '{print $3}'|sed '$d'`
 			key=`echo $adr|sed 's/[\/.html]/ /g'| awk '{print $NF}'`
 			subtitrare1=`echo http://superweb.rol.ro/video/jw6/$key.srt`
 			wget -O $salvare/$numetv.srt
 			wget -O $salvare/$numetv.mp4 $film1 &
 			$DIALOG --infobox "inregistrez..." 5 35 
 			sleep $delay
-			$player $salvare/$numetv.mp4 &>/dev/null
+			$player3 $salvare/$numetv.mp4 &>/dev/null
 
 		elif [[ "$protocol" = "vk" ]]; then
 			wget -qO - $adr|sed -n '/video_host/,/video_vtag/ p'|sed "s/ /_/g;s/'/ /g"|awk '{print $2}' > $HOME/.tvmaxe-cli/.tmp/surse
@@ -124,7 +124,7 @@ inregistrare () {
 			wget -O $salvare/$numetv.mp4 $film1 &
 			$DIALOG --infobox "inregistrez..." 5 35 
 			sleep $delay
-			$player $salvare/$numetv.mp4 &>/dev/null
+			$player3 $salvare/$numetv.mp4 &>/dev/null
 
 
 		else
@@ -153,7 +153,7 @@ inregistrare () {
 
 					$DIALOG --infobox "inregistrez...,\nredau inregistrarea in $delay sec" 5 35
 					sleep 20
-					$player $salvare/$numetv"_"$data.$format &>/dev/null 
+					$player4 $salvare/$numetv"_"$data.$format &>/dev/null 
 					killall wget
 						
 
@@ -185,7 +185,7 @@ if [[ "$protocol" = "youtube" ]]; then
  				selectat=`cat $tempfile`
 
 			case "$selectat" in
-				01) youtube-dl $adr -o -|$player - &>/dev/null || livestreamer $adr best -Q -o - |$player - &>/dev/null;exit 0 ;;
+				01) youtube-dl $adr -o -|$player3 - &>/dev/null || livestreamer $adr best -Q -o - |$player3 - &>/dev/null;exit 0 ;;
 				02) cd $salvare;youtube-dl $adr;exit 0;;
 				03) youtube-dl $adr -o -|$procesare -i "-" -vn -acodec pcm_s16le -ar 16000 -ac 1 -f wav $salvare/youtube$$.wav;exit 0;;
 				04) youtube-dl $adr -o -|$procesare -i "-" -acodec libmp3lame -ac 2 -ab 128 -vn -y $salvare/youtube$$.mp3;exit 0;;
@@ -221,9 +221,10 @@ case "$selectat" in
 		#if [ $? != 0 ]; then
 		#	$DIALOG --infobox "Adresa inactiva" 5 35 ;sleep 2
 		#else
-			#$(wget -qO - http://localhost:9901|$player - &>/dev/null)
-			$player http://localhost:9901 &>/dev/null
+			#$(wget -qO - http://localhost:9901|$player3 - &>/dev/null)
+			$player3 http://localhost:9901 &>/dev/null
 			killall $omoara_sopcast
+			killall $player1
 		#fi
 
 	elif [[ "$protocol" = "acestream" ]]; then
@@ -231,26 +232,26 @@ case "$selectat" in
 		acestreamengine --client-console $adr &
 		sleep 15
 		wait
-		$player http://localhost:6878/LOAD/PID=$pid
+		$player3 http://localhost:6878/LOAD/PID=$pid
 		killall acestreamengine
 	elif [[ "$protocol" = "m3u8" ]]; then 
-			$($procesare -y -i "$adr" -acodec libmp3lame -ar 44100 -vcodec copy -f flv - 2>/dev/null|$player - &>/dev/null);stty sane
+			$($procesare -y -i "$adr" -acodec libmp3lame -ar 44100 -vcodec copy -f flv - 2>/dev/null|$player3 - &>/dev/null);stty sane
 
 	elif [[ "$protocol" = "asf" ]]; then 
-		if [[ "$player" = "vlc" ]]; then $player $adr
+		if [[ "$player3" = "vlc" ]]; then $player3 $adr
 		else
-		$($procesare -i "$adr" -acodec copy -vcodec copy -f avi - 2>/dev/null|$player -  &>/dev/null);stty sane
+		$($procesare -i "$adr" -acodec copy -vcodec copy -f avi - 2>/dev/null|$player3 -  &>/dev/null);stty sane
 		fi
 	elif [[ "$protocol" = "rtsp" ]]; then 
-			$($procesare -y -i "$adr" -acodec copy -vcodec copy -r 20 -f flv - 2>/dev/null|$player - &>/dev/null);stty sane
+			$($procesare -y -i "$adr" -acodec copy -vcodec copy -r 20 -f flv - 2>/dev/null|$player3 - &>/dev/null);stty sane
 			
 	elif [[ "$protocol" = "rtmp" ]]; then 
 			
-			rtmpdump -r $adr -o -|$player -
+			rtmpdump -r $adr -o -|$player3 -
 	elif [[ "$protocol" = "pls" ]]||[[ "$protocol" = "m3u" ]]||[[ "$protocol" = "shoutcast" ]];
 	then
 			
-			$player -playlist $adr 2>/dev/null|grep --line-buffered 'Name\|Genre\|Website\|ICY' #> $HOME/.tvmaxe-cli/.tmp/radio_info &
+			$player4 -playlist $adr 2>/dev/null|grep --line-buffered 'Name\|Genre\|Website\|ICY' #> $HOME/.tvmaxe-cli/.tmp/radio_info &
 			#sleep 3
 			#while read line < $HOME/.tvmaxe-cli/.tmp/radio_info; 
 			#do
@@ -260,27 +261,27 @@ case "$selectat" in
 			#wait
 	elif [[ "$protocol" = "livestream" ]]
 		then 
-			livestreamer $adr best -Q -O |$player - &>/dev/null
+			livestreamer $adr best -Q -O |$player3 - &>/dev/null
 	elif [[ "$protocol" = "superweb" ]]
 		then
 		film1=`wget -qO - $adr|grep "'file': '"|sed "s/ /_/;s/'/ /g"|awk '{print $3}'|sed '$d'`
 		key=`echo $adr|sed 's/[\/.html]/ /g'| awk '{print $NF}'`
 		subtitrare1=`echo http://superweb.rol.ro/video/jw6/$key.srt`
-		$player $film1 -sub $subtitrare1
+		$player3 $film1 -sub $subtitrare1
 
 	elif [[ "$protocol" = "vk" ]]; then
 			wget -qO - $adr|sed -n '/video_host/,/video_vtag/ p'|sed "s/ /_/g;s/'/ /g"|awk '{print $2}' > $HOME/.tvmaxe-cli/.tmp/surse
 
 			film1=$(echo `cat $HOME/.tvmaxe-cli/.tmp/surse`|awk -v rez=$rez '{print $1"u"$2"/videos/"$3"."rez".mp4"}')
-			$player $film1
+			$player3 $film1
 
 	else
 			#exec 2> /dev/null
-			$player $adr 2>/dev/null|grep --line-buffered 'Name\|Genre\|Website\|ICY'
-			 #$($procesare -y -i "$adr" -acodec copy -vcodec copy -f avi - 2>/dev/null|$player - &>/dev/null);stty sane
+			$player3 $adr 2>/dev/null|grep --line-buffered 'Name\|Genre\|Website\|ICY'
+			 #$($procesare -y -i "$adr" -acodec copy -vcodec copy -f avi - 2>/dev/null|$player3 - &>/dev/null);stty sane
 
 			
-			#$player "$adr" &> /dev/null & #|tee $HOME/.tvmaxe-cli/.tmp/datehttp &
+			#$player3 "$adr" &> /dev/null & #|tee $HOME/.tvmaxe-cli/.tmp/datehttp &
 			#$DIALOG --backtitle "tvmaxe-cli" \
 			#		--title "| $numetv |" \
 			#		--msgbox "\nDoriti sa intrerupeti redarea?" 10 50

@@ -12,7 +12,7 @@ if [ "$selectie0" == "255" ]||[ "$selectie0" == "1" ]; then
   fi
 }
 
-player1=echo "$player"|awk '{print $1}' &>/dev/null
+player1=echo "$player2"|awk '{print $1}' &>/dev/null
 
 		$DIALOG --title "| youtube |" \
 			--backtitle "tvmaxe-cli" \
@@ -50,11 +50,11 @@ youtube_rpi () {
 	
 	youtube-dl -g $adr_yt 2>/dev/null > $HOME/.tvmaxe-cli/.tmp/adr_yt
 	adr_yt1=`cat $HOME/.tvmaxe-cli/.tmp/adr_yt`
-	$player "$adr_yt1" &>/dev/null
+	$player2 "$adr_yt1" &>/dev/null
 }
 
 youtube_pc () {
-   			youtube-dl $adr_yt -o - 2>/dev/null|$player - &>/dev/null
+   			youtube-dl $adr_yt -o - 2>/dev/null|$player2 - &>/dev/null
    		}
 
 $DIALOG --backtitle "tvmaxe-cli" \
@@ -152,12 +152,12 @@ $DIALOG --backtitle "tvmaxe-cli" \
 
 	youtube
 		
-	youtube-dl $adr_yt -o - 2>/dev/null|$player -novideo - &>/dev/null
+	youtube-dl $adr_yt -o - 2>/dev/null|$player2 -novideo - &>/dev/null
 done
 exit 0
 ;;
-#$($procesare -y -i "$gp3_yt" -acodec copy -vcodec copy -r 20 -f 3gp - 2>/dev/null|$player - &>/dev/null);stty sane
-#$($procesare -y -i "$adr" -acodec libmp3lame -ar 44100 -vcodec copy -f flv - 2>/dev/null|$player - &>/dev/null);stty sane
+#$($procesare -y -i "$gp3_yt" -acodec copy -vcodec copy -r 20 -f 3gp - 2>/dev/null|$player2 - &>/dev/null);stty sane
+#$($procesare -y -i "$adr" -acodec libmp3lame -ar 44100 -vcodec copy -f flv - 2>/dev/null|$player2 - &>/dev/null);stty sane
 	
 #ffmpeg -f lavfi -i testsrc -filter_complex "split=4[a][b][c][d];[a]pad=iw*4:ih[w];[b]lutyuv=u=128:v=128[x];[c]lutyuv=y=0:v=128[y];[d]lutyuv=y=0:u=128[z];[w][x]overlay=w:0[wx];[wx][y]overlay=w*2:0[wxy];[wxy][z]overlay=w*3:0" -f nut - | ffplay -
 
@@ -168,7 +168,7 @@ exit 0
 
 		youtube
 		
-		youtube-dl $adr_yt -o - 2>/dev/null|$player -novideo - &>/dev/null
+		youtube-dl $adr_yt -o - 2>/dev/null|$player2 -novideo - &>/dev/null
 
 	done
 	exit 0

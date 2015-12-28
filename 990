@@ -79,7 +79,7 @@ $DIALOG --backtitle "tvmaxe-cli" \
 		$DIALOG --infobox "Adresa Film: \n$film1 \n\nAdresa Subtitrare: \n$subtitrare1" 10 80
 		echo $film1
 		echo $subtitrae1
-		$player $film1  -sub $subtitrare1 -sub $subtitrare2 &>/dev/null
+		$player2 $film1  -sub $subtitrare1 -sub $subtitrare2 &>/dev/null
 		
 		$postplay
 		;;
@@ -107,7 +107,7 @@ mkdir -p $salvare/$nume_serial
 		wget -bqc -O $salvare/$nume_serial/$nume1$ext $film1 
 
 		sleep $delay ; 
-	$player $film1 &>/dev/null
+	$player2 $film1 &>/dev/null
 		killall wget 
 		done
 		exit 0
@@ -160,7 +160,7 @@ $DIALOG --infobox "$nume1" 10 60
 		subtitrare
 		$DIALOG --infobox "Adresa Film: \n$film1 \n\nAdresa Subtitrare: \n$subtitrare1" 10 80
 		echo $film1
-		$player $film1  -sub $subtitrare1 -sub $subtitrare2 &>/dev/null
+		$player2 $film1  -sub $subtitrare1 -sub $subtitrare2 &>/dev/null
 		
 		$postplay
 		exit 0
@@ -172,7 +172,7 @@ $DIALOG --infobox "$nume1" 10 60
 		wait 
 		wget -bqc -O $salvare/$nume1$ext $film1  
 		sleep $delay
-		$player $salvare/$nume1$ext $postplay &>/dev/null
+		$player2 $salvare/$nume1$ext $postplay &>/dev/null
 		killall wget 
 		exit 0
 ;;
@@ -490,7 +490,7 @@ $DIALOG --infobox "Procesez..." 5 15
 #################
 $DIALOG --infobox "Procesez..." 5 15
 
-	pagini_gen=`wget -qO - "http://www.990.ro/toate-filmele.php?afisare=grid&gen=$gen_film&data=&order=ci&pagina=1"$agent|grep "numarpagini"|sed '$d'|sed 's/<[^>]*>/ /g;s/[A-Za-z]*//g;s/[&;]//g'|awk '{print $NF}'`
+	pagini_gen=`wget -qO - "http://www.990.ro/toate-filmele.php?afisare=grid&gen=$gen_film&data=&order=ci&pagina=1" $agent|grep "numarpagini"|sed '$d'|sed 's/<[^>]*>/ /g;s/[A-Za-z]*//g;s/[&;]//g'|awk '{print $NF}'`
 	$DIALOG --infobox "Am gasit $pagini_gen pagini. Incep paginarea lor" 5 50		
 sleep 2
 		i=1
@@ -508,7 +508,7 @@ sleep 2
 		adresa=`cat $HOME/.tvmaxe-cli/.tmp/filme_gen|awk '{print $2}'|sed -n "${nr_film_gen1}p"`
 		server1=`wget -qO - $adresa $agent |grep sfast|sed -n '1p'|sed "s/ /_/g;s/'/ /g"|awk '{print "http://www.990.ro/"$4}'`
 		stream_video
-		nume=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print $1}'|sed 's/_/ /g;s/[\/\;\:\?]//g'|sed -n "${nr_film_nou}p"`
+		nume=`cat $HOME/.tvmaxe-cli/.tmp/filme_gen|awk '{print $1}'|sed 's/_/ /g;s/[\/\;\:\?]//g'|sed -n "${nr_film_gen1}p"`
 		nume1=`echo $nume|sed 's/ /_/g'`
 
 		meniufilm
