@@ -37,6 +37,7 @@ Publica-2 rtmp://195.22.232.3/rtplive/program13.stream
 Publica_3 rtmp://91.230.214.56/publika/livepublika1
 PublicaMD "rtmp://91.230.214.56/publika"|-a|"publika"|-f|"LNX|11,2,202,280"|-W|"http://radiotvonline.info/player/player59.swf"|-p|"http://radiotvonline.info/tv-md/publika-tv-online.html"|-y|"livepublika1"
 PublikaTV http://publikatv.web.tvbox.md/
+Realitatea_tv rtmp://83.218.202.202/live|--swfUrl=http://webtv.md/swf/WebTV.swf|--playpath=wt_realitatea.stream
 RenTV_Moldova http://rentvmold.web.tvbox.md/
 Russian_Music_Box "rtmp://musicbox.cdnvideo.ru/musicbox-live"|-a|"musicbox-live"|-f|"LNX|11,2,202,243"|-W|"http://russiangoogletv.com/javascript/JWPlayer_licensed59/player.swf"|-p|"http://online-tvmd.blogspot.ro"|-y|"musicbox.sdp"
 RUTV_Moldova http://rutv.web.tvbox.md/
