@@ -47,6 +47,7 @@ if [[ "$soptest" = "sop" ]]; then protocol=sopcast
 	#elif [[ "$pls" = "m3u8" ]]; then protocol=m3u8
 	elif [[ "$pls3" = "shoutcast" ]]; then protocol=shoutcast
 	elif [[ "$pls3" = "youtube" ]]; then protocol=youtube
+	elif [[ "$pls3" = "ustream" ]]; then protocol=livestream
 	elif [[ "$pls3" = "livestream" ]]; then protocol=livestream
 	elif [[ "$superweb" = "superweb" ]]; then protocol=superweb
 	elif [[ "$superweb" = "vk" ]]; then protocol=vk
@@ -215,7 +216,7 @@ case "$selectat" in
 01) 
 	if [[ "$protocol" = "sopcast" ]]; then
 		$($sopcast "$adr 8901 9901" &>/dev/null & )
-		sleep 15
+		sleep 30
 		wait 
 		#$(testpost=`wget --spider http://localhost:9901  -qO -&>/dev/null 2>&1`)
 		#if [ $? != 0 ]; then

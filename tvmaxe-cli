@@ -6,31 +6,20 @@ then
 else
 	source config
 fi
-#./ceas &
+
 mkdir -p $HOME/.tvmaxe-cli/.tmp
 touch $HOME/.tvmaxe-cli/.tmp/adr
-if [ ! -f $HOME/.tvmaxe-cli/.commit_tv ]; then
-	echo "Lipsa fisier $HOME/.tvmaxe-cli/.commit_tv"
-	echo "creez $HOME/.tvmaxe-cli/.commit_tv"
-    wget -qO - https://github.com/calvarr/tvmaxe-cli/commits/master|grep 'class="sha"'|sed -n '1p'|sed 's/ /_/g;s/[><]/ /g'|awk '{print $3}' > $HOME/.tvmaxe-cli/.commit_tv
+
+
+if [[ "$1" != "" ]]; then
+echo "tvmaxe-cli $1" > $HOME/.tvmaxe-cli/.tmp/adr
+#echo $format_video tv > $HOME/.tvmaxe-cli/.tmp/format
+./fadr_externa
 fi
 
 
-
-auto_actualizare () {
-	$DIALOG --infobox "Caut actualizari disponibile..." 5 20
-	commit1=`wget -qO - https://github.com/calvarr/tvmaxe-cli/commits/master|grep 'class="sha"'|sed -n '1p'|sed 's/ /_/g;s/[><]/ /g'|awk '{print $3}'`
-	commit2=`cat $HOME/.tvmaxe-cli/.commit_tv`
-
-	if [[ "$commit1" != "$commit2" ]]
-	then 
-		
-		./gitpull
-	else
-		$DIALOG --infobox "Nu au fost gasite actualizari \n $commit1=$commit2" 5 20
-		sleep 2
-	fi
-					}
+	
+					
 
 gui () {
 test_tty=`echo $DISPLAY X|awk '{print $2}'`
@@ -58,11 +47,7 @@ tempfile=`tempfile 2>/dev/null` || tempfile=$HOME/.tvmaxe-cli/.tmp/capclitmp$$
 export tempfile
 trap "rm -f $tempfile" 0 1 2 5 15
 trap "rm -rf $HOME/.tvmaxe-cli/.tmp" 0 1 2 5 15
-if [[ "$1" != "" ]]; then
-echo "tvmaxe-cli $1" > $HOME/.tvmaxe-cli/.tmp/adr
-echo $format_video tv > $HOME/.tvmaxe-cli/.tmp/format
-./adr_externa
-fi
+
 until [ "$selectie0" == "1" ]; do
 
   $DIALOG --backtitle "tvmaxe-cli" \
