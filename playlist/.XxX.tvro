@@ -1,4 +1,4 @@
-x-musik http://www.livestream.com/xonmusic
+x-musik http://original.livestream.com/xonmusic
 spicetvHD "rtmp://lm03.everyon.tv:1935/ptv3/"|-a|"ptv3/"|-f|"LNX|11,2,202,332"|-W|"http://tv-box.hpage.com/get_file.php?id=1736212&vnr=905805"|-p|"http://nowwatchtvlive.com/channel-tab-frame/spicetvhd.php?autoplay=1&wmode=opaque"|-y|"phd497"
 PlayBoy "rtmp://111.118.21.77/ptv3//"|-a|"ptv3//"|-f|"LNX|11,2,202,332"|-W|"http://embed.liveonlinetv24x7.com/jwplayer/jwplayer.flash.swf"|-p|"http://embed.liveonlinetv24x7.com/playboytv-2/?autoplay=1&wmode=opaque"|-y|"phd499"
 playy "rtmp://lm03.everyon.tv:1935/ptv3/"|-a|"ptv3/"|-f|"LNX|11,2,202,332"|-W|"http://player.longtailvideo.com/player.swf"|-p|"http://maheyalltvchannelonline.blogspot.ro/2012/06/natalybabys-live-webcam-chat-show.html"|-y|"phd769"
