@@ -1,0 +1,14 @@
+al_jazeera_rtsp rtsp://77.36.61.40:554/aljazeera.sdp
+antena_3_sop sop://151.80.76.190:3912/148084
+b1_tv_sop sop://151.80.76.190:3912/148087
+ealitatea_tv_sop sop://broker.sopcast.com:3912/253036
+deutsche_welle_m3u8 http://enc.zyns.com:1935/live3/_definst_/mp4:dw/playlist.m3u8?token=d6e27fe9ac8239df867bf19a1c875fe88d439a0283884a15
+realitatea_tv_HQ_m3u8 http://82.76.249.81/digiedge2/realitateatvhq/playlist.m3u8
+românia_tv_sop sop://broker.sopcast.com:3912/148258
+românia_tv_http http://rtvflash.smcmobile.ro:8020/rtv.flv
+romania_tv_m3u8 http://rtv.smcmobile.ro:8080/RTV.m3u8
+pro_tv_news_rtmp rtmp://live.protv.ro/news/|--playpath=mp4:live1.mp4|--swfUrl=http://d1.a4w.ro/customFlow/flowplayer-3.2.12.swf|--pageUrl=http://stirileprotv.ro/protvnews|--live
+nasul_tv http://77.36.61.18:8010/NasulTV.m3u8
+vr_news_m3u8 http://77.36.61.40:8010/TVRNews.m3u8
+tvr_news_rtsp rtsp://77.36.61.40:554/tvrnews.sdp
+

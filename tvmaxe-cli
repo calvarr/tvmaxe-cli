@@ -1,5 +1,6 @@
 #!/bin/bash
-cd $HOME/'.'tvmaxe-cli
+
+#cd $HOME/'.'tvmaxe-cli
 if [ -f /$HOME/.config_tvmaxe-cli ]
 then
     source $HOME/.config_tvmaxe-cli
@@ -13,8 +14,8 @@ touch $HOME/.tvmaxe-cli/.tmp/adr
 
 if [[ "$1" != "" ]]; then
 echo "tvmaxe-cli $1" > $HOME/.tvmaxe-cli/.tmp/adr
-#echo $format_video tv > $HOME/.tvmaxe-cli/.tmp/format
-./fadr_externa
+echo $format_video > $HOME/.tvmaxe-cli/.tmp/format
+./filtrutv
 fi
 
 
@@ -41,8 +42,8 @@ DIALOG=dialog
 }
 export DIALOG
 $interfata
-$actualizare
-#export DIALOG
+
+
 tempfile=`tempfile 2>/dev/null` || tempfile=$HOME/.tvmaxe-cli/.tmp/capclitmp$$
 export tempfile
 trap "rm -f $tempfile" 0 1 2 5 15
@@ -55,29 +56,29 @@ until [ "$selectie0" == "1" ]; do
           --menu ":::" 25 30 25 \
 	"01" "TV on-line" \
 	"02" "Streams-magazinmixt" \
-	"03" "Radio on-line" \
-	"04" "Meteo" \
-	"05" "Filme" \
-	"06" "Youtube" \
-	"07" "git_pull" 2>$tempfile
+	"03" "Meteo" \
+	"04" "Filme" \
+	"05" "Youtube" \
+	"06" "git_pull" 2>$tempfile
   selectie0=$?
   selectat=`cat $tempfile`
   
   case "$selectat" in
-	01) echo $format_video tv > $HOME/.tvmaxe-cli/.tmp/format    ; ./TV_online;;
-	02) echo $format_video tv > $HOME/.tvmaxe-cli/.tmp/format    ; ./stream_magazin;;
-	03) echo $format_audio radio > $HOME/.tvmaxe-cli/.tmp/format ; ./radio_online;;
-	04) ./meteo ;;
-	05) ./filme;;
-	06) echo "Youtube" > $HOME/.tvmaxe-cli/.tmp/adr ; ./youtube;;
-	07) ./gitpull;;
+	01) echo $format_video > $HOME/.tvmaxe-cli/.tmp/format    ; ./TV_online;;
+	02) echo $format_video > $HOME/.tvmaxe-cli/.tmp/format    ; ./stream_magazin;;
+	03) ./meteo ;;
+	04) ./filme;;
+	05) echo "Youtube" > $HOME/.tvmaxe-cli/.tmp/adr ; ./youtube;;
+	06) ./gitpull;;
 			
   esac
 
   if [ "$selectie0" == "255" ]||[ "$selectie0" == "1" ]; then
-   #killall ceas
+   #cd $HOME
 	stty sane
+
    exit 0
   fi
+  
 done
 

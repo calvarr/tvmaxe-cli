@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/bash
 
 if [ -f /$HOME/.config_tvmaxe-cli ]
 then
@@ -335,7 +335,7 @@ case "$selectat" in
 			$DIALOG --title "Eroare" \
 				--msgbox "\n Introduceti numele listei" 6 50
 		else
-			echo "$nume_tv $adr" >> $HOME/'.'tvmaxe-cli/playlist/$selectat1.tv
+			echo "$nume_tv $adr" >> $HOME/'.'tvmaxe-cli/playlist/Favorite/$.selectat1.tv
 		fi
 		if [ "$selectie0" == "255" ]; then
    			exit 0

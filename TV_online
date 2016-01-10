@@ -1,4 +1,4 @@
-#! /bin/bash 
+#! /bin/bash
 
 if [ -f /$HOME/.config_tvmaxe-cli ]
 then
@@ -6,7 +6,18 @@ then
 else
   source config
 fi
-liste_tv=`ls -a $HOME/.tvmaxe-cli/playlist|grep "tvro"|sed 's/\.tvro//g;s/\.//g'|awk '{print $1,NR}'`
+lista_tv_regiune=`ls $HOME/.tvmaxe-cli/playlist|awk '{print $1,NR}'`
+
+$DIALOG --backtitle "tvmaxe-cli" \
+    --title "| -TV- |" --clear \
+    --menu ":::" 30 35 30 $lista_tv_regiune 2> $tempfile
+        selectie0=$?
+  if [ "$selectie0" == "255" ]||[ "$selectie0" == "1" ]; then
+      exit 0
+  fi
+regiune=`cat $tempfile`
+
+liste_tv=`ls -A $HOME/.tvmaxe-cli/playlist/$regiune|sed 's/\./ /g'|awk '{print $1,NR}'`
 
 $DIALOG --backtitle "tvmaxe-cli" \
 	  --title "| -TV- |" --clear \
@@ -18,10 +29,10 @@ $DIALOG --backtitle "tvmaxe-cli" \
 nume_lista_tv=`cat $tempfile`
 
 #listatvro=`cat $HOME/.tvmaxe-cli/playlist/.$nume_lista_tv.tvro|awk '{print $1,"|"}'`
-listatvro=`cat $HOME/.tvmaxe-cli/playlist/.$nume_lista_tv.tvro|awk '{print $1"--"NR,"|"}'`
+listatvro=`cat $HOME/.tvmaxe-cli/playlist/$regiune/.$nume_lista_tv.*|awk '{print $1"--"NR,"|"}'`
 
 $DIALOG --backtitle "tvmaxe-cli" \
-	  --title "| Lista TV |" --clear \
+	  --title "| Lista |" --clear \
           --menu ":::" 30 35 30 $listatvro 2> $tempfile
       	selectie0=$?
 	if [ "$selectie0" == "255" ]||[ "$selectie0" == "1" ]; then
@@ -32,7 +43,7 @@ nume_post_tv=`cat $tempfile`
 #nr_post_tv=`cat $tempfile`
 #nr_post_tv=`cat $HOME/.tvmaxe-cli/playlist/.$nume_lista_tv.tvro|sed -n "/$nume_post_tv/="`
 nr_post_tv=`echo $nume_post_tv|sed 's/--/ /g'|awk '{print $2}'`
-cat $HOME/.tvmaxe-cli/playlist/.$nume_lista_tv.tvro|sed -n "${nr_post_tv}p" > $HOME/.tvmaxe-cli/.tmp/adr
+cat $HOME/.tvmaxe-cli/playlist/$regiune/.$nume_lista_tv.*|sed -n "${nr_post_tv}p" > $HOME/.tvmaxe-cli/.tmp/adr
 adresa_tv=`cat $HOME/.tvmaxe-cli/.tmp/adr|awk '{print $2}'`
 $DIALOG --infobox " Nume TV: $nume_post_tv \n Adresa: $adresa_tv" 6 50
 
