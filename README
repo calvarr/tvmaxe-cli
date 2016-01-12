@@ -35,4 +35,8 @@ Sopcast Raspberry Py
 Sopcast cu librarii, Qemu gasiti aici 
 https://www.dropbox.com/s/7vvaxkf7i1i3toh/sop_rpi.tar.gz?dl=0
 
-Fisierele "qemu-i386" "sp-sc-auth" precum si mapa "lib" le mutati dupa extragere in ./tvmaxe-cli apoi faceti modificarile necesare in fisierul "config"; se poate crea deasemenea un fisier de configurare extern in '$HOME/.config_tvmaxe-cli' fiind citit in primul rand, daca acesta nu exista v-a fi citit $HOME/.tvmaxe-cli/config
+Fisierele "qemu-i386" "sp-sc-auth" precum si mapa "lib" le mutati dupa extragere in ./tvmaxe-cli apoi faceti modificarile necesare in fisierul "config"; 
+
+Se poate crea deasemenea un fisier de configurare extern in '$HOME/.config_tvmaxe-cli' fiind citit in primul rand, daca acesta nu exista v-a fi citit $HOME/.tvmaxe-cli/config
+
+Posturile TV favorite sunt adaugate in $HOME/.tvmaxe-cli_favorite

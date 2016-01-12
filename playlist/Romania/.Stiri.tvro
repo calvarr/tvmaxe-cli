@@ -7,6 +7,7 @@ realitatea_tv_HQ_m3u8 http://82.76.249.81/digiedge2/realitateatvhq/playlist.m3u8
 românia_tv_sop sop://broker.sopcast.com:3912/148258
 românia_tv_http http://rtvflash.smcmobile.ro:8020/rtv.flv
 romania_tv_m3u8 http://rtv.smcmobile.ro:8080/RTV.m3u8
+russia_today_HD_m3u8 http://origin2.voronezh.ertelecom.ru/content/private/s147213/d3720264/r183758sd2500000/878076c034e82c8d52789bc23088c068d0f38859/playlist.m3u8
 pro_tv_news_rtmp rtmp://live.protv.ro/news/|--playpath=mp4:live1.mp4|--swfUrl=http://d1.a4w.ro/customFlow/flowplayer-3.2.12.swf|--pageUrl=http://stirileprotv.ro/protvnews|--live
 nasul_tv http://77.36.61.18:8010/NasulTV.m3u8
 vr_news_m3u8 http://77.36.61.40:8010/TVRNews.m3u8

@@ -325,21 +325,9 @@ case "$selectat" in
 
 	04)
 	
-	$DIALOG --backtitle "tvmaxe-cli" \
-		--title "Creati o lista sau adaugati postul la o lista existenta: " \
-		--inputbox "Liste existente: \n $liste" 15 75 2>$tempfile
-	selectie0=$?
-	abandon
-	selectat1=`cat $tempfile`
-		if [[ "$selectat1" = "" ]];then
-			$DIALOG --title "Eroare" \
-				--msgbox "\n Introduceti numele listei" 6 50
-		else
-			echo "$nume_tv $adr" >> $HOME/'.'tvmaxe-cli/playlist/Favorite/$.selectat1.tv
-		fi
-		if [ "$selectie0" == "255" ]; then
-   			exit 0
-  		fi
+	
+			echo "$nume_tv $adr" >> $HOME/.tvmaxe-cli_favorite
+		
 ;;
 	05) abandon ;;
 	06) exit 0;;

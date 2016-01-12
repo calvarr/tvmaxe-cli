@@ -56,20 +56,22 @@ until [ "$selectie0" == "1" ]; do
           --menu ":::" 25 30 25 \
 	"01" "TV on-line" \
 	"02" "Streams-magazinmixt" \
-	"03" "Meteo" \
-	"04" "Filme" \
-	"05" "Youtube" \
-	"06" "git_pull" 2>$tempfile
+  "03" "Favorite TV" \
+	"04" "Meteo" \
+	"05" "Filme" \
+	"06" "Youtube" \
+	"07" "git_pull" 2>$tempfile
   selectie0=$?
   selectat=`cat $tempfile`
   
   case "$selectat" in
 	01) echo $format_video > $HOME/.tvmaxe-cli/.tmp/format    ; ./TV_online;;
 	02) echo $format_video > $HOME/.tvmaxe-cli/.tmp/format    ; ./stream_magazin;;
-	03) ./meteo ;;
-	04) ./filme;;
-	05) echo "Youtube" > $HOME/.tvmaxe-cli/.tmp/adr ; ./youtube;;
-	06) ./gitpull;;
+  03) echo $format_video > $HOME/.tvmaxe-cli/.tmp/format    ;./favorite_tv ;;
+	04) ./meteo ;;
+	05) ./filme;;
+	06) echo "Youtube" > $HOME/.tvmaxe-cli/.tmp/adr ; ./youtube;;
+	07) ./gitpull;;
 			
   esac
 
