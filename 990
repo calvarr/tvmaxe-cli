@@ -33,10 +33,7 @@ $DIALOG --backtitle "tvmaxe-cli" \
 		
 		upload=`cat $HOME/.tvmaxe-cli/.tmp/mirrors|sed -n "${mirrors_nr}p"`
 	$DIALOG --infobox "Procesez... /n $upload" 5 50
-		#upload=`wget -qO - $server1 $agent|grep "ok.ru"|sed -n '1p'|sed 's/ /_/g;s/"/ /g'|awk '{print $3}'`
-		
-		#film1=`wget -qO - $upload|grep "'file': '"|sed '1p'|sed "s/ /_/;s/'/ /g"|awk '{print $3}'|sed '$d'`
-
+		subtitrare=`wget -qO - $upload|grep srt|sed 's/ /_/g;s/"/ /g'|awk '{print $2}'`
   }
 }
 functie_seriale () {
@@ -97,7 +94,7 @@ $DIALOG --backtitle "tvmaxe-cli" \
 		
 		
 		#$player2 $film1  -sub $subtitrare1 -sub $subtitrare2 &>/dev/null
-		youtube-dl $upload -o -|player2 - &>/dev/null
+		youtube-dl $upload -o -|player2 sub $subtitrare - &>/dev/null
 		
 		;;
   		 1) exit 0 
@@ -122,7 +119,10 @@ mkdir -p $salvare/$nume_serial
 
 		#wget -O $salvare/$nume_serial/$nume1.srt  $subtitrare1 || wget -O $salvare/$nume1.srt $subtitrare2 &>/dev/null 
 		#wget -bqc -O $salvare/$nume_serial/$nume1$ext $film1 
+wget -O $salvare/$nume_serial/$nume1.srt $subtitrare
+
 youtube-dl $upload -o $salvare/$nume_serial/$nume1$ext &>/dev/null
+
 		sleep $delay ; 
 	$player2 $salvare/$nume_serial/$nume1$ext &>/dev/null
 	
@@ -140,7 +140,7 @@ mkdir -p $salvare/$nume_serial
 
 	
 
-		
+wget -O $salvare/$nume_serial/$nume1.srt $subtitrare
 youtube-dl $upload -o $salvare/$nume_serial/$nume1$ext 
 		
 	
@@ -170,8 +170,8 @@ $DIALOG --backtitle "tvmaxe-cli" \
 $DIALOG --infobox "$nume1" 10 60
 		#subtitrare
 		$DIALOG --infobox "Adresa Film: \n$upload " 10 80
-		echo $upload
-		youtube-dl $upload -o -|$player2 - &>/dev/null
+		
+		youtube-dl $upload -o -|$player2 -sub $subtitrare - &>/dev/null
 		#$player2 $film1  -sub $subtitrare1 -sub $subtitrare2 &>/dev/null
 		
 		
@@ -181,7 +181,7 @@ $DIALOG --infobox "$nume1" 10 60
 	02)	
 		$DIALOG --infobox "Adresa Film: \n$upload " 10 80
 		
-		
+		wget -O $salvare/$nume1.srt $subtitrare
 		youtube-dl $upload -o $salvare/$nume1$ext  &>/dev/null &
 		sleep $delay
 		$player2 $salvare/$nume1$ext $postplay &>/dev/null
@@ -192,7 +192,7 @@ $DIALOG --infobox "$nume1" 10 60
 
 	$DIALOG --infobox "Adresa Film: \n$upload " 10 80
 		 
-		
+		wget -O $salvare/$nume1.srt $subtitrare
 		youtube-dl $upload -o $salvare/$nume1$ext  
 		
 		
