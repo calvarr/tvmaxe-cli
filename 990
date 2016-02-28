@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 if [ -f /$HOME/.config_tvmaxe-cli ]
 then
     source $HOME/.config_tvmaxe-cli
@@ -17,14 +17,24 @@ exit 0
   fi
   stream_video () {
   	#sed -e 's/^.*\(title=[^ ,]*\).*$/\1/'
-  	#wget -qO - '--user-agent="Mozilla/5.0' '"' 'http://www.mastervid.com/watch.php?v=a17460be6219170d1837b6c2b5a137cd'|grep iframe|sed 's/ /_/g;s/"/ /g'|sed -e 's/^.*\(http[^ ,]*\).*$/\1/'|nl
+
+wget -qO - $agent "$server1"|grep iframe|sed 's/ /_/g;s/"/ /g'|sed -e 's/^.*\(\/\/[^ ,]*\).*$/\1/'|sed "s/'/ /g"|awk '{print "http:"$1}'> $HOME/.tvmaxe-cli/.tmp/mirrors
+mirrors=`cat $HOME/.tvmaxe-cli/.tmp/mirrors|sed 's/\// /g'|awk '{print $2}'|nl`
 
   	
-
+$DIALOG --backtitle "tvmaxe-cli" \
+		  --title "Surse disponibile" --clear \
+         	 --menu ":::" 30 50 30 $mirrors  2> $tempfile
+      		selectie0=$?
+		abandon
   		
-		upload=`wget -qO - $server1 $agent|grep "ok.ru"|sed -n '1p'|sed 's/ /_/g;s/"/ /g'|awk '{print $3}'`
-		#mirrors=`wget -qO - $agent $server1|grep iframe|sed 's/ /_/g;s/http/ http/g'|awk '{print $2}'`
-
+  	$DIALOG --infobox "Procesez..." 5 15
+		mirrors_nr=`cat $tempfile`
+		
+		upload=`cat $HOME/.tvmaxe-cli/.tmp/mirrors|sed -n "${mirrors_nr}p"`
+	$DIALOG --infobox "Procesez... /n $upload" 5 50
+		#upload=`wget -qO - $server1 $agent|grep "ok.ru"|sed -n '1p'|sed 's/ /_/g;s/"/ /g'|awk '{print $3}'`
+		
 		#film1=`wget -qO - $upload|grep "'file': '"|sed '1p'|sed "s/ /_/;s/'/ /g"|awk '{print $3}'|sed '$d'`
 
   }
@@ -55,6 +65,7 @@ functie_seriale_2 () {
 
 		nume=`cat $HOME/.tvmaxe-cli/.tmp/epizoade_serial|awk -v var="$nr_linie_colectie" '{print var,$1}'|sed 's/_/ /g;s/[\/\;\:\?]//g'|sed -n "${nr_linie_colectie}p"`
 		nume1=`echo $nume|sed 's/ /_/g'`
+		stream_video
 }
 
 $DIALOG --backtitle "tvmaxe-cli" \
@@ -81,13 +92,13 @@ $DIALOG --backtitle "tvmaxe-cli" \
 		#subtitrare
 		
 		$DIALOG --infobox "$nume1" 10 60
-		subtitrare
+		#subtitrare
 		$DIALOG --infobox "Adresa Film: \n$upload " 10 80
-		echo $film1
+		
 		
 		#$player2 $film1  -sub $subtitrare1 -sub $subtitrare2 &>/dev/null
 		youtube-dl $upload -o -|player2 - &>/dev/null
-		$postplay
+		
 		;;
   		 1) exit 0 
 		;;
@@ -158,12 +169,12 @@ $DIALOG --backtitle "tvmaxe-cli" \
 	01)	 
 $DIALOG --infobox "$nume1" 10 60
 		#subtitrare
-		$DIALOG --infobox "Adresa Film: \n$film1 \n\nAdresa Subtitrare: \n$subtitrare1" 10 80
+		$DIALOG --infobox "Adresa Film: \n$upload " 10 80
 		echo $upload
 		youtube-dl $upload -o -|$player2 - &>/dev/null
 		#$player2 $film1  -sub $subtitrare1 -sub $subtitrare2 &>/dev/null
 		
-		$postplay
+		
 		exit 0
 ;;
 
@@ -229,7 +240,7 @@ case "$selectat" in
 		server1=`wget -qO - $player_film $agent|grep mastervid|sed "s/ /_/g;s/'/ /g;s/http/ http/g"|awk '{print $4}'`
 
 		stream_video
-		nume = `cat $tempfile` 
+		nume= `cat $tempfile` 
 		#nume=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print $1}'|sed 's/_/ /g;s/[\/\;\:\?]//g'|sed -n "${nr_film_nou}p"`
 		nume1=`cat $tempfile|sed 's/[\/ ]/_/g'`
 		#subtitrare
@@ -557,16 +568,22 @@ else
 		if [[ "$selectie" = "filme" ]]; then
 
 		#server1=`wget -qO - $adresa $agent|grep sfast|sed -n '1p'|sed "s/ /_/g;s/'/ /g"|awk '{print "http://www.990.ro/"$4}'`
-		player_film=`wget -qO - $agent $adresa_epizod|grep mastervid | sed -n '1p'|sed "s/ /_/g;s/'/ /g"|awk '{print "http://www.990.ro/"$4}'`
+		player_film=`wget -qO - $agent $adresa|grep mastervid | sed -n '1p'|sed "s/ /_/g;s/'/ /g"|awk '{print "http://www.990.ro/"$4}'`
 
 		server1=`wget -qO - $player_film $agent|grep mastervid|sed "s/ /_/g;s/'/ /g;s/http/ http/g"|awk '{print $4}'`
 
 		stream_video
+
 		meniufilm
 		
 		elif [[ "$selectie" = "seriale" ]]; then
 		adresa_serial=$adresa
+		player_film=`wget -qO - $agent $adresa|grep mastervid | sed -n '1p'|sed "s/ /_/g;s/'/ /g"|awk '{print "http://www.990.ro/"$4}'`
+		server1=`wget -qO - $player_film $agent|grep mastervid|sed "s/ /_/g;s/'/ /g;s/http/ http/g"|awk '{print $4}'`
+		
 		functie_seriale
+		#stream_video
+
 		fi
 
 		
