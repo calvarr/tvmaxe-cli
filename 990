@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash 
 if [ -f /$HOME/.config_tvmaxe-cli ]
 then
     source $HOME/.config_tvmaxe-cli
@@ -121,10 +121,12 @@ mkdir -p $salvare/$nume_serial
 		#wget -bqc -O $salvare/$nume_serial/$nume1$ext $film1 
 wget -O $salvare/$nume_serial/$nume1.srt $subtitrare
 
-youtube-dl $upload -o $salvare/$nume_serial/$nume1$ext &>/dev/null
+youtube-dl $upload -o $salvare/$nume_serial/$nume1$ext &>/dev/null &
+
+echo -e "\e[93m\e[42m Numele fisierului video difera in timpul descarcarii de numele subtitrarii \e[0m"
 
 		sleep $delay ; 
-	$player2 $salvare/$nume_serial/$nume1$ext &>/dev/null
+	$player2 $salvare/$nume_serial/$nume1$ext.part &>/dev/null
 	
 		done
 		exit 0
@@ -182,9 +184,10 @@ $DIALOG --infobox "$nume1" 10 60
 		$DIALOG --infobox "Adresa Film: \n$upload " 10 80
 		
 		wget -O $salvare/$nume1.srt $subtitrare
-		youtube-dl $upload -o $salvare/$nume1$ext  &>/dev/null &
+		youtube-dl $upload -o $salvare/$nume1$ext &>/dev/null &
+	echo -e "\e[93m\e[42m Numele fisierului video difera in timpul descarcarii de numele subtitrarii \e[0m"
 		sleep $delay
-		$player2 $salvare/$nume1$ext $postplay &>/dev/null
+		$player2 $salvare/$nume1$ext.part  &>/dev/null
 		
 		exit 0
 ;;
