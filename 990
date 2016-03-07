@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/bash -x
 if [ -f /$HOME/.config_tvmaxe-cli ]
 then
     source $HOME/.config_tvmaxe-cli
@@ -34,6 +34,8 @@ $DIALOG --backtitle "tvmaxe-cli" \
 		upload=`cat $HOME/.tvmaxe-cli/.tmp/mirrors|sed -n "${mirrors_nr}p"`
 	$DIALOG --infobox "Procesez... /n $upload" 5 50
 		subtitrare=`wget -qO - $upload|grep srt|sed 's/ /_/g;s/"/ /g'|awk '{print $2}'`
+
+	
   }
 }
 functie_seriale () {
@@ -55,7 +57,7 @@ $DIALOG --infobox "Procesez..." 5 15
 functie_seriale_2 () {
 
 		adresa_epizod=`cat $HOME/.tvmaxe-cli/.tmp/epizoade_serial|awk '{print $2}'|sed -n "${nr_linie_colectie}p"`
-		#server1=`wget -qO - $adresa_epizod $agent|grep sfast|sed -n '1p'|sed "s/ /_/g;s/'/ /g"|awk '{print "http://www.990.ro/"$4}'`
+		
 		player_film=`wget -qO - $agent $adresa_epizod|grep mastervid | sed -n '1p'|sed "s/ /_/g;s/'/ /g"|awk '{print "http://www.990.ro/"$4}'`
 
 		server1=`wget -qO - $player_film $agent|grep mastervid|sed "s/ /_/g;s/'/ /g;s/http/ http/g"|awk '{print $4}'`
@@ -64,7 +66,7 @@ functie_seriale_2 () {
 		nume1=`echo $nume|sed 's/ /_/g'`
 		stream_video
 }
-
+#meniu pentru cautare seriale
 $DIALOG --backtitle "tvmaxe-cli" \
 	  --title "$nume1" --clear \
           --menu "::: " 30 35 30 \
@@ -86,15 +88,13 @@ $DIALOG --backtitle "tvmaxe-cli" \
 						raspuns=$?
 					case "$raspuns" in
 		0)
-		#subtitrare
-		
+
 		$DIALOG --infobox "$nume1" 10 60
-		#subtitrare
+	
 		$DIALOG --infobox "Adresa Film: \n$upload " 10 80
 		
 		
-		#$player2 $film1  -sub $subtitrare1 -sub $subtitrare2 &>/dev/null
-		youtube-dl $upload -o -|player2 sub $subtitrare - &>/dev/null
+		youtube-dl $upload -o -|player2 -sub $subtitrare " " - &>/dev/null
 		
 		;;
   		 1) exit 0 
@@ -115,10 +115,7 @@ mkdir -p $salvare/$nume_serial
 
 		functie_seriale_2
 
-		#subtitrare
-
-		#wget -O $salvare/$nume_serial/$nume1.srt  $subtitrare1 || wget -O $salvare/$nume1.srt $subtitrare2 &>/dev/null 
-		#wget -bqc -O $salvare/$nume_serial/$nume1$ext $film1 
+		
 wget -O $salvare/$nume_serial/$nume1.srt $subtitrare
 
 youtube-dl $upload -o $salvare/$nume_serial/$nume1$ext &>/dev/null &
@@ -155,7 +152,7 @@ youtube-dl $upload -o $salvare/$nume_serial/$nume1$ext
 
 meniufilm () {
 $DIALOG --infobox "Procesez...$nume1" 5 15
-
+          #meniu pentru seriale si filme
 $DIALOG --backtitle "tvmaxe-cli" \
 	  --title "$nume" --clear \
           --menu "::: " 30 35 30 \
@@ -170,11 +167,11 @@ $DIALOG --backtitle "tvmaxe-cli" \
   case "$selectat" in
 	01)	 
 $DIALOG --infobox "$nume1" 10 60
-		#subtitrare
+		
 		$DIALOG --infobox "Adresa Film: \n$upload " 10 80
 		
-		youtube-dl $upload -o -|$player2 -sub $subtitrare - &>/dev/null
-		#$player2 $film1  -sub $subtitrare1 -sub $subtitrare2 &>/dev/null
+		youtube-dl $upload -o -|$player2 -sub  $subtitrare " " - &>/dev/null
+		
 		
 		
 		exit 0
@@ -235,18 +232,16 @@ case "$selectat" in
       		selectie0=$?
 		abandon
 		$DIALOG --infobox "Procesez..." 5 15
-		nume_film_nou=`cat $tempfile`
-		nr_film_nou=`cat $HOME/.tvmaxe-cli/.tmp/noi|sed -n "/$nume_film_nou/="`
+		#nume_film_nou=`cat $tempfile`
+		nume= `cat $tempfile` 
+		nume1=`cat $tempfile|sed 's/[\/ ]/_/g'`
+		nr_film_nou=`cat $HOME/.tvmaxe-cli/.tmp/noi|sed -n "/$nume/="`
 		adresa=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print "http://www.990.ro/"$2}'|sed -n "${nr_film_nou}p"`
-		#server1=`wget -qO - www.990.ro/$adresa $agent |grep sfast|sed -n '1p'|sed "s/ /_/g;s/'/ /g"|awk '{print "http://www.990.ro/"$4}'`
+		
 		player_film=`wget -qO - $agent $adresa|grep smastervidcom | sed -n '1p'|sed "s/ /_/g;s/'/ /g"|awk '{print "http://www.990.ro/"$4}'`
 		server1=`wget -qO - $player_film $agent|grep mastervid|sed "s/ /_/g;s/'/ /g;s/http/ http/g"|awk '{print $4}'`
 
 		stream_video
-		nume= `cat $tempfile` 
-		#nume=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print $1}'|sed 's/_/ /g;s/[\/\;\:\?]//g'|sed -n "${nr_film_nou}p"`
-		nume1=`cat $tempfile|sed 's/[\/ ]/_/g'`
-		#subtitrare
 		
 		
 		
