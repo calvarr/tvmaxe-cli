@@ -4,9 +4,10 @@ Dependinte:
 dialog
 sed, awk, grep,
 wget, axel,
-sopcast,ffmpeg sau avconv,rtmpdump,youtube-dl,
+sopcast,ffmpeg sau avconv,rtmpdump,youtube-dl-git,
 livestreamer
 mplayer
+
 
 Instalare:
 ----------
@@ -40,3 +41,5 @@ Fisierele "qemu-i386" "sp-sc-auth" precum si mapa "lib" le mutati dupa extragere
 Se poate crea deasemenea un fisier de configurare extern in '$HOME/.config_tvmaxe-cli' fiind citit in primul rand, daca acesta nu exista v-a fi citit $HOME/.tvmaxe-cli/config
 
 Posturile TV favorite sunt adaugate in $HOME/.tvmaxe-cli_favorite
+
+Nb! stream-urile tv sunt redate mai bine cu vlc
