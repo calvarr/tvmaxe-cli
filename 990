@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/bash
 if [ -f /$HOME/.config_tvmaxe-cli ]
 then
     source $HOME/.config_tvmaxe-cli
@@ -60,7 +60,7 @@ functie_seriale_2 () {
 		
 		player_film=`wget -qO - $agent $adresa_epizod|grep mastervid | sed -n '1p'|sed "s/ /_/g;s/'/ /g"|awk '{print "http://www.990.ro/"$4}'`
 
-		server1=`wget -qO - $player_film $agent|grep mastervid|sed "s/ /_/g;s/'/ /g;s/http/ http/g"|awk '{print $4}'`
+		server1=`wget -qO - $player_film $agent|grep mastervid|sed "s/ /_/g;s/'/ /g;s/http/ http/g"|awk '{print $2}'`
 
 		nume=`cat $HOME/.tvmaxe-cli/.tmp/epizoade_serial|awk -v var="$nr_linie_colectie" '{print var,$1}'|sed 's/_/ /g;s/[\/\;\:\?]//g'|sed -n "${nr_linie_colectie}p"`
 		nume1=`echo $nume|sed 's/ /_/g'`
@@ -233,13 +233,13 @@ case "$selectat" in
 		abandon
 		$DIALOG --infobox "Procesez..." 5 15
 		#nume_film_nou=`cat $tempfile`
-		nume= `cat $tempfile` 
+		nume=`cat $tempfile` 
 		nume1=`cat $tempfile|sed 's/[\/ ]/_/g'`
 		nr_film_nou=`cat $HOME/.tvmaxe-cli/.tmp/noi|sed -n "/$nume/="`
 		adresa=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print "http://www.990.ro/"$2}'|sed -n "${nr_film_nou}p"`
 		
 		player_film=`wget -qO - $agent $adresa|grep smastervidcom | sed -n '1p'|sed "s/ /_/g;s/'/ /g"|awk '{print "http://www.990.ro/"$4}'`
-		server1=`wget -qO - $player_film $agent|grep mastervid|sed "s/ /_/g;s/'/ /g;s/http/ http/g"|awk '{print $4}'`
+		server1=`wget -qO - $player_film $agent|grep mastervid|sed "s/ /_/g;s/'/ /g;s/http/ http/g"|awk '{print $2}'`
 
 		stream_video
 		
@@ -266,7 +266,7 @@ wget -qO - http://www.990.ro $agent |sed -n "/Ultimele episoade/,/cu subtitra/ p
 
 		#server1=`wget -qO - www.990.ro/$adresa_serial $agent|grep sfast|sed -n '1p'|sed "s/ /_/g;s/'/ /g"|awk '{print "http://www.990.ro/"$4}'`
 		player_film=`wget -qO - $agent $adresa_serial|grep mastervid | sed -n '1p'|sed "s/ /_/g;s/'/ /g"|awk '{print "http://www.990.ro/"$4}'`
-		server1=`wget -qO - $player_film $agent|grep mastervid|sed "s/ /_/g;s/'/ /g;s/http/ http/g"|awk '{print $4}'`
+		server1=`wget -qO - $player_film $agent|grep mastervid|sed "s/ /_/g;s/'/ /g;s/http/ http/g"|awk '{print $2}'`
 
 		stream_video
 		nume=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print $1}'|sed 's/_/ /g;s/[\/\;\:\?]//g'|sed -n "${nr_film_nou}p"`
@@ -295,7 +295,7 @@ wget -qO - http://www.990.ro $agent |sed -n "/cu subtitra/,/Ultimele filme/ p"|g
 		#server1=`wget -qO - www.990.ro/$adresa_serial $agent |grep sfast|sed -n '1p'|sed "s/ /_/g;s/'/ /g"|awk '{print "http://www.990.ro/"$4}'`
 		player_film=`wget -qO - $agent $adresa_serial|grep mastervid | sed -n '1p'|sed "s/ /_/g;s/'/ /g"|awk '{print "http://www.990.ro/"$4}'`
 
-		server1=`wget -qO - $player_film $agent|grep mastervid|sed "s/ /_/g;s/'/ /g;s/http/ http/g"|awk '{print $4}'`
+		server1=`wget -qO - $player_film $agent|grep mastervid|sed "s/ /_/g;s/'/ /g;s/http/ http/g"|awk '{print $2}'`
 
 		stream_video
 		nume=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print $1}'|sed 's/_/ /g;s/[\/\;\:\?]//g'|sed -n "${nr_film_nou}p"`
@@ -408,7 +408,7 @@ functie_seriale
 		adresa=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print "http://www.990.ro/"$2}'|sed -n "${nr_film_nou}p"`
 		#server1=`wget -qO - www.990.ro/$adresa $agent |grep sfast|sed -n '1p'|sed "s/ /_/g;s/'/ /g"|awk '{print "http://www.990.ro/"$4}'`
 		player_film=`wget -qO - $agent $adresa|grep mastervid | sed -n '1p'|sed "s/ /_/g;s/'/ /g"|awk '{print "http://www.990.ro/"$4}'`
-		server1=`wget -qO - $player_film $agent|grep mastervid|sed "s/ /_/g;s/'/ /g;s/http/ http/g"|awk '{print $4}'`
+		server1=`wget -qO - $player_film $agent|grep mastervid|sed "s/ /_/g;s/'/ /g;s/http/ http/g"|awk '{print $2}'`
 
 		stream_video
 		nume=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print $1}'|sed 's/_/ /g;s/[\/\;\:\?]//g'|sed -n "${nr_film_nou}p"`
@@ -437,7 +437,7 @@ $DIALOG --infobox "Procesez..." 5 15
 		adresa=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print "http://www.990.ro/"$2}'|sed -n "${nr_film_nou}p"`
 		#server1=`wget -qO - www.990.ro/$adresa $agent |grep sfast|sed -n '1p'|sed "s/ /_/g;s/'/ /g"|awk '{print "http://www.990.ro/"$4}'`
 		player_film=`wget -qO - $agent $adresa|grep mastervid | sed -n '1p'|sed "s/ /_/g;s/'/ /g"|awk '{print "http://www.990.ro/"$4}'`
-		server1=`wget -qO - $player_film $agent|grep mastervid|sed "s/ /_/g;s/'/ /g;s/http/ http/g"|awk '{print $4}'`
+		server1=`wget -qO - $player_film $agent|grep mastervid|sed "s/ /_/g;s/'/ /g;s/http/ http/g"|awk '{print $2}'`
 
 		stream_video
 		nume=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print $1}'|sed 's/_/ /g;s/[\/\;\:\?]//g'|sed -n "${nr_film_nou}p"`
@@ -515,7 +515,7 @@ sleep 2
 		#server1=`wget -qO - $adresa $agent |grep sfast|sed -n '1p'|sed "s/ /_/g;s/'/ /g"|awk '{print "http://www.990.ro/"$4}'`
 		player_film=`wget -qO - $agent $adresa|grep mastervid | sed -n '1p'|sed "s/ /_/g;s/'/ /g"|awk '{print "http://www.990.ro/"$4}'`
 
-		server1=`wget -qO - $player_film $agent|grep mastervid|sed "s/ /_/g;s/'/ /g;s/http/ http/g"|awk '{print $4}'`
+		server1=`wget -qO - $player_film $agent|grep mastervid|sed "s/ /_/g;s/'/ /g;s/http/ http/g"|awk '{print $2}'`
 
 		stream_video
 		nume=`cat $HOME/.tvmaxe-cli/.tmp/filme_gen|awk '{print $1}'|sed 's/_/ /g;s/[\/\;\:\?]//g'|sed -n "${nr_film_gen1}p"`
@@ -568,7 +568,7 @@ else
 		#server1=`wget -qO - $adresa $agent|grep sfast|sed -n '1p'|sed "s/ /_/g;s/'/ /g"|awk '{print "http://www.990.ro/"$4}'`
 		player_film=`wget -qO - $agent $adresa|grep mastervid | sed -n '1p'|sed "s/ /_/g;s/'/ /g"|awk '{print "http://www.990.ro/"$4}'`
 
-		server1=`wget -qO - $player_film $agent|grep mastervid|sed "s/ /_/g;s/'/ /g;s/http/ http/g"|awk '{print $4}'`
+		server1=`wget -qO - $player_film $agent|grep mastervid|sed "s/ /_/g;s/'/ /g;s/http/ http/g"|awk '{print $2}'`
 
 		stream_video
 
@@ -577,7 +577,7 @@ else
 		elif [[ "$selectie" = "seriale" ]]; then
 		adresa_serial=$adresa
 		player_film=`wget -qO - $agent $adresa|grep mastervid | sed -n '1p'|sed "s/ /_/g;s/'/ /g"|awk '{print "http://www.990.ro/"$4}'`
-		server1=`wget -qO - $player_film $agent|grep mastervid|sed "s/ /_/g;s/'/ /g;s/http/ http/g"|awk '{print $4}'`
+		server1=`wget -qO - $player_film $agent|grep mastervid|sed "s/ /_/g;s/'/ /g;s/http/ http/g"|awk '{print $2}'`
 		
 		functie_seriale
 		#stream_video
