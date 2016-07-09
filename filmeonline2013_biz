@@ -1,0 +1,222 @@
+#!/bin/bash 
+if [ -f /$HOME/.config_tvmaxe-cli ]
+then
+    source $HOME/.config_tvmaxe-cli
+else
+	source config
+fi
+
+ext=.mp4
+
+abandon () {
+if [ "$selectie0" == "255" ]||[ "$selectie0" == "1" ]; then
+   
+exit 0
+  fi
+}
+selectie_filme () {
+	filmenoi=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print $1,"|"}'`
+
+		$DIALOG --backtitle "tvmaxe-cli" \
+		  --title "Noi aparitii" --clear \
+         	 --menu ":::" 30 50 30 $filmenoi  2> $tempfile
+      		selectie0=$?
+		abandon
+		$DIALOG --infobox "Procesez..." 5 15
+		nume=`cat $tempfile` 
+		nume1=`cat $tempfile|sed 's/[\/ ]/_/g'`
+		nr_film_nou=`cat $HOME/.tvmaxe-cli/.tmp/noi|sed -n "/$nume/="`
+		adresa=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print $2}'|sed -n "${nr_film_nou}p"`
+
+		wget -qO - $adresa|grep iframe|sed -e 's/ /_/g;s/^.*\(src[^ ,]*\).*$/\1/;s/"/ /g'|awk '{print $2}'> $HOME/.tvmaxe-cli/.tmp/mirrors
+}
+gen_film () {
+	grep -i "href" $HOME/.tvmaxe-cli/.tmp/gen_tmp |sed -e 's/^.*\(href=[^ ,]*\).*$/\1/'|sed 's/ /_/g;s/"/ /g'|awk '{print $2}' > $HOME/.tvmaxe-cli/.tmp/adresa_film_tmp
+
+grep -i "alt" $HOME/.tvmaxe-cli/.tmp/gen_tmp |sed 's/ /_/g'|sed -e 's/^.*\(alt=[^ ,]*\).*$/\1/'|sed 's/"/ /g'|awk '{print $2}' > $HOME/.tvmaxe-cli/.tmp/titlu_film_tmp
+
+paste $HOME/.tvmaxe-cli/.tmp/titlu_film_tmp $HOME/.tvmaxe-cli/.tmp/adresa_film_tmp| column -s $'\t' -t > $HOME/.tvmaxe-cli/.tmp/noi
+}
+
+  stream_video () {
+  	
+
+mirrors=`cat $HOME/.tvmaxe-cli/.tmp/mirrors|sed 's/\// /g'|awk '{print $2}'|nl`
+
+  	
+$DIALOG --backtitle "tvmaxe-cli" \
+		  --title "Surse disponibile" --clear \
+         	 --menu ":::" 30 50 30 $mirrors  2> $tempfile
+      		selectie0=$?
+		abandon
+  		
+  	$DIALOG --infobox "Procesez..." 5 15
+		mirrors_nr=`cat $tempfile`
+		
+		upload=`cat $HOME/.tvmaxe-cli/.tmp/mirrors|sed -n "${mirrors_nr}p"`
+	$DIALOG --infobox "Procesez... /n $upload" 5 50
+		subtitrare=`wget -qO - $upload|grep srt|sed 's/ /_/g;s/"/ /g'|awk '{print $2}'`
+
+	
+  }
+
+meniufilm () {
+$DIALOG --infobox "Procesez...$nume1" 5 15
+          #meniu pentru seriale si filme
+$DIALOG --backtitle "tvmaxe-cli" \
+	  --title "$nume" --clear \
+          --menu "::: " 30 35 30 \
+	"01" "Redati" \
+	"02" "Inregistrati" \
+	"03" "Descarcatti" \
+	"04" "Parasiti" 2>$tempfile
+  selectie0=$?
+	abandon
+  selectat=`cat $tempfile`
+
+  case "$selectat" in
+	01)	 
+$DIALOG --infobox "$nume1" 10 60
+		
+		$DIALOG --infobox "Adresa Film: \n$upload " 10 80
+		
+		youtube-dl $upload -o -|$player2 -sub  $subtitrare " " - &>/dev/null
+		
+		
+		
+		exit 0
+;;
+
+	02)	
+		$DIALOG --infobox "Adresa Film: \n$upload " 10 80
+		
+		wget -O $salvare/$nume1.srt $subtitrare
+		youtube-dl $upload -o $salvare/$nume1$ext &>/dev/null &
+	echo -e "\e[93m\e[42m Numele fisierului video difera in timpul descarcarii de numele subtitrarii \e[0m"
+		sleep $delay
+		$player2 $salvare/$nume1$ext.part  &>/dev/null
+		
+		exit 0
+;;
+	03)
+
+	$DIALOG --infobox "Adresa Film: \n$upload " 10 80
+		 
+		wget -O $salvare/$nume1.srt $subtitrare
+		youtube-dl $upload -o $salvare/$nume1$ext  
+		
+		
+		exit 0
+;;
+	04)	exit 0 ;;
+  esac
+
+ }
+  $DIALOG --backtitle "tvmaxe-cli" \
+	  --title "Filme 990.ro" --clear \
+          --menu ":::" 25 30 25 \
+	"01" "Filme noi" \
+	"02" "Cauta..." \
+	"03" "Actiune" \
+	"04" "Animatie" \
+	"05" "Aventura" \
+	"06" "Comedie" \
+	"07" "Drama" \
+	"08" "Fantezie" \
+	"09" "Horror" \
+	"10" "Razboi" \
+	"11" "SF" \
+	"12" "Thriller" \
+	"13" "Exit"  2>$tempfile
+  selectie0=$?
+abandon
+  selectat=`cat $tempfile`
+case "$selectat" in
+
+	01) #filme noi
+	$DIALOG --infobox "Procesez..." 5 15
+
+wget -qO - http://www.filmeonline2013.biz/|grep entry-title2|sed 's/ /_/g;s/["<>]/ /g'|awk '{print $7,$5}'>$HOME/.tvmaxe-cli/.tmp/noi
+
+selectie_filme
+stream_video
+meniufilm
+;;
+02) $DIALOG --title "Cauta film:" \
+		--backtitle "tvmaxe-cli" \
+		--inputbox "Ce film cautati?" 10 35  2>$tempfile
+			selectie0=$?
+			abandon
+			film_cautat=`cat $tempfile`
+
+	$DIALOG --infobox "Caut filmul..." 5 35
+
+wget -qO - http://www.filmeonline2013.biz/?s="$film_cautat"|grep entry-title|sed 's/ /_/g;s/["<>]/ /g'|awk '{print $6,$4}'>$HOME/.tvmaxe-cli/.tmp/noi
+selectie_filme
+stream_video
+meniufilm
+;;
+03) wget -qO - http://www.filmeonline2013.biz/category/actiune/|grep src=|grep alt= >$HOME/.tvmaxe-cli/.tmp/gen_tmp
+
+gen_film
+selectie_filme
+stream_video
+meniufilm
+;;
+04)  wget -qO - http://www.filmeonline2013.biz/category/animatie/|grep src=|grep alt= >$HOME/.tvmaxe-cli/.tmp/gen_tmp
+gen_film
+selectie_filme
+stream_video
+meniufilm
+;;
+05) wget -qO - http://www.filmeonline2013.biz/category/aventura/ |grep src=|grep alt= >$HOME/.tvmaxe-cli/.tmp/gen_tmp
+gen_film
+selectie_filme
+stream_video
+meniufilm
+;;
+06) wget -qO - http://www.filmeonline2013.biz/category/comedie/ |grep src=|grep alt= >$HOME/.tvmaxe-cli/.tmp/gen_tmp
+gen_film
+selectie_filme
+stream_video
+meniufilm
+;;
+07) wget -qO - http://www.filmeonline2013.biz/category/drama/ |grep src=|grep alt= >$HOME/.tvmaxe-cli/.tmp/gen_tmp
+gen_film
+selectie_filme
+stream_video
+meniufilm
+;;
+08) wget -qO - http://www.filmeonline2013.biz/category/fantezie/ |grep src=|grep alt= >$HOME/.tvmaxe-cli/.tmp/gen_tmp
+gen_film
+selectie_filme
+stream_video
+meniufilm
+;;
+09) wget -qO - http://www.filmeonline2013.biz/category/horror/ |grep src=|grep alt= >$HOME/.tvmaxe-cli/.tmp/gen_tmp
+gen_film
+selectie_filme
+stream_video
+meniufilm
+ ;;
+10) wget -qO - http://www.filmeonline2013.biz/category/razboi/ |grep src=|grep alt= >$HOME/.tvmaxe-cli/.tmp/gen_tmp
+gen_film
+selectie_filme
+stream_video
+meniufilm
+;;
+11) wget -qO - http://www.filmeonline2013.biz/category/s-f/ |grep src=|grep alt= >$HOME/.tvmaxe-cli/.tmp/gen_tmp
+gen_film
+selectie_filme
+stream_video
+meniufilm
+;;
+12) wget -qO - http://www.filmeonline2013.biz/category/thriller/ |grep src=|grep alt= >$HOME/.tvmaxe-cli/.tmp/gen_tmp
+gen_film
+selectie_filme
+stream_video
+meniufilm
+;;
+13) exit 0;;
+esac
+		exit 0
