@@ -1,0 +1,294 @@
+#!/bin/bash
+if [ -f /$HOME/.config_tvmaxe-cli ]
+then
+    source $HOME/.config_tvmaxe-cli
+else
+	source config
+fi
+
+ext=.mp4
+
+abandon () {
+if [ "$selectie0" == "255" ]||[ "$selectie0" == "1" ]; then
+   
+exit 0
+  fi
+}
+categorie () {
+wget -qO - $gen|sed -n "/videolist/,/pagination/ p"> $HOME/.tvmaxe-cli/.tmp/noi_tmp
+cat $HOME/.tvmaxe-cli/.tmp/noi_tmp|grep '"title">'|sed 's/ /_/g;s/[<>]/ /g'|awk '{print $2}'>$HOME/.tvmaxe-cli/.tmp/noi_title_tmp
+cat $HOME/.tvmaxe-cli/.tmp/noi_tmp|grep href|sed 's/ /_/g;s/"/ /g'|awk '{print $2}'>$HOME/.tvmaxe-cli/.tmp/noi_href_tmp
+paste $HOME/.tvmaxe-cli/.tmp/noi_title_tmp $HOME/.tvmaxe-cli/.tmp/noi_href_tmp| column -s $'\t' -t > $HOME/.tvmaxe-cli/.tmp/noi
+
+}
+selectie_filme () {
+	filmenoi=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print $1,"|"}'`
+
+		$DIALOG --backtitle "tvmaxe-cli" \
+		  --title "Noi aparitii" --clear \
+         	 --menu ":::" 30 50 30 $filmenoi  2> $tempfile
+      		selectie0=$?
+		abandon
+		$DIALOG --infobox "Procesez..." 5 15
+		nume=`cat $tempfile` 
+		nume1=`cat $tempfile|sed 's/[\/ ]/_/g'`
+		nr_film_nou=`cat $HOME/.tvmaxe-cli/.tmp/noi|sed -n "/$nume/="`
+		adresa=`cat $HOME/.tvmaxe-cli/.tmp/noi|awk '{print $2}'|sed -n "${nr_film_nou}p"`
+
+		upload=`wget -qO - $adresa|grep iframe|sed -e 's/ /_/g;s/^.*\(src[^ ,]*\).*$/\1/;s/"/ /g'|sed -n "1p"|awk '{print $2}'`
+}
+
+
+
+meniufilm () {
+$DIALOG --infobox "Procesez...$nume1" 5 15
+          #meniu pentru seriale si filme
+$DIALOG --backtitle "tvmaxe-cli" \
+	  --title "$nume" --clear \
+          --menu "::: " 30 35 30 \
+	"01" "Redati" \
+	"02" "Inregistrati" \
+	"03" "Descarcatti" \
+	"04" "Parasiti" 2>$tempfile
+  selectie0=$?
+	abandon
+  selectat=`cat $tempfile`
+
+  case "$selectat" in
+	01)	 
+$DIALOG --infobox "$nume1" 10 60
+		
+		$DIALOG --infobox "Adresa Film: \n$upload " 10 80
+		
+		youtube-dl $upload -o -|$player2 -sub  $subtitrare " " - &>/dev/null
+		
+		
+		
+		exit 0
+;;
+
+	02)	
+		$DIALOG --infobox "Adresa Film: \n$upload " 10 80
+		
+		wget -O $salvare/$nume1.srt $subtitrare
+		youtube-dl $upload -o $salvare/$nume1$ext &>/dev/null &
+	echo -e "\e[93m\e[42m Numele fisierului video difera in timpul descarcarii de numele subtitrarii \e[0m"
+		sleep $delay
+		$player2 $salvare/$nume1$ext.part  &>/dev/null
+		
+		exit 0
+;;
+	03)
+
+	$DIALOG --infobox "Adresa Film: \n$upload " 10 80
+		 
+		wget -O $salvare/$nume1.srt $subtitrare
+		youtube-dl $upload -o $salvare/$nume1$ext  
+		
+		
+		exit 0
+;;
+	04)	exit 0 ;;
+  esac
+
+ }
+  $DIALOG --backtitle "tvmaxe-cli" \
+	  --title "Filme 990.ro" --clear \
+          --menu ":::" 25 30 25 \
+	"01" "Filme noi" \
+	"02" "Cauta..." \
+	"03" "Actiune" \
+	"04" "Animatie" \
+	"05" "Aventura" \
+	"06" "Biografie" \
+	"07" "Comedie" \
+	"08" "Crima" \
+	"09" "Documentar" \
+	"10" "Dragoste" \
+	"11" "Drama" \
+	"12" "Familie" \
+	"13" "Fantezie" \
+	"14" "Fileme Ramanesti" \
+	"15" "Groaza" \
+	"16" "Istoric" \
+	"17" "Mister"\
+	"18" "Muzical"\
+	"19" "Razboi"\
+	"20" "SF"\
+	"21" "Sport"\
+	"22" "Thriller"\
+	"23" "Western"\
+	"24" "Exit" 2>$tempfile
+  selectie0=$?
+abandon
+  selectat=`cat $tempfile`
+case "$selectat" in
+
+	01) #filme noi
+	$DIALOG --infobox "Procesez..." 5 15
+ 
+wget -qO - http://www.cinemaxx.rs/newvideos.html|sed -n "/videolist/,/pagination/ p"> $HOME/.tvmaxe-cli/.tmp/noi_tmp
+cat $HOME/.tvmaxe-cli/.tmp/noi_tmp|grep title|sed 's/ /_/g;s/[<>]/ /g'|awk '{print $2}'>$HOME/.tvmaxe-cli/.tmp/noi_title_tmp
+cat $HOME/.tvmaxe-cli/.tmp/noi_tmp|grep href|sed 's/ /_/g;s/"/ /g'|awk '{print $2}'>$HOME/.tvmaxe-cli/.tmp/noi_href_tmp
+paste $HOME/.tvmaxe-cli/.tmp/noi_title_tmp $HOME/.tvmaxe-cli/.tmp/noi_href_tmp| column -s $'\t' -t > $HOME/.tvmaxe-cli/.tmp/noi
+
+selectie_filme
+
+meniufilm
+;;
+02) $DIALOG --title "Cauta film:" \
+		--backtitle "tvmaxe-cli" \
+		--inputbox "Ce film cautati?" 10 35  2>$tempfile
+			selectie0=$?
+			abandon
+			film_cautat=`cat $tempfile`
+
+	$DIALOG --infobox "Caut filmul..." 5 35
+
+gen="http://www.cinemaxx.rs/search.php?keywords="$film_cautat""
+categorie
+selectie_filme
+meniufilm
+;;
+03) #actiune
+gen="http://www.cinemaxx.rs/browse-filme-actiune-online-videos-1-date.html"
+categorie
+selectie_filme
+meniufilm
+;;
+
+04) #animatie
+gen="http://www.cinemaxx.rs/browse-filme-animatie-online-videos-1-date.html"
+categorie
+selectie_filme
+meniufilm
+;;
+
+05) #aventura
+gen="http://www.cinemaxx.rs/browse-filme-aventura-online-videos-1-date.html"
+categorie
+selectie_filme
+meniufilm
+;;
+
+06) #biografie
+gen="http://www.cinemaxx.rs/browse-filme-biografie-online-videos-1-date.html"
+categorie
+selectie_filme
+meniufilm
+;;
+
+07) #comedie
+gen="http://www.cinemaxx.rs/browse-filme-comedie-online-videos-1-date.html"
+categorie
+selectie_filme
+meniufilm
+;;
+
+08) #crima
+gen="http://www.cinemaxx.rs/browse-filme-crima-online-videos-1-date.html"
+categorie
+selectie_filme
+meniufilm
+;;
+
+09) #documentar
+gen="http://www.cinemaxx.rs/browse-filme-documentar-online-videos-1-date.html"
+categorie
+selectie_filme
+meniufilm
+ ;;
+
+10) #dragoste
+gen="http://www.cinemaxx.rs/browse-filme-dragoste-online-videos-1-date.html"
+categorie
+selectie_filme
+meniufilm
+;;
+
+11) #drama
+gen="http://www.cinemaxx.rs/browse-filme-drama-online-videos-1-date.html"
+categorie
+selectie_filme
+meniufilm
+;;
+
+12) #familie
+gen="http://www.cinemaxx.rs/browse-filme-familie-online-videos-1-date.html"
+categorie
+selectie_filme
+meniufilm
+;;
+
+13) #fantezie
+gen="http://www.cinemaxx.rs/browse-filme-fantezie-online-videos-1-date.html"
+categorie
+selectie_filme
+meniufilm
+;;
+14) #filme Ramanesti
+gen="http://www.cinemaxx.rs/browse-filme-romanesti-online-videos-1-date.html"
+categorie
+selectie_filme
+meniufilm
+;;
+15) #groaza
+gen="http://www.cinemaxx.rs/browse-filme-groaza-online-videos-1-date.html"
+categorie
+selectie_filme
+meniufilm
+;;
+16) #istoric
+gen="http://www.cinemaxx.rs/browse-filme-istoric-online-videos-1-date.html"
+categorie
+selectie_filme
+meniufilm
+;;
+17) #mister
+gen="http://www.cinemaxx.rs/browse-filme-mister-online-videos-1-date.html"
+categorie
+selectie_filme
+meniufilm
+;;
+18) #muzical
+gen="http://www.cinemaxx.rs/browse-filme-muzica-online-videos-1-date.html"
+categorie
+selectie_filme
+meniufilm
+;;
+19) #razboi
+gen="http://www.cinemaxx.rs/browse-filme-razboi-online-videos-1-date.html"
+categorie
+selectie_filme
+meniufilm
+;;
+20) #sf
+gen="http://www.cinemaxx.rs/browse-filme-sf-online-videos-1-date.html"
+categorie
+selectie_filme
+meniufilm
+;;
+21) #sport
+gen="http://www.cinemaxx.rs/browse-filme-sport-online-videos-1-date.html"
+categorie
+selectie_filme
+meniufilm
+;;
+22) #thriller
+gen="http://www.cinemaxx.rs/browse-filme-thriller-online-videos-1-date.html"
+categorie
+selectie_filme
+meniufilm
+;;
+23) #western
+gen="http://www.cinemaxx.rs/browse-filme-western-online-videos-1-date.html"
+categorie
+selectie_filme
+meniufilm
+;;
+24) #exit
+exit 0
+;;
+
+esac
+		exit 0

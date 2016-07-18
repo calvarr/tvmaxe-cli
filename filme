@@ -11,12 +11,14 @@ fi
 $DIALOG --backtitle "tvmaxe-cli" \
 	  --title "Filme" --clear \
           --menu ":::" 25 30 25 \
-	"01" "filmeonline2013_biz" 2>$tempfile
+	"01" "filmeonline2013_biz" \
+	"02"  "cinemaxx" 2>$tempfile
   selectie0=$?
 
   selectat=`cat $tempfile`
 case "$selectat" in
 	01) ./filmeonline2013_biz ;;
+	02) ./cinemaxx ;;
 	
 	
 esac
